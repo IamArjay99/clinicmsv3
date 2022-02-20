@@ -81,7 +81,7 @@ if ($environment == "development") {
 		'hostname' => 'localhost',
 		'username' => 'root',
 		'password' => '',
-		'database' => 'clinicmsdbv2',
+		'database' => 'clinicmsdbv3',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,

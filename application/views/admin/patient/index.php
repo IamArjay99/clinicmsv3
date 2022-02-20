@@ -220,7 +220,7 @@
                     <div class="row mb-4">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <label>Patient Type</label>
+                                <label>Occupation Type</label>
                                 <select class="form-control" 
                                     name="filter_patient_type">
                                     ${getPatientTypeOptionDisplay(0, true)}
@@ -410,7 +410,7 @@
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <div class="form-group">
-                        <label>Patient Type <code>*</code></label>
+                        <label>Occupation Type <code>*</code></label>
                         <select class="form-control validate"
                             name="patient_type_id"
                             required>
