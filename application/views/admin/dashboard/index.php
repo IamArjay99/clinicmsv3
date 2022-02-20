@@ -409,10 +409,9 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Total Patient</h4>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-muted">Current: ${totalPatient}</p>
-                                <p class="text-muted">Max: ${maxCapacity}</p>
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Patient</h6>
+                                <h4>${totalPatient}</h4>
                             </div>
                             <div class="progress progress-lg">
                                 <div class="progress-bar bg-success" 
@@ -428,10 +427,9 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Total Appointment</h4>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-muted">Current: ${totalAppointment}</p>
-                                <p class="text-muted">Max: ${maxCapacity}</p>
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Appointment</h6>
+                                <h4>${totalAppointment}</h4>
                             </div>
                             <div class="progress progress-lg">
                                 <div class="progress-bar bg-danger" 
@@ -447,10 +445,9 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Medical Appointment</h4>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-muted">Current: ${totalMedicalAppointment}</p>
-                                <p class="text-muted">Max: ${maxCapacity}</p>
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Medical Appointment</h6>
+                                <h4>${totalMedicalAppointment}</h4>
                             </div>
                             <div class="progress progress-lg">
                                 <div class="progress-bar bg-info" 
@@ -466,10 +463,9 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Dental Appointment</h4>
-                            <div class="d-flex justify-content-between">
-                                <p class="text-muted">Current: ${totalDentalAppointment}</p>
-                                <p class="text-muted">Max: ${maxCapacity}</p>
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Dental Appointment</h6>
+                                <h4>${totalDentalAppointment}</h4>
                             </div>
                             <div class="progress progress-lg">
                                 <div class="progress-bar bg-warning" 
@@ -485,7 +481,7 @@
                 <div class="col-md-6 col-sm-12 mt-4">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Patient Type</h4>
+                            <h4 class="card-title">Occupation Type</h4>
                             <canvas id="patientTypePieChart"></canvas>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: clinicmsdbv2
+-- Host: 127.0.0.1    Database: clinicmsdbv3
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.14-MariaDB
 
@@ -562,6 +562,39 @@ LOCK TABLES `medicines` WRITE;
 /*!40000 ALTER TABLE `medicines` DISABLE KEYS */;
 INSERT INTO `medicines` VALUES (1,'Biogesic','',5,4,2,NULL,10,100,0,'2022-01-01 13:50:42','2022-01-08 06:27:18'),(2,'Neosep','',5,4,NULL,NULL,NULL,NULL,0,'2022-01-01 13:50:56','2022-01-01 13:50:56'),(3,'Buscupan','',5,4,2,NULL,NULL,NULL,0,'2022-01-01 13:51:09','2022-01-08 05:58:38'),(4,'Syndex Forte','',5,3,2,NULL,10,1000,0,'2022-01-01 13:51:25','2022-01-08 09:51:44'),(5,'Mefinamic Acid','',4,4,NULL,NULL,NULL,NULL,0,'2022-01-01 13:51:40','2022-01-01 13:51:40'),(6,'test2','test',1,3,2,NULL,NULL,NULL,1,'2022-01-08 06:01:28','2022-01-08 06:01:44');
 /*!40000 ALTER TABLE `medicines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `monitoring_forms`
+--
+
+DROP TABLE IF EXISTS `monitoring_forms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `monitoring_forms` (
+  `monitoring_form_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `patient_id` bigint(20) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
+  `patient_case` text DEFAULT NULL,
+  `activity` text DEFAULT NULL,
+  `medicine_taken` text DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`monitoring_form_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `monitoring_forms`
+--
+
+LOCK TABLES `monitoring_forms` WRITE;
+/*!40000 ALTER TABLE `monitoring_forms` DISABLE KEYS */;
+INSERT INTO `monitoring_forms` VALUES (1,2,'2022-02-05','06:00:00','test','test','test','Fair',1,'2022-02-20 06:55:20','2022-02-20 06:59:36'),(2,2,'2022-02-20','01:00:00','test','test','test','Good',0,'2022-02-20 07:11:14','2022-02-20 07:11:14'),(3,4,'2022-02-28','15:00:00','test','test','test','Good',0,'2022-02-20 07:12:56','2022-02-20 07:14:03'),(4,3,'2022-03-03','07:00:00','test','test','test','Serious/Bad',0,'2022-02-20 07:13:43','2022-02-20 07:13:43');
+/*!40000 ALTER TABLE `monitoring_forms` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1439,11 +1472,11 @@ INSERT INTO `years` VALUES (1,1,'101G',1,'2021-12-30 07:30:45','2021-12-30 07:31
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'clinicmsdbv2'
+-- Dumping events for database 'clinicmsdbv3'
 --
 
 --
--- Dumping routines for database 'clinicmsdbv2'
+-- Dumping routines for database 'clinicmsdbv3'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1455,4 +1488,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-09 12:30:42
+-- Dump completed on 2022-02-20 16:40:29

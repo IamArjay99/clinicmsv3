@@ -63,10 +63,14 @@
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center">
                 <a class="navbar-brand brand-logo" href="<?= base_url('admin/dashboard') ?>">
-                    <img src="<?= base_url('assets/images/modules/login-logo.jpg') ?>" style="height: 50px; width: auto; max-width: 100%;" alt="logo">
+                    <!-- <img src="<?= base_url('assets/images/modules/login-logo.jpg') ?>" style="height: 50px; width: auto; max-width: 100%;" alt="logo"> -->
+                    <div class="d-flex justify-content-start align-items-center">
+                        <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 35px; width: auto; max-width: 100%;" alt="logo">
+                        <span style="white-space: normal;font-size: 13px;color: #0a0e07;margin-left: 5px;letter-spacing: 1px;font-weight: bold;">Clinic Management System</span>
+                    </div>
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="<?= base_url('admin/dashboard') ?>">
-                    <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 50px; width: auto; max-width: 100%;" alt="logo">
+                    <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 30px; width: auto; max-width: 100%;" alt="logo">
                 </a>
                 <!-- <a class="navbar-brand brand-logo" href="../../index.html"><img src="http://www.urbanui.com/yoraui/template/images/logo.svg" alt="logo"/></a>
                 <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="http://www.urbanui.com/yoraui/template/images/logo-mini.svg" alt="logo"/></a> -->
@@ -76,54 +80,28 @@
                     <span class="mdi mdi-menu"></span>
                 </button>
                 <ul class="navbar-nav navbar-nav-right">
-                    <!-- <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="mdi mdi-bell-outline mx-0"></i>
                             <span class="count"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-success">
-                                    <i class="mdi mdi-information mx-0"></i>
+                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="mdi mdi-information mx-0"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    Just now
-                                </p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-warning">
-                                    <i class="mdi mdi-settings mx-0"></i>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">Charles Verdadero</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        Set an appointment at January 01, 2022
+                                    </p>
                                 </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">Settings</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    Private message
-                                </p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon bg-info">
-                                    <i class="mdi mdi-account-box mx-0"></i>
-                                </div>
-                            </div>
-                            <div class="preview-item-content">
-                                <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                                <p class="font-weight-light small-text mb-0 text-muted">
-                                    2 days ago
-                                </p>
-                            </div>
-                        </a>
+                            </a>
                         </div>
-                    </li> -->
+                    </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
                         <img src="<?= base_url('assets/uploads/profile/default.jpg') ?>" alt="profile"/>
@@ -173,6 +151,7 @@
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/checkup_form') ?>">Check-up Form</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/referral_form') ?>">Referral Form</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/monitoring_form') ?>">Monitoring Form</a></li>
                             <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/dental_certificate') ?>">Dental Certificate</a></li> -->
                         </ul>
                         </div>
