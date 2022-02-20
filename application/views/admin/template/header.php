@@ -63,10 +63,14 @@
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center">
                 <a class="navbar-brand brand-logo" href="<?= base_url('admin/dashboard') ?>">
-                    <img src="<?= base_url('assets/images/modules/login-logo.jpg') ?>" style="height: 50px; width: auto; max-width: 100%;" alt="logo">
+                    <!-- <img src="<?= base_url('assets/images/modules/login-logo.jpg') ?>" style="height: 50px; width: auto; max-width: 100%;" alt="logo"> -->
+                    <div class="d-flex justify-content-start align-items-center">
+                        <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 35px; width: auto; max-width: 100%;" alt="logo">
+                        <span style="white-space: normal;font-size: 13px;color: #0a0e07;margin-left: 5px;letter-spacing: 1px;font-weight: bold;">Clinic Management System</span>
+                    </div>
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="<?= base_url('admin/dashboard') ?>">
-                    <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 50px; width: auto; max-width: 100%;" alt="logo">
+                    <img src="<?= base_url('assets/images/modules/clinic-logo.png') ?>" class="rounded-circle" style="height: 35px; width: auto; max-width: 100%;" alt="logo">
                 </a>
                 <!-- <a class="navbar-brand brand-logo" href="../../index.html"><img src="http://www.urbanui.com/yoraui/template/images/logo.svg" alt="logo"/></a>
                 <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="http://www.urbanui.com/yoraui/template/images/logo-mini.svg" alt="logo"/></a> -->
