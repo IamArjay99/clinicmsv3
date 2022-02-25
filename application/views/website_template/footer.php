@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-dark">
-        <h5 class="modal-title font-weight-bolder text-white">Login</h5>
+        <h5 class="modal-title font-weight-bolder text-white" id="modalTitle">Login</h5>
         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> -->
@@ -445,6 +445,7 @@ $(document).ready(function(){
        $("#modal").modal("hide");
        $(".modal-dialog").addClass("modal-lg");
        let content = appointmentModalContent();
+       $(".modal-title").text("MAKE APPOINTMENT");
        $(".modal-body").html(content);
        setTimeout(() => {
            $("#modal").modal("show");
@@ -517,6 +518,8 @@ $(document).ready(function(){
                     data["tableName"] = "clinic_appointments";
                     data["tableData"]["date_appointment"] = moment($("[name=date_appointment]").val()).format("YYYY-MM-DD");
                     data["tableData"]["patient_id"]     = sessionID;
+                    data["tableData"]["is_website"]     = 1;
+                    data["tableData"]["is_read"]        = 0;
                     data["feedback"]  = "Appointment";
                     data["method"]    = "add";
 

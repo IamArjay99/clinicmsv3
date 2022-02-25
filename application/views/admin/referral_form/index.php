@@ -97,6 +97,9 @@
                     <td>${impression}</td>
                     <td>
                         <div class="text-center">
+                            <a class="btn btn-primary text-white"
+                                href="referral_form/print?id=${referral_form_id}"
+                                target="_blank"><i class="fas fa-print"></i> Print</a>
                             <button class="btn btn-outline-info btnEdit"
                                 referralFormID="${referral_form_id}"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-outline-danger btnDelete"

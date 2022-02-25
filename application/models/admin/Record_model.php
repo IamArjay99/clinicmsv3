@@ -228,5 +228,20 @@ class Record_model extends CI_Model {
         return $query ? $query->result_array() : [];
     }
 
+    public function getMonitoringRecord($patientID = 0, $monitoringFormID = 0)
+    {
+        $where = $patientID ? "mf.patient_id=$patientID" : "mf.monitoring_form_id=$monitoringFormID";
+        $sql = "
+        SELECT 
+            mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS patient_name
+        FROM monitoring_form_items AS mf
+            LEFT JOIN patients USING(patient_id) 
+        WHERE $where
+            AND mf.is_deleted = 0 
+        ORDER BY created_at DESC";
+        $query = $this->db->query($sql);
+        return $query ? $query->result_array() : [];
+    }
+
 }
 

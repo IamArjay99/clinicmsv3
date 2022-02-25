@@ -1,4 +1,38 @@
-<?php if (!$this->session->has_userdata('sessionID')) redirect('login','refresh'); ?>
+<?php
+    if (!$this->session->has_userdata('sessionID')) redirect('login','refresh'); 
+
+    $sql = "
+    SELECT 
+        ca.*, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname 
+    FROM clinic_appointments AS ca
+        LEFT JOIN patients AS p USING(patient_id)
+    WHERE ca.is_deleted = 0 
+        AND is_website = 1
+    ORDER BY ca.created_at DESC";
+    $query = $this->db->query($sql);
+    $appointments = $query ? $query->result_array() : [];
+    $hasAppointment = $notifications = '';
+    foreach ($appointments as $ap) {
+        $readStyle = $ap['is_read'] == 0 ? 'style="font-weight: bold !important"' : '';
+        if ($ap['is_read'] == 0) $hasAppointment = '<span class="count"></span>';
+
+        $notifications .= '
+        <a class="dropdown-item preview-item" href="'.base_url('admin/appointment').'">
+            <div class="preview-thumbnail">
+                <div class="preview-icon bg-success">
+                    <i class="mdi mdi-information mx-0"></i>
+                </div>
+            </div>
+            <div class="preview-item-content">
+                <h6 class="preview-subject font-weight-normal" '.$readStyle.'>'.$ap['fullname'].'</h6>
+                <p class="font-weight-light small-text mb-0 text-muted" '.$readStyle.'> 
+                    Set an appointment at '. date('F d, Y', strtotime($ap['date_appointment'])) .'
+                </p>
+            </div>
+        </a>';
+    } 
+?>
+
 
 
 <!DOCTYPE html>
@@ -83,23 +117,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
                             <i class="mdi mdi-bell-outline mx-0"></i>
-                            <span class="count"></span>
+                            <?= $hasAppointment ?>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                             <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-success">
-                                        <i class="mdi mdi-information mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject font-weight-normal">Charles Verdadero</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        Set an appointment at January 01, 2022
-                                    </p>
-                                </div>
-                            </a>
+                            <?= $notifications ?>
                         </div>
                     </li>
                     <li class="nav-item nav-profile dropdown">

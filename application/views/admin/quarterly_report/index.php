@@ -40,21 +40,12 @@
 
 
         $(document).on("change",".sorting-records", function(){
-            let selectYear      = $(`[name=year_record]`).val();
-            let selectQuarter   = $(`[name=quarter_record]`).val();
+            let year    = $(`[name=year_record]`).val();
+            let quarter = $(`[name=quarter_record]`).val();
             
-            if(selectYear && selectQuarter) {
-                !document.getElementsByClassName("jumping-dots-loader").length && $("#tableContent").html(preloader);
-
-                setTimeout(() => {
-                    let tbody   = getTbodyData(selectYear,selectQuarter);
-                    let content = tableContent();
-                    $("#tableContent").html(content);
-                    initDataTables();
-                    $("#tableQuarterlyReportTbody").html(tbody);
-                }, 500);
+            if(year && quarter) {
+                refreshTableContent();
             }
-
         });
 
         // ----- DATATABLES -----
@@ -72,33 +63,96 @@
                     scrollX:        true,
                     sorting:        [],
                     scrollCollapse: true,
-                    paging:false,
-                    
+                    paging:         false,
+                    sorting:        false,
+                    searching:      false,
+                    ordering:       false,
+                    info:           false,
                     columnDefs: [
                         { targets: 0, width: '50px'  },
                         { targets: 1, width: '150px' },
                         { targets: 2, width: '150px' },
                         { targets: 3, width: '150px' },
                         { targets: 4, width: '150px' },
+                        { targets: 5, width: '150px' },
                     ],
                 });
         }
         // ----- END DATATABLES -----
 
 
-        // ----- TABLE CONTENT -----
-        function tableContent() {
+        // ----- QUARTERLY REPORT -----
+        function getQuarterlyReport(year = '', quarter = 1) {
+            let result = [];
+            $.ajax({
+                method: "POST",
+                url: "quarterly_report/getQuarterlyReport",
+                data: { year, quarter },
+                async: false,
+                dataType: "json",
+                success: function(data) {
+                    result = data;
+                }
+            })
+            return result;
+        }
+        // ----- END QUARTERLY REPORT -----
 
-            let tbodyHTML = '';
+
+        // ----- QUARTERLY REPORT DISPLAY -----
+        function getQuarterlyReportDisplay(year = '' , quarter = 0) {
+            let html = "";
+
+            if (year && quarter) {
+                let quarterlyReport = getQuarterlyReport(year, quarter);
+                quarterlyReport.map((item) => {
+                    let { monthName = '', items = [] } = item;
+
+                    html += `
+                    <tr>
+                        <td class="text-center" colspan="6">${monthName}</td>
+                    </tr>`;
+
+                    items.map((x, i) => {
+                        let { occupationName = '', services = [], total = 0 } = x;
+
+                        let countHTML = '';
+                        services.map(y => {
+                            countHTML += `<td>${y.total}</td>`;
+                        })
+
+                        html += `
+                        <tr class="text-center">
+                            <td>${i+1}</td>
+                            <td>${occupationName}</td>
+                            ${countHTML}
+                            <td>0</td>
+                            <td>${total}</td>
+                        </tr>`;
+                    })
+                })
+            }
+
+            return html;
+        }
+        // ----- END QUARTERLY REPORT DISPLAY -----
+
+
+        // ----- TABLE CONTENT -----
+        function tableContent(year = '', quarter = 0) {
+            let tbodyHTML = getQuarterlyReportDisplay(year, quarter);
+
+            let buttonPrint = tbodyHTML ? `<button class="btn btn-primary mb-2" id="btnPrint" year="${year}" quarter="${quarter}"><i class="fas fa-print"></i> Print</button>` : '';
             
             let html = `
+            ${buttonPrint}
             <table class="table table-hover table-bordered" id="tableQuarterlyReport">
                 <thead>
                     <tr class="text-center">
                         <th>No.</th>
-                        <th>Patient Type</th>
-                        <th>Dispencing of Medicine</th>
-                        <th>Medical and Dental</th>
+                        <th>Occupation Type</th>
+                        <th>Dispensing of Medicine</th>
+                        <th>Medical and Dental Services</th>
                         <th>Others</th>
                         <th>No. of Clients Served</th>
                     </tr>
@@ -112,65 +166,16 @@
         }
         // ----- END TABLE CONTENT -----
 
-        function getTbodyData(yearValue = false , quarterValue = false){
-            let tbodyHTML = "";
-            if(yearValue && quarterValue){
-                let patientTypeData = getTableData(`patient_type`,``,`is_deleted = 0`);
-                
-                let startIndex = 0;
-                switch (quarterValue) {
-                    case "5":
-                            startIndex = 3
-                        break;
-                    case "8":
-                            startIndex = 6
-                        break;
-                    case "11":
-                            startIndex = 9
-                        break;
-                    default:
-                        startIndex = 0
-                        break;
-                }
-                let forloopLenght = parseInt(quarterValue) + 1;
-                for (startIndex; startIndex < forloopLenght; startIndex++) {
-                        tbodyHTML += `
-                                        <tr class="text-center">
-                                            <td colspan="6">${month[startIndex]}</td>
-                                        </tr>`;
-
-                        patientTypeData.map((value,index)=>{
-                            let totalMedical    = getTableData(`check_ups AS mainTbl LEFT JOIN patients USING(patient_id)`, `IF(month(mainTbl.created_at) = '${parseInt(startIndex)+1}' AND year(mainTbl.created_at) = '${yearValue}', COUNT(check_up_id), 0) AS dataValue`,`patients.patient_type_id = '${value.patient_type_id}' AND mainTbl.service_id = '1' `);
-                            let totalMedicine   = getTableData(`check_ups AS mainTbl LEFT JOIN patients USING(patient_id)`, `IF(month(mainTbl.created_at) = '${parseInt(startIndex)+1}' AND year(mainTbl.created_at) = '${yearValue}', COUNT(check_up_id), 0) AS dataValue`,`patients.patient_type_id = '${value.patient_type_id}' AND mainTbl.service_id = '3' `);
-                            let totalOther      = getTableData(`check_ups AS mainTbl LEFT JOIN patients USING(patient_id)`, `IF(month(mainTbl.created_at) = '${parseInt(startIndex)+1}' AND year(mainTbl.created_at) = '${yearValue}', COUNT(check_up_id), 0) AS dataValue`,`patients.patient_type_id = '${value.patient_type_id}' AND mainTbl.service_id != '1' || mainTbl.service_id != '3' `);
-                            let totalService    = parseInt(totalMedical[0]["dataValue"] || 0) + parseInt(totalMedicine[0]["dataValue"] || 0) + parseInt(totalOther[0]["dataValue"] || 0);
-                            // `month(mainTbl.created_at) = '${startIndex}' AND year(mainTbl.created_at) = '${yearValue}'
-                           
-                            tbodyHTML += `
-                                            <tr class="text-right">
-                                                <td>${parseInt(index) + 1}</td>
-                                                <td>${value["name"]}</td>
-                                                <td>${parseInt(totalMedicine[0]["dataValue"] || 0)}</td>
-                                                <td>${parseInt(totalMedical[0]["dataValue"] || 0) }</td>
-                                                <td>${parseInt(totalOther[0]["dataValue"] || 0)}</td>
-                                                <td>${totalService}</td>
-                                            </tr>
-                                    `;
-                        });
-                }
-
-            }
-
-            return tbodyHTML;
-        }
-
 
         // ----- REFRESH TABLE CONTENT -----
         function refreshTableContent() {
             !document.getElementsByClassName("jumping-dots-loader").length && $("#tableContent").html(preloader);
             
+            let year    = $(`[name=year_record]`).val();
+            let quarter = $(`[name=quarter_record]`).val();
+            
             setTimeout(() => {
-                let content = tableContent();
+                let content = tableContent(year, quarter);
                 $("#tableContent").html(content);
                 initDataTables();
             }, 100);
@@ -199,10 +204,10 @@
                                 <label>Quarter</label>
                                 <select class="form-control sorting-records" name="quarter_record">
                                     <option value="" selected="" disabled="">Select Quarter of the year</option>
-                                    <option value="2">First Quarter</option>
-                                    <option value="5">Second Quarter</option>
-                                    <option value="8">Third Quarter</option>
-                                    <option value="11">Fourth Quarter</option>
+                                    <option value="1">First Quarter</option>
+                                    <option value="2">Second Quarter</option>
+                                    <option value="3">Third Quarter</option>
+                                    <option value="4">Fourth Quarter</option>
                                 </select>
                             </div>
                         </div>
@@ -220,45 +225,13 @@
         // ----- END PAGE CONTENT -----
 
 
-        // ----- FORM CONTENT -----
-        function formContent(data = false, isUpdate = false) {
-            let {
-                category_id = "",
-                name        = "",
-            } = data && data[0];
-
-            let buttonSaveUpdate = !isUpdate ? `
-            <button class="btn btn-primary" 
-                id="btnSave"
-                categoryID="${category_id}">Save</button>` : `
-            <button class="btn btn-primary" 
-                id="btnUpdate"
-                categoryID="${category_id}">Update</button>`;
-
-            let html = `
-            <div class="row p-3">
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Name <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="name"
-                            minlength="1"
-                            maxlength="50"
-                            value="${name}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                ${buttonSaveUpdate}
-                <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            </div>`;
-
-            return html;
-        }
-        // ----- END FORM CONTENT -----
+        // ----- BUTTON PRINT -----
+        $(document).on("click", "#btnPrint", function() {
+            let year    = $(this).attr("year");
+            let quarter = $(this).attr("quarter");
+            window.open(`quarterly_report/print?year=${year}&quarter=${quarter}`, '_blank');
+        })
+        // ----- END BUTTON PRINT -----
 
 
     })

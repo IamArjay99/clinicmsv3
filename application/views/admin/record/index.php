@@ -158,6 +158,28 @@
                     ],
                 });
 
+            if ($.fn.DataTable.isDataTable("#tableMonitoringRecord")) {
+                $("#tableMonitoringRecord").DataTable().destroy();
+            }
+            var table = $("#tableMonitoringRecord")
+                .css({ "min-width": "100%" })
+                .removeAttr("width")
+                .DataTable({
+                    proccessing:    false,
+                    serverSide:     false,
+                    scrollX:        true,
+                    sorting:        [],
+                    scrollCollapse: true,
+                    columnDefs: [
+                        { targets: 0, width: "50px"  },	
+                        { targets: 1, width: "150px" },	
+                        { targets: 2, width: "100px" },	
+                        { targets: 3, width: "100px" },	
+                        { targets: 4, width: "100px" },	
+                        { targets: 5, width: "100px" },	
+                    ],
+                });
+
         }
         // ----- END DATATABLES -----
 
@@ -182,6 +204,7 @@
                                     <option value='4'>Appointment Record</option>
                                     <option value='5'>Medicine Record</option>
                                     <option value='6'>Care Equipment Record</option>
+                                    <option value='7'>Monitoring Record</option>
                                 </select>
                             </div>
                         </div>
@@ -553,7 +576,7 @@
                                 <th>Category</th>
                                 <th>Unit</th>
                                 <th>Measurement</th>
-                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -608,7 +631,7 @@
                                 <th>No.</th>
                                 <th>Equipment Name</th>
                                 <th>Unit</th>
-                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -620,6 +643,72 @@
             return html;
         }
         // ----- END CARE EQUIPMENT RECORD CONTENT -----
+
+
+        // ----- MONITORING RECORD CONTENT -----
+        function getMonitoringRecordContent()
+        {
+            let data = getTableData(
+                `monitoring_forms AS mf
+                    LEFT JOIN patients AS p USING(patient_id)
+                    LEFT JOIN patient_type AS pt ON p.patient_type_id = pt.patient_type_id
+                WHERE p.is_deleted = 0`,
+                `mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname, pt.name AS patient_type_name`);
+
+            let tbodyHTML = '';
+            if (data && data.length) {
+                data.map((item, index) => {
+
+                    let statusDisplay = (status = 0) => {
+                        if (status == 0)      return `<span class="badge badge-primary">Ongoing</span>`;
+                        else if (status == 1) return `<span class="badge badge-success">Done</span>`;
+                        else                  return `<span class="badge badge-danger">Cancelled</span>`;
+                    }
+
+                    tbodyHTML += `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td>${item.fullname}</td>
+                        <td>${item.patient_type_name}</td>
+                        <td>${moment(item.created_at).format("MMMM DD, YYYY hh:mm A")}</td>
+                        <td>${statusDisplay(item.status)}</td>
+                        <td class="text-center">
+                            <a href="${base_url}admin/record/view_monitoring?id=${item.monitoring_form_id}"
+                                target="_blank"
+                                class="btn btn-outline-info">
+                                <i class="fas fa-eye"></i> View    
+                            </a>
+                        </td>
+                    </tr>`;
+                })
+            }
+
+            let html = `
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Monitoring Record</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-hover" id="tableMonitoringRecord">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Patient Name</th>
+                                <th>Occupation Type</th>
+                                <th>Date Created</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tbodyHTML}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+            return html;
+        }
+        // ----- END MONITORING RECORD CONTENT -----
 
 
         // ----- SELECT RECORD -----
@@ -657,6 +746,10 @@
             else if (record == 6) // CARE EQUIPMENT
             {
                 html = getCareEquipmentRecordContent();
+            }
+            else if (record == 7) // MONITORING
+            {
+                html = getMonitoringRecordContent();
             }
 
             setTimeout(() => {

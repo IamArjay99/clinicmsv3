@@ -69,14 +69,15 @@
 
             let tbodyHTML = '';
             let data = getTableData(
-                `monitoring_forms AS mf
+                `monitoring_form_items AS mf
                     LEFT JOIN patients USING(patient_id) 
-                WHERE mf.is_deleted = 0 ${patientID && patientID != 0 ? `AND mf.patient_id = ${patientID}` : ""}`,
+                WHERE mf.is_deleted = 0 ${patientID && patientID != 0 ? `AND mf.patient_id = ${patientID}` : ""}
+                ORDER BY mf.created_at DESC`,
                 `mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS patient_name`);
             data.map((item, index) => {
                 let {
                     patient_name       = "",
-                    monitoring_form_id = "",
+                    monitoring_form_item_id = "",
                     patient_id         = "",
                     date               = "",
                     time               = "",
@@ -89,6 +90,12 @@
                     updated_at         = "",
                 } = item;
 
+                let statusDisplay = (status = 0) => {
+                    if (status == 0)      return `<span class="badge badge-danger">Serious/Bad</span>`;
+                    else if (status == 1) return `<span class="badge badge-primary">Fair</span>`;
+                    else                  return `<span class="badge badge-success">Good</span>`;
+                }
+
                 tbodyHTML += `
                 <tr>
                     <td>${index + 1}</td>
@@ -98,13 +105,13 @@
                     <td>${patient_case}</td>
                     <td>${activity}</td>
                     <td>${medicine_taken}</td>
-                    <td>${status}</td>
+                    <td>${statusDisplay(status)}</td>
                     <td>
                         <div class="text-center">
                             <button class="btn btn-outline-info btnEdit"
-                                monitoringFormID="${monitoring_form_id}"><i class="fas fa-pencil-alt"></i></button>
+                                monitoringFormItemID="${monitoring_form_item_id}"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-outline-danger btnDelete"
-                                monitoringFormID="${monitoring_form_id}"><i class="fas fa-trash-alt"></i></button>
+                                monitoringFormItemID="${monitoring_form_item_id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </td>   
                 </tr>`;
@@ -138,9 +145,22 @@
         // ----- REFRESH TABLE CONTENT -----
         function refreshTableContent() {
             $("#tableContent").html(preloader);
+
+            let status           = $(`[name="status"]`).val();
+            let monitoringFormID = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
+            console.log(status, monitoringFormID);
+            if (status == 2) { // GOOD
+                $.ajax({
+                    method: "POST",
+                    url: `<?= base_url('admin/monitoring_form/updateMonitorPatient') ?>`,
+                    data: { monitoringFormID },
+                    async: true,
+                    success: function(data) {}
+                })
+            }
             
             setTimeout(() => {
-                let patientID = $(`[name="filterStudent"]`).val();
+                let patientID = $(`[name="filterPatient"]`).val();
                 let content = tableContent(patientID);
                 $("#tableContent").html(content);
                 initDataTables();
@@ -151,18 +171,40 @@
 
         // ----- PATIENT OPTION DISPLAY -----
         function getPatientOptionDisplay(patientID = 0, forFilter = false) {
-            let html = forFilter ? `<option value="0" selected>All</option>` : `<option value="" selected disabled>Select Patient</option>`;
-            patientList.map(patient => {
-                let {
-                    patient_id,
-                    fullname,
-                } = patient;
+            let html = '';
+            if (forFilter) {
+                html = `<option value="0" selected>All</option>`;
+                patientList.map(patient => {
+                    let {
+                        patient_id,
+                        fullname,
+                    } = patient;
 
-                html += `
-                <option value="${patient_id}"
-                    ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
-            });
-
+                    html += `
+                    <option value="${patient_id}"
+                        ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
+                });
+            } else {
+                html = `<option value="" disabled selected>Select patient</option>`;
+                let monitorPatientList = getTableData(
+                    `monitoring_forms AS mf
+                        LEFT JOIN patients AS p USING(patient_id)
+                    WHERE mf.status = 0
+                        AND p.is_deleted = 0`,
+                    `mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname`
+                );
+                monitorPatientList.map(mp => {
+                    let {
+                        monitoring_form_id,
+                        patient_id,
+                        fullname
+                    } = mp;
+                    html += `
+                    <option value="${patient_id}"
+                        monitoringFormID="${monitoring_form_id}"
+                        ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
+                })
+            }
             return html;
         }
         // ----- END PATIENT OPTION DISPLAY -----
@@ -178,9 +220,9 @@
                     <div class="row mb-4">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <label>Filter Student</label>
+                                <label>Filter Patient</label>
                                 <select class="form-control"
-                                    name="filterStudent">
+                                    name="filterPatient">
                                     ${getPatientOptionDisplay(0, true)}    
                                 </select>
                             </div>
@@ -206,7 +248,7 @@
         // ----- FORM CONTENT -----
         function formContent(data = false, isUpdate = false) {
             let {
-                monitoring_form_id = "",
+                monitoring_form_item_id = "",
                 patient_id         = "",
                 date               = "",
                 time               = "",
@@ -222,10 +264,10 @@
             let buttonSaveUpdate = !isUpdate ? `
             <button class="btn btn-primary" 
                 id="btnSave"
-                monitoringFormID="${monitoring_form_id}">Save</button>` : `
+                monitoringFormItemID="${monitoring_form_item_id}">Save</button>` : `
             <button class="btn btn-primary" 
                 id="btnUpdate"
-                monitoringFormID="${monitoring_form_id}">Update</button>`;
+                monitoringFormItemID="${monitoring_form_item_id}">Update</button>`;
 
             let html = `
             <div class="row p-3">
@@ -308,9 +350,9 @@
                             name="status"
                             required>
                             <option value="" selected>Select status</option>    
-                            <option value="Good" ${status == "Good" ? "selected" : ""}>Good</option>    
-                            <option value="Fair" ${status == "Fair" ? "selected" : ""}>Fair</option>    
-                            <option value="Serious/Bad" ${status == "Serious/Bad" ? "selected" : ""}>Serious/Bad</option>     
+                            <option value="0" ${status == "0" ? "selected" : ""}>Serious/Bad</option>     
+                            <option value="1" ${status == "1" ? "selected" : ""}>Fair</option>    
+                            <option value="2" ${status == "2" ? "selected" : ""}>Good</option>    
                         </select>
                         <div class="d-block invalid-feedback"></div>
                     </div>
@@ -342,8 +384,8 @@
 
         // ----- BUTTON EDIT -----
         $(document).on("click", ".btnEdit", function() {
-            let monitoringFormID = $(this).attr("monitoringFormID");
-            let data = getTableData(`monitoring_forms WHERE monitoring_form_id = ${monitoringFormID}`);
+            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
+            let data = getTableData(`monitoring_form_items WHERE monitoring_form_item_id = ${monitoringFormItemID}`);
 
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(preloader);
@@ -362,14 +404,15 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnSave`, function() {
-            let monitoringFormID = $(this).attr("monitoringFormID");
+            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"] = "monitoring_forms";
+                    data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
+                    data["tableName"] = "monitoring_form_items";
                     data["feedback"]  = "Monitoring Form";
                     data["method"]    = "add";
     
@@ -381,17 +424,18 @@
 
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnUpdate`, function() {
-            let monitoringFormID = $(this).attr("monitoringFormID");
+            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
             
             let validate = validateForm("modal");
             if (validate) {
                 $("#modal").modal("hide");
 
                 let data = getFormData("modal");
-                    data["tableName"]   = "monitoring_forms";
+                    data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
+                    data["tableName"]   = "monitoring_form_items";
                     data["feedback"]    = "Monitoring Form";
                     data["method"]      = "update";
-                    data["whereFilter"] = `monitoring_form_id=${monitoringFormID}`;
+                    data["whereFilter"] = `monitoring_form_item_id=${monitoringFormItemID}`;
     
                 sweetAlertConfirmation("update", "Monitoring Form", "modal", null, data, true, refreshTableContent);
             }
@@ -401,14 +445,14 @@
 
         // ----- BUTTON DELETE -----
         $(document).on("click", `.btnDelete`, function() {
-            let monitoringFormID = $(this).attr("monitoringFormID");
+            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
 
             let data = {
-                tableName: 'monitoring_forms',
+                tableName: 'monitoring_form_items',
                 tableData: {
                     is_deleted: 1
                 },
-                whereFilter: `monitoring_form_id=${monitoringFormID}`,
+                whereFilter: `monitoring_form_item_id=${monitoringFormItemID}`,
                 feedback:    "Monitoring Form",
                 method:      "update"
             }
@@ -418,7 +462,7 @@
 
 
         // ----- FILTER PATIENT -----
-        $(document).on('change', `[name="filterStudent"]`, function() {
+        $(document).on('change', `[name="filterPatient"]`, function() {
             refreshTableContent();
         })
         // ----- END FILTER PATIENT -----

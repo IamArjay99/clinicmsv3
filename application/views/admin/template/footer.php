@@ -85,28 +85,80 @@
             let notificationAlert = getTableData(
                 `check_ups AS cu
                     LEFT JOIN patients AS p USING(patient_id)
+                    LEFT JOIN monitoring_forms AS mf ON cu.check_up_id = mf.check_up_id
                 WHERE CONVERT(cu.temperature, DECIMAL) > 37.2
                     AND DATE(cu.created_at) = DATE(NOW())`,
-                `cu.patient_id,
+                `cu.check_up_id,
+                cu.patient_id,
                 IF(temperature > 37.2, true, false) AS temperature,
                 temperature,
-                CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname`
+                CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname,
+                mf.status`
             );
             if (notificationAlert && notificationAlert.length) {
                 let html = '';
                 notificationAlert.map(notif => {
-                    html += `
-                    <div class="px-3 py-0 mb-0">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <div><strong>Warning!</strong> ${notif.fullname} has high temperature. (${notif.temperature} °C)</div>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>`;
+                    if (!notif.status) { // NOT YET CREATED
+                        html += `
+                        <div class="px-3 py-0 mb-0">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <div>
+                                    <strong>Warning!</strong> ${notif.fullname} has high temperature. (${notif.temperature} °C)
+                                    <a href="#" patientID="${notif.patient_id}"
+                                        patientName="${notif.fullname}"
+                                        checkUpID="${notif.check_up_id}"
+                                        class="btnMonitorNow text-warning font-weight-bold" style="text-decoration: underline">Monitor now.</a>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`;
+                    }
                 })
                 $("#notificationContent").html(html);
             }
+
+
+            // ----- BUTTON MONITOR NOW -----
+            $(document).on("click", ".btnMonitorNow", function() {
+                let checkUpID   = $(this).attr("checkUpID");
+                let patientID   = $(this).attr("patientID");
+                let patientName = $(this).attr("patientName");
+
+                Swal.fire({
+                    title: "MONITOR NOW", 
+                    html: `Do you want to monitor patient <b>${patientName}</b>?`,
+                    showCancelButton: true,
+                    confirmButtonColor: '#2e6a78',
+                    cancelButtonColor: '#1a1a1a',
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: "POST",
+                            url: `<?= base_url('admin/monitoring_form/monitorPatient') ?>`,
+                            data: { checkUpID, patientID },
+                            success: function(data) {
+                                if (data == "true") {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: "Patient monitoring form successfully added",
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    }).then(function() {
+                                        window.open(`<?= base_url('admin/monitoring_form') ?>`, '_self');
+                                    })
+                                } else {
+                                    alert("There's an error saving this monitoring. Please try again later.")
+                                }
+                            }
+                        })
+                    }
+                });
+            })
+            // ----- END BUTTON MONITOR NOW -----
 
         })
 
