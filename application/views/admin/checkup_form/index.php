@@ -281,8 +281,9 @@
                     }
                 });
             } else if (serviceID == 3) { // DISPENSING MEDICINE
-                patientList.map(patient => {
+                appointmentPatientList.map(patient => {
                     let {
+                        clinic_appointment_id = "",
                         patient_id            = "",
                         patient_code          = "",
                         patient_type_id       = "",
@@ -304,6 +305,7 @@
     
                     html += `
                     <option value="${patient_id}"
+                        clinic_appointment_id = "${clinic_appointment_id}"
                         course_id   = "${course_id}"
                         age         = "${age}"
                         gender      = "${gender}"

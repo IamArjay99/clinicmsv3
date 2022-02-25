@@ -6,7 +6,7 @@
                 <div class="card-header bg-dark text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0"><?= $title ?></h4>
-                        <button class="btn btn-dark" onclick="window.location.replace('<?= base_url('admin/record') ?>')">Back</button>
+                        <button class="btn btn-primary" onclick="window.location.replace('<?= base_url('admin/record') ?>')">Back</button>
                     </div>
                 </div>
                 <div class="card-body" id="pageContent">  

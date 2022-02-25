@@ -59,12 +59,14 @@ class Record extends CI_Controller {
     {
         $patientID   = $this->input->get("id");
         $patientData = $this->record->getPatientRecord($patientID);
+        $monitoringData = $this->record->getMonitoringRecord($patientID, 0);
 
         if ($patientData && !empty($patientData))
         {
             $data = [
                 "title" => "View Patient Record",
-                "data"  => $patientData
+                "data"  => $patientData,
+                "monitoringData" => $monitoringData
             ];
 
             $this->load->view("admin/template/header", $data);
@@ -75,6 +77,21 @@ class Record extends CI_Controller {
         {
             redirect(base_url('admin/record'),'refresh');
         }
+    }
+
+    public function view_monitoring()
+    {
+        $monitoringFormID   = $this->input->get("id");
+        $monitoringFormData = $this->record->getMonitoringRecord(0, $monitoringFormID);
+
+        $data = [
+            "title" => "View Monitoring Record",
+            "data"  => $monitoringFormData
+        ];
+
+        $this->load->view("admin/template/header", $data);
+        $this->load->view("admin/record/view_monitoring", $data);
+        $this->load->view("admin/template/footer");
     }
 
 }
