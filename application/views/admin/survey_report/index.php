@@ -87,7 +87,8 @@
     
                 html = `
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tableSurveyReport">
+                    <button class="btn btn-primary mb-2" id="btnPrint" year="${year}" month="${month}" monthName="${monthName}"><i class="fas fa-print"></i> Print</button>
+                    <table class="table table-bordered table-hover">
                         <thead class="text-center">
                             <tr>
                                 <th rowspan="2">Month</th>
@@ -216,6 +217,16 @@
             }
         })
         // ----- END SELECT FILTER -----
+
+
+        // ----- BUTTON PRINT -----
+        $(document).on("click", "#btnPrint", function() {
+            let year  = $(this).attr("year");
+            let month = $(this).attr("month");
+            let monthName = $(this).attr("monthName");
+            window.open(`survey_report/print?year=${year}&month=${month}&monthName=${monthName}`, '_blank');
+        })
+        // ----- END BUTTON PRINT -----
 
     })
 
