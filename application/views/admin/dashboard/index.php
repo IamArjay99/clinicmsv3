@@ -383,7 +383,10 @@
                 totalPatient = 0,
                 totalMedicalAppointment = 0,
                 totalDentalAppointment  = 0,
+                totalMedicineAppointment = 0,
                 totalAppointment        = 0,
+                totalPendingAppointment = 0,
+                totalDoneAppointment    = 0,
                 patientType             = [],
                 medicine                = [],
                 customerSatisfactory    = {},
@@ -406,7 +409,7 @@
 
             let html = `
             <div class="row p-2">
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12 my-2">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex justify-content-between">
@@ -424,25 +427,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title d-flex justify-content-between">
-                                <h6>Total Appointment</h6>
-                                <h4>${totalAppointment}</h4>
-                            </div>
-                            <div class="progress progress-lg">
-                                <div class="progress-bar bg-danger" 
-                                    style="width: ${getPercentage(totalAppointment, maxCapacity)}%" 
-                                    role="progressbar" 
-                                    aria-valuenow="${getPercentage(totalAppointment, maxCapacity)}" 
-                                    aria-valuemin="0" 
-                                    aria-valuemax="${maxCapacity}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12 my-2">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex justify-content-between">
@@ -460,18 +445,72 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12 my-2">
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex justify-content-between">
-                                <h6>Total Dental Appointment</h6>
-                                <h4>${totalDentalAppointment}</h4>
+                                <h6>Total Dispensing Medicine Appointment</h6>
+                                <h4>${totalMedicineAppointment}</h4>
                             </div>
                             <div class="progress progress-lg">
                                 <div class="progress-bar bg-warning" 
-                                    style="width: ${getPercentage(totalDentalAppointment, maxCapacity)}%" 
+                                    style="width: ${getPercentage(totalMedicineAppointment, maxCapacity)}%" 
                                     role="progressbar" 
-                                    aria-valuenow="${getPercentage(totalDentalAppointment, maxCapacity)}" 
+                                    aria-valuenow="${getPercentage(totalMedicineAppointment, maxCapacity)}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="${maxCapacity}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 my-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Appointment</h6>
+                                <h4>${totalAppointment}</h4>
+                            </div>
+                            <div class="progress progress-lg">
+                                <div class="progress-bar bg-danger" 
+                                    style="width: ${getPercentage(totalAppointment, maxCapacity)}%" 
+                                    role="progressbar" 
+                                    aria-valuenow="${getPercentage(totalAppointment, maxCapacity)}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="${maxCapacity}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 my-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Done Appointment</h6>
+                                <h4>${totalDoneAppointment}</h4>
+                            </div>
+                            <div class="progress progress-lg">
+                                <div class="progress-bar bg-danger" 
+                                    style="width: ${getPercentage(totalDoneAppointment, maxCapacity)}%" 
+                                    role="progressbar" 
+                                    aria-valuenow="${getPercentage(totalDoneAppointment, maxCapacity)}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="${maxCapacity}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 my-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title d-flex justify-content-between">
+                                <h6>Total Pending Appointment</h6>
+                                <h4>${totalPendingAppointment}</h4>
+                            </div>
+                            <div class="progress progress-lg">
+                                <div class="progress-bar bg-danger" 
+                                    style="width: ${getPercentage(totalPendingAppointment, maxCapacity)}%" 
+                                    role="progressbar" 
+                                    aria-valuenow="${getPercentage(totalPendingAppointment, maxCapacity)}" 
                                     aria-valuemin="0" 
                                     aria-valuemax="${maxCapacity}"></div>
                             </div>

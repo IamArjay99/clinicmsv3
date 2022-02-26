@@ -12,10 +12,17 @@ class Dashboard_model extends CI_Model {
 
     public function getTotalAppointment()
     {
-        $sql    = "SELECT SUM(IF(service_id = 1,1,0)) AS medical, SUM(IF(service_id = 2,1,0)) AS dental FROM clinic_appointments WHERE is_deleted = 0";
+        $sql = "
+        SELECT 
+            SUM(IF(service_id = 1,1,0)) AS medical, 
+            SUM(IF(service_id = 2,1,0)) AS dental, 
+            SUM(IF(service_id = 3,1,0)) AS dispensing_medicine,
+            SUM(IF(is_done = 0,1,0)) AS pending_appointment,
+            SUM(IF(is_done = 1,1,0)) AS done_appointment
+        FROM clinic_appointments WHERE is_deleted = 0";
         $query  = $this->db->query($sql);
         $result = $query ? $query->row() : null;
-        return [$result->medical ?? 0, $result->dental ?? 0];
+        return [$result->medical ?? 0, $result->dental ?? 0, $result->dispensing_medicine ?? 0, $result->pending_appointment ?? 0, $result->done_appointment ?? 0];
     }
 
     public function getTotalPatientType($patientTypeID = 0)
@@ -172,21 +179,27 @@ class Dashboard_model extends CI_Model {
     {
         $totalPatient = $this->getTotalPatient();
         $appointment  = $this->getTotalAppointment();
-        $totalMedicalAppointment = $appointment[0];
-        $totalDentalAppointment  = $appointment[1];
-        $totalAppointment        = $appointment[0] + $appointment[1];
+        $totalMedicalAppointment  = $appointment[0];
+        $totalDentalAppointment   = $appointment[1];
+        $totalMedicineAppointment = $appointment[2];
+        $totalPendingAppointment  = $appointment[3];
+        $totalDoneAppointment     = $appointment[4];
+        $totalAppointment         = $appointment[0] + $appointment[2];
 
         return [
             "totalPatient" => $totalPatient,
-            "totalMedicalAppointment" => $totalMedicalAppointment,
-            "totalDentalAppointment"  => $totalDentalAppointment,
-            "totalAppointment"        => $totalAppointment,
-            "patientType"             => $this->getPatientType(),
-            "medicine"                => $this->getMedicine(),
-            "customerSatisfactory"    => $this->getCustomerSatisfactory(),
-            "monthlySurveyResult"     => $this->getMonthlySurvey(),
-            "rater"                   => $this->getRater(),
-            "questions"               => $this->getRating()
+            "totalMedicalAppointment"  => $totalMedicalAppointment,
+            "totalDentalAppointment"   => $totalDentalAppointment,
+            "totalMedicineAppointment" => $totalMedicineAppointment,
+            "totalAppointment"         => $totalAppointment,
+            "totalPendingAppointment"  => $totalPendingAppointment,
+            "totalDoneAppointment"     => $totalDoneAppointment,
+            "patientType"              => $this->getPatientType(),
+            "medicine"                 => $this->getMedicine(),
+            "customerSatisfactory"     => $this->getCustomerSatisfactory(),
+            "monthlySurveyResult"      => $this->getMonthlySurvey(),
+            "rater"                    => $this->getRater(),
+            "questions"                => $this->getRating()
         ];
     }    
 

@@ -114,11 +114,160 @@
 </div>
 
 
-<script src="<?=base_url()?>assets/website/assets/js/vendor/modernizr-3.5.0.min.js"></script>
-<script src="<?=base_url()?>assets/website/assets/js/vendor/jquery-1.12.4.min.js"></script>
-<script src="<?=base_url()?>assets/website/assets/js/popper.min.js bootstrap.min.js.pagespeed.jc.M2u69PhM2B.js"></script><script>eval(mod_pagespeed_yHSzYa$i1N);</script>
-<script src="<?= base_url('assets/vendors/inputmask/jquery.inputmask.bundle.js') ?>"></script>
-    <script src="<?= base_url('assets/js/inputmask.js') ?>"></script>
+<style>
+
+    .message {
+        position: relative;
+    }
+
+    .message-icon {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 20px;
+        margin-right: 30px;
+        background: #126131;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        transition: 500ms;
+    }
+
+    .message-icon:hover {
+        transform: scale(1.1);
+    }
+
+    .message-icon span {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: red;
+        color: white;
+        padding: 2px 5px;
+        border-radius: 6px;
+        margin-top: -8px;
+        margin-right: -2px;
+        font-size: 14px;
+    }
+
+    .message-display {
+        min-height: 60vh;
+        height: auto;
+        max-height: 70vh;
+        width: 400px;
+        background: transparent;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        z-index: 99;
+        margin-bottom: 46px;
+        margin-right: 53px;
+        border-radius: 10px 10px 0 10px;
+        padding: 10px;
+    }
+
+    .message-content {
+        height: 43vh;
+        border: 1px solid #e3e7ed;
+        overflow-y: auto;
+        margin-bottom:20px;
+        position: relative;
+        padding: 10px;
+    }
+
+    .message-content .sender {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+
+    .message-content .receiver {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .message-content small {
+        float: right;
+    }
+
+    .message-content .sender .message {
+        margin: 5px 0;
+        background: lightblue;
+        font-size: 1rem;
+        padding: 5px 7px;
+        margin-right: 8px;
+        border-radius: 5px 5px 0 5px;
+        max-width: 80%;
+        width: auto;
+    }
+
+    .message-content .receiver .message {
+        margin: 5px 0;
+        background: #8bc34a61;
+        font-size: 1rem;
+        padding: 5px 7px;
+        margin-left: 8px;
+        border-radius: 5px 5px 5px 0;
+        max-width: 80%;
+        width: auto;
+    }
+
+    .message-content .sender img, .message-content .receiver img {
+        align-self: end;
+    }
+
+</style>
+
+<?php 
+    $sessionID = !$this->session->has_userdata('patientID') ? false : $this->session->userdata('patientID');
+    if ($sessionID) {
+        echo '
+        <div class="message">
+            <div class="message-display" style="display: none;" id="messageDisplay">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0 py-1">Clinic Administrator</h4>
+                        <span class="hide-message font-weight-bolder" style="cursor: pointer;">_</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="message-content my-1" id="messageContent"></div>
+
+                        <div class="form-group mb-0">
+                            <div class="input-group">
+                                <textarea class="form-control"
+                                    placeholder="Type a message..."
+                                    rows="1"
+                                    name="message"
+                                    style="resize: none; font-size: 1rem;"
+                                    website="true"></textarea>
+                                <div class="input-group-append">
+                                    <button class="btn px-2 py-3"
+                                        id="btnSend"
+                                        website="true"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="message-icon">
+                <a href="#" class="message-link">
+                    <span id="messageCount">0</span>
+                    <i class="fas fa-envelope fa-1x text-white"></i>
+                </a>
+            </div>
+        </div>';
+    }
+?>
+
+
+
+
+
 <script>eval(mod_pagespeed_AZPrxOHD6w);</script>
 
 <script src="<?=base_url()?>assets/website/assets/js/owl.carousel.min.js slick.min.js.pagespeed.jc.A9wRWS-Olo.js"></script><script>eval(mod_pagespeed_36GbvHB$oz);</script>
@@ -155,512 +304,510 @@
 <!-- <script defer="" src="../../beacon.min.js/v64f9daad31f64f81be21cbef6184a5e31634941392597-2" integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A==" data-cf-beacon='{"rayId":"6b854e786abf472d","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.11.0","si":100}' crossorigin="anonymous"></script> -->
 <script src="<?= base_url('assets/js/system-operations.js') ?>"></script>
 <script src="<?= base_url('assets/js/custom-general.js') ?>"></script>
+<script src="<?= base_url('assets/js/messages.js') ?>"></script>
 </body>
 </html>
 
 <script>
-$(document).ready(function(){
-    let content     = loginContent();
-    let sessionID   = $("body").attr("sessionid");
-    let yearList    = getTableData(`years WHERE is_deleted = 0`);
-    // ----- GLOBAL VARIABLES -----
-    let courseList      = getTableData(`courses WHERE is_deleted = 0`);
-    let patientTypeList = getTableData('patient_type WHERE is_deleted = 0');
-    let patientList     = getTableData(`patients WHERE is_deleted = 0`);
-    let serviceList     = getTableData(`services WHERE is_deleted = 0`);
-    // ----- END GLOBAL VARIABLES -----
-    $(document).on("click",".login",function(){
-        $(".modal").modal("hide");
-        $(".modal-dialog").removeClass("modal-lg").addClass("modal-md");
-        $(".modal-title").text("LOGIN");
-        $(".modal-body").html(content);
-        setTimeout(() => {
-            $(".modal").modal("show");
-        }, 120);
-    });
 
-    $(document).on("click",".register",function(){
-        $(".modal").modal("hide");
-        $(".modal-dialog").removeClass("modal-md").addClass("modal-lg");
-        let content = registerContent();
-
-        $(".modal-title").text("SIGN UP");
-        $(".modal-body").html(content);
-        $(`[name="patient_code"]`).inputmask({
-                mask:        "99-9999",
-                placeholder: "00-0000"
+    $(document).ready(function(){
+        let content     = loginContent();
+        let sessionID   = $("body").attr("sessionid");
+        let yearList    = getTableData(`years WHERE is_deleted = 0`);
+        // ----- GLOBAL VARIABLES -----
+        let courseList      = getTableData(`courses WHERE is_deleted = 0`);
+        let patientTypeList = getTableData('patient_type WHERE is_deleted = 0');
+        let patientList     = getTableData(`patients WHERE is_deleted = 0`);
+        let serviceList     = getTableData(`services WHERE is_deleted = 0`);
+        // ----- END GLOBAL VARIABLES -----
+        $(document).on("click",".login",function(){
+            $(".modal").modal("hide");
+            $(".modal-dialog").removeClass("modal-lg").addClass("modal-md");
+            $(".modal-title").text("LOGIN");
+            $(".modal-body").html(content);
+            setTimeout(() => {
+                $(".modal").modal("show");
+            }, 120);
         });
-        setTimeout(() => {
-            $(".modal").modal("show");
-        }, 120);
-    });
 
-    function loginContent(){
-        let html = `    <form action="${base_url}login/authenticateWebsite" method="POST">
-                            <div class="row">
-                                <div class="col-12 my-2">
-                                    <div class="form-group">
-                                        <label for="email">Username</label>
-                                        <input class="form-control valid" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username">
-                                </div>
-                                </div>
-                                <div class="col-12 my-2">
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input class="form-control valid" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password">
+        $(document).on("click",".register",function(){
+            $(".modal").modal("hide");
+            $(".modal-dialog").removeClass("modal-md").addClass("modal-lg");
+            let content = registerContent();
+
+            $(".modal-title").text("SIGN UP");
+            $(".modal-body").html(content);
+            $(`[name="patient_code"]`).inputmask({
+                    mask:        "99-9999",
+                    placeholder: "00-0000"
+            });
+            setTimeout(() => {
+                $(".modal").modal("show");
+            }, 120);
+        });
+
+        function loginContent(){
+            let html = `    <form action="${base_url}login/authenticateWebsite" method="POST">
+                                <div class="row">
+                                    <div class="col-12 my-2">
+                                        <div class="form-group">
+                                            <label for="email">Username</label>
+                                            <input class="form-control valid" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username">
+                                    </div>
+                                    </div>
+                                    <div class="col-12 my-2">
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input class="form-control valid" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 my-2">
+                                        <button type="submit" class="button button-contactForm boxed-btn w-100 py-2">Login</button>
                                     </div>
                                 </div>
-                                <div class="col-12 my-2">
-                                    <button type="submit" class="button button-contactForm boxed-btn w-100 py-2">Login</button>
-                                </div>
-                            </div>
-                        </form>`;
-        return html;
-    }
+                            </form>`;
+            return html;
+        }
 
-    function registerContent(){
-       
-            let html = `
-            <div class="row p-3">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Patient ID <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate inputmask"
-                            name="patient_code"
-                            minlength="2"
-                            maxlength="20"
-                            data-inputmask-alias="99-9999"
-                            value=""
-                            required>
-                        <div class="d-block invalid-feedback"></div>
+        function registerContent(){
+        
+                let html = `
+                <div class="row p-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Patient ID <code>*</code></label>
+                            <input type="text" 
+                                class="form-control validate inputmask"
+                                name="patient_code"
+                                minlength="2"
+                                maxlength="20"
+                                data-inputmask-alias="99-9999"
+                                value=""
+                                required>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12"></div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>First Name <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="firstname"
-                            id="firstname"
-                            minlength="2"
-                            maxlength="20"
-                            value=""
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Middle Name</label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="middlename"
-                            id="middlename"
-                            minlength="2"
-                            maxlength="20"
-                            value="">
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Last Name <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="lastname"
-                            id="lastname"
-                            minlength="2"
-                            maxlength="20"
-                            value=""
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Suffix</label>
-                        <select class="form-control validate"
-                            name="suffix" id="suffix">
-                            <option value="" selected>Select suffix</option>    
-                            <option value="Jr.">Jr.</option>
-                            <option value="Sr.">Sr.</option>
-                            <option value="I" >I</option>
-                            <option value="II" >II</option>
-                            <option value="III" >III</option>
-                            <option value="IV"  >IV</option>
-                            <option value="V" >V</option>
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <div class="form-group">
-                        <label>Email <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="email"
-                            id="email"
-                            minlength="2"
-                            maxlength="50"
-                            value=""
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                    <div class="form-group">
-                        <label>Password <code>*</code></label>
-
-                        <div class="input-group">
-                            <input type="password" 
+                    <div class="col-12"></div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>First Name <code>*</code></label>
+                            <input type="text" 
                                 class="form-control validate"
-                                name="password"
+                                name="firstname"
+                                id="firstname"
+                                minlength="2"
+                                maxlength="20"
+                                value=""
+                                required>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Middle Name</label>
+                            <input type="text" 
+                                class="form-control validate"
+                                name="middlename"
+                                id="middlename"
+                                minlength="2"
+                                maxlength="20"
+                                value="">
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Last Name <code>*</code></label>
+                            <input type="text" 
+                                class="form-control validate"
+                                name="lastname"
+                                id="lastname"
+                                minlength="2"
+                                maxlength="20"
+                                value=""
+                                required>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Suffix</label>
+                            <select class="form-control validate"
+                                name="suffix" id="suffix">
+                                <option value="" selected>Select suffix</option>    
+                                <option value="Jr.">Jr.</option>
+                                <option value="Sr.">Sr.</option>
+                                <option value="I" >I</option>
+                                <option value="II" >II</option>
+                                <option value="III" >III</option>
+                                <option value="IV"  >IV</option>
+                                <option value="V" >V</option>
+                            </select>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label>Email <code>*</code></label>
+                            <input type="text" 
+                                class="form-control validate"
+                                name="email"
+                                id="email"
                                 minlength="2"
                                 maxlength="50"
                                 value=""
-                                id="password"
                                 required>
+                            <div class="d-block invalid-feedback"></div>
                         </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label>Password <code>*</code></label>
 
-                        
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-12">
-                    <div class="form-group">
-                        <label>Age <code>*</code></label>
-                        <input type="number" 
-                            class="form-control validate"
-                            name="age"
-                            min="1"
-                            minlength="2"
-                            maxlength="50"
-                            value=""
-                            id="age"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-12">
-                    <div class="form-group">
-                        <label>Gender <code>*</code></label>
-                        <select class="form-control validate"
-                            name="gender" id="gender"
-                            required>
-                            <option value="" selected>Select gender</option>    
-                            <option value="Male"  >Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Others">Others</option>
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Patient Type <code>*</code></label>
-                        <select class="form-control validate"
-                            name="patient_type_id" id="patient_type_id"
-                            required>
-                            ${getPatientTypeOptionDisplay()}
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Course</label>
-                        <select class="form-control validate"
-                            name="course_id" id="course_id">
-                            ${getCourseOptionDisplay()}
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Year</label>
-                        <select class="form-control validate"
-                            name="year_id">
-                            ${getYearOptionDisplay()}
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                        <label>Section</label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="section"
-                            minlength="1"
-                            maxlength="50"
-                            value="" >
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="button button-contactForm boxed-btn w-100 py-2" id="btnSave">Save</button>
-                </div>
-            </div>`;
-        return html;
-    }
+                            <div class="input-group">
+                                <input type="password" 
+                                    class="form-control validate"
+                                    name="password"
+                                    minlength="2"
+                                    maxlength="50"
+                                    value=""
+                                    id="password"
+                                    required>
+                            </div>
 
-    $(document).on("click", `#btnSave`, function() {
+                            
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <div class="form-group">
+                            <label>Age <code>*</code></label>
+                            <input type="number" 
+                                class="form-control validate"
+                                name="age"
+                                min="1"
+                                minlength="2"
+                                maxlength="50"
+                                value=""
+                                id="age"
+                                required>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <div class="form-group">
+                            <label>Gender <code>*</code></label>
+                            <select class="form-control validate"
+                                name="gender" id="gender"
+                                required>
+                                <option value="" selected>Select gender</option>    
+                                <option value="Male"  >Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Patient Type <code>*</code></label>
+                            <select class="form-control validate"
+                                name="patient_type_id" id="patient_type_id"
+                                required>
+                                ${getPatientTypeOptionDisplay()}
+                            </select>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Course</label>
+                            <select class="form-control validate"
+                                name="course_id" id="course_id">
+                                ${getCourseOptionDisplay()}
+                            </select>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select class="form-control validate"
+                                name="year_id">
+                                ${getYearOptionDisplay()}
+                            </select>
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="form-group">
+                            <label>Section</label>
+                            <input type="text" 
+                                class="form-control validate"
+                                name="section"
+                                minlength="1"
+                                maxlength="50"
+                                value="" >
+                            <div class="d-block invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="button button-contactForm boxed-btn w-100 py-2" id="btnSave">Save</button>
+                    </div>
+                </div>`;
+            return html;
+        }
+
+        $(document).on("click", `#btnSave`, function() {
+                
+                let validate = validateForm("modal");
+                if (validate) {
+                    $("#modal").modal("hide");
+
+                    let data = getFormData("modal");
+                        data["tableName"] = "patients";
+                        data["feedback"]  = $(`[name="patient_code"]`).val();
+                        data["method"]    = "add";
+                        data["year"]
+
+                    sweetAlertConfirmation("add", "Patient", "modal", null, data, true);
+                }
+        });
+
+
+    
+
+        $(document).on("click", "#contactForm", function(e){
+            let message = $("#message").val();
+            let name    = $("#name").val();
+            let email   = $("#email").val();
+            let subject = $("#subject").val();
+            let tableData   =   getTableData("system_setup");
+            if(message && name && email && subject ){
+                e.preventDefault();
+                window.location.href = `mailto:${tableData[0]["email"]}?subject=${subject}"&body=Hi my Name is:${name}, %0D %0D"  ${message}`;
+            }
+        });
+
+
+
+        // ----- MAKING APPOINTMENT -----
+        $(document).on("click", `.make-appointment`, function() {
+        $("#modal").modal("hide");
+        $(".modal-dialog").addClass("modal-lg");
+        let content = appointmentModalContent();
+        $(".modal-title").text("MAKE APPOINTMENT");
+        $(".modal-body").html(content);
+        setTimeout(() => {
+            $("#modal").modal("show");
+        }, 120);
+        })
+        // ----- END MAKING APPOINTMENT -----
+        function appointmentModalContent(){
+            let tableData = getTableData("patients",`CONCAT(lastname,", ",firstname," ",middlename) AS fullname`, `patient_id='${sessionID}'`);
+            let html     = `
+                                <div class="row p-3">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Patient <code>*</code></label>
+                                            <input type="button"
+                                                class="form-control text-left"
+                                                value="${tableData[0]["fullname"]}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Service Type <code>*</code></label>
+                                            <select class="form-control validate"
+                                                name="service_id" id="service_id"
+                                                required>
+                                                ${getServiceOptionDisplay()}
+                                            </select>
+                                            <div class="d-block invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Date Appointment</label>
+                                            <input type="date"
+                                                class="form-control text-left"
+                                                name="date_appointment" id="date_appointment"
+                                                value="">
+                                            <div class="d-block invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Purpose <code>*</code></label>
+                                            <textarea class="form-control validate"
+                                                name="purpose"
+                                                minlength="2"
+                                                maxlength="200"
+                                                rows="3"
+                                                style="resize: none;"
+                                                id="purpose"
+                                                required></textarea>
+                                            <div class="d-block invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <button type="submit" class="button boxed-btn w-100 py-2" id="btnSaveAppointment">Save</button>
+                                    </div>
+                                </div>`;
+            return html;
+        }
+
+        // ----- MAKING APPOINTMENT -----
+            $(document).on("click", `#btnSaveAppointment`, function() {
             
-            let validate = validateForm("modal");
-            if (validate) {
-                $("#modal").modal("hide");
+                let validate = validateForm("modal");
+                if (validate) {
+                    $("#modal").modal("hide");
 
-                let data = getFormData("modal");
-                    data["tableName"] = "patients";
-                    data["feedback"]  = $(`[name="patient_code"]`).val();
-                    data["method"]    = "add";
-                    data["year"]
+                    let data = getFormData("modal");
 
-                sweetAlertConfirmation("add", "Patient", "modal", null, data, true);
+                        data["tableName"] = "clinic_appointments";
+                        data["tableData"]["date_appointment"] = moment($("[name=date_appointment]").val()).format("YYYY-MM-DD");
+                        data["tableData"]["patient_id"]     = sessionID;
+                        data["tableData"]["is_website"]     = 1;
+                        data["tableData"]["is_read"]        = 0;
+                        data["feedback"]  = "Appointment";
+                        data["method"]    = "add";
+
+                    sweetAlertConfirmation("add", "Appointment", "modal", null, data, true);
+                }
+            })
+        // ----- END MAKING APPOINTMENT -----
+
+        // ----- PATIENT OPTION DISPLAY -----
+            function getPatientOptionDisplay(patientID = 0) {
+                let html = `<option value="" selected>Select patient</option>`;
+                patientList.map(patient => {
+                    let {
+                        patient_id = "",
+                        firstname  = "",
+                        middlename = "",
+                        lastname   = "",
+                        suffix     = "",
+                    } = patient;
+
+                    let fullname = `${firstname} ${middlename} ${lastname} ${suffix}`;
+
+                    html += `
+                    <option value="${patient_id}"
+                        ${patient_id == patientID ? "selected" : ""}>${fullname}</option>`;
+                })
+                return html;
             }
+        // ----- END PATIENT OPTION DISPLAY -----
+
+        // ----- SERVICE OPTION DISPLAY -----
+            function getServiceOptionDisplay(serviceID = 0) {
+                let html = `<option value="" selected>Select service</option>`;
+                serviceList.map(service => {
+                    let {
+                        service_id = "",
+                        name       = "",
+                    } = service;
+
+                    html += `
+                    <option value="${service_id}"
+                        ${service_id == serviceID ? "selected" : ""}>${name}</option>`;
+                })
+                return html;
+            }
+        // ----- END SERVICE OPTION DISPLAY -----
+
+        // ----- PATIENT TYPE OPTIONS DISPLAY -----
+            function getPatientTypeOptionDisplay(patientTypeID = 0, isAll = false) {
+                let html = isAll ? `<option value="0">All</option>` : `<option value="" selected>Select patient type</option>`;
+                patientTypeList.map(type => {
+                    let {
+                        patient_type_id,
+                        name
+                    } = type;
+
+                    html += `
+                    <option value="${patient_type_id}"
+                        ${patient_type_id == patientTypeID ? "selected" : ""}>${name}</option>`;
+                })
+                return html;
+            }
+        // ----- END PATIENT TYPE OPTIONS DISPLAY -----
+
+            // ----- COURSE OPTIONS DISPLAY -----
+            function getCourseOptionDisplay(courseID = 0) {
+                let html = `<option value="" selected>Select course</option>`;
+                courseList.map(course => {
+                    let {
+                        course_id,
+                        name
+                    } = course;
+
+                    html += `
+                    <option value="${course_id}"
+                        ${course_id == courseID ? "selected" : ""}>${name}</option>`;
+                })
+                return html;
+            }
+        // ----- END COURSE OPTIONS DISPLAY -----
+
+        // ----- YEAR OPTIONS DISPLAY -----
+            function getYearOptionDisplay(courseID = 0, yearID = 0) {
+                let html = `<option value="" selected>Select year</option>`;
+                yearList.filter(yr => yr.course_id == courseID)
+                .map(year => {
+                    let {
+                        year_id,
+                        name
+                    } = year;
+
+                    html += `
+                    <option value="${year_id}"
+                        ${year_id == yearID ? "selected" : ""}>${name}</option>`;
+                })
+                return html;
+            }
+        // ----- END YEAR OPTIONS DISPLAY -----
+
+
+
+        // ----- CHANGE PATIENT TYPE -----
+            $(document).on("change", `[name="patient_type_id"]`, function() {
+                let patientType = $(this).val();
+
+                $(`[name="course_id"]`).val('').trigger('change');
+                $(`[name="year_id"]`).val('').trigger('change');
+                $(`[name="section"]`).val('');
+
+                if (patientType && patientType == 2) {
+                    $(`[name="course_id"]`).removeAttr("disabled").attr("required", true);
+                    $(`[name="year_id"]`).removeAttr("disabled").attr("required", true);
+                    $(`[name="section"]`).removeAttr("disabled").attr("required", true);
+                } else {
+                    $(`[name="course_id"]`).attr("disabled", true);
+                    $(`[name="year_id"]`).attr("disabled", true);
+                    $(`[name="section"]`).attr("disabled", true);
+                    $(`[name="course_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                    $(`[name="year_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                    $(`[name="section"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                    $(`[name="course_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                    $(`[name="year_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                    $(`[name="section"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                }
+            })
+            // ----- END CHANGE PATIENT TYPE -----
+
+            // ----- CHANGE COURSE -----
+            $(document).on("change", `[name="course_id"]`, function() {
+                let courseID = $(this).val();
+                let options  = getYearOptionDisplay(courseID);
+                $(`[name="year_id"]`).html(options);
+            })
+            // ----- END CHANGE COURSE -----
+
+
     });
-
-
- 
-
-    $(document).on("click", "#contactForm", function(e){
-        let message = $("#message").val();
-        let name    = $("#name").val();
-        let email   = $("#email").val();
-        let subject = $("#subject").val();
-        let tableData   =   getTableData("system_setup");
-        if(message && name && email && subject ){
-            e.preventDefault();
-            window.location.href = `mailto:${tableData[0]["email"]}?subject=${subject}"&body=Hi my Name is:${name}, %0D %0D"  ${message}`;
-        }
-    });
-
-
-
-    // ----- MAKING APPOINTMENT -----
-    $(document).on("click", `.make-appointment`, function() {
-       $("#modal").modal("hide");
-       $(".modal-dialog").addClass("modal-lg");
-       let content = appointmentModalContent();
-       $(".modal-title").text("MAKE APPOINTMENT");
-       $(".modal-body").html(content);
-       setTimeout(() => {
-           $("#modal").modal("show");
-       }, 120);
-    })
-    // ----- END MAKING APPOINTMENT -----
-    function appointmentModalContent(){
-        let tableData = getTableData("patients",`CONCAT(lastname,", ",firstname," ",middlename) AS fullname`, `patient_id='${sessionID}'`);
-        let html     = `
-                            <div class="row p-3">
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Patient <code>*</code></label>
-                                        <input type="button"
-                                            class="form-control text-left"
-                                            value="${tableData[0]["fullname"]}" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Service Type <code>*</code></label>
-                                        <select class="form-control validate"
-                                            name="service_id" id="service_id"
-                                            required>
-                                            ${getServiceOptionDisplay()}
-                                        </select>
-                                        <div class="d-block invalid-feedback"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Date Appointment</label>
-                                        <input type="date"
-                                            class="form-control text-left"
-                                            name="date_appointment" id="date_appointment"
-                                            value="">
-                                        <div class="d-block invalid-feedback"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Purpose <code>*</code></label>
-                                        <textarea class="form-control validate"
-                                            name="purpose"
-                                            minlength="2"
-                                            maxlength="200"
-                                            rows="3"
-                                            style="resize: none;"
-                                            id="purpose"
-                                            required></textarea>
-                                        <div class="d-block invalid-feedback"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <button type="submit" class="button boxed-btn w-100 py-2" id="btnSaveAppointment">Save</button>
-                                </div>
-                            </div>`;
-        return html;
-    }
-
-    // ----- MAKING APPOINTMENT -----
-        $(document).on("click", `#btnSaveAppointment`, function() {
-           
-            let validate = validateForm("modal");
-            if (validate) {
-                $("#modal").modal("hide");
-
-                let data = getFormData("modal");
-
-                    data["tableName"] = "clinic_appointments";
-                    data["tableData"]["date_appointment"] = moment($("[name=date_appointment]").val()).format("YYYY-MM-DD");
-                    data["tableData"]["patient_id"]     = sessionID;
-                    data["tableData"]["is_website"]     = 1;
-                    data["tableData"]["is_read"]        = 0;
-                    data["feedback"]  = "Appointment";
-                    data["method"]    = "add";
-
-                sweetAlertConfirmation("add", "Appointment", "modal", null, data, true);
-            }
-        })
-     // ----- END MAKING APPOINTMENT -----
-
-     // ----- PATIENT OPTION DISPLAY -----
-        function getPatientOptionDisplay(patientID = 0) {
-            let html = `<option value="" selected>Select patient</option>`;
-            patientList.map(patient => {
-                let {
-                    patient_id = "",
-                    firstname  = "",
-                    middlename = "",
-                    lastname   = "",
-                    suffix     = "",
-                } = patient;
-
-                let fullname = `${firstname} ${middlename} ${lastname} ${suffix}`;
-
-                html += `
-                <option value="${patient_id}"
-                    ${patient_id == patientID ? "selected" : ""}>${fullname}</option>`;
-            })
-            return html;
-        }
-    // ----- END PATIENT OPTION DISPLAY -----
-
-    // ----- SERVICE OPTION DISPLAY -----
-        function getServiceOptionDisplay(serviceID = 0) {
-            let html = `<option value="" selected>Select service</option>`;
-            serviceList.map(service => {
-                let {
-                    service_id = "",
-                    name       = "",
-                } = service;
-
-                html += `
-                <option value="${service_id}"
-                    ${service_id == serviceID ? "selected" : ""}>${name}</option>`;
-            })
-            return html;
-        }
-    // ----- END SERVICE OPTION DISPLAY -----
-
-    // ----- PATIENT TYPE OPTIONS DISPLAY -----
-        function getPatientTypeOptionDisplay(patientTypeID = 0, isAll = false) {
-            let html = isAll ? `<option value="0">All</option>` : `<option value="" selected>Select patient type</option>`;
-            patientTypeList.map(type => {
-                let {
-                    patient_type_id,
-                    name
-                } = type;
-
-                html += `
-                <option value="${patient_type_id}"
-                    ${patient_type_id == patientTypeID ? "selected" : ""}>${name}</option>`;
-            })
-            return html;
-        }
-    // ----- END PATIENT TYPE OPTIONS DISPLAY -----
-
-        // ----- COURSE OPTIONS DISPLAY -----
-        function getCourseOptionDisplay(courseID = 0) {
-            let html = `<option value="" selected>Select course</option>`;
-            courseList.map(course => {
-                let {
-                    course_id,
-                    name
-                } = course;
-
-                html += `
-                <option value="${course_id}"
-                    ${course_id == courseID ? "selected" : ""}>${name}</option>`;
-            })
-            return html;
-        }
-    // ----- END COURSE OPTIONS DISPLAY -----
-
-    // ----- YEAR OPTIONS DISPLAY -----
-        function getYearOptionDisplay(courseID = 0, yearID = 0) {
-            let html = `<option value="" selected>Select year</option>`;
-            yearList.filter(yr => yr.course_id == courseID)
-            .map(year => {
-                let {
-                    year_id,
-                    name
-                } = year;
-
-                html += `
-                <option value="${year_id}"
-                    ${year_id == yearID ? "selected" : ""}>${name}</option>`;
-            })
-            return html;
-        }
-    // ----- END YEAR OPTIONS DISPLAY -----
-
-
-
-    // ----- CHANGE PATIENT TYPE -----
-        $(document).on("change", `[name="patient_type_id"]`, function() {
-            let patientType = $(this).val();
-
-            $(`[name="course_id"]`).val('').trigger('change');
-            $(`[name="year_id"]`).val('').trigger('change');
-            $(`[name="section"]`).val('');
-
-            if (patientType && patientType == 2) {
-                $(`[name="course_id"]`).removeAttr("disabled").attr("required", true);
-                $(`[name="year_id"]`).removeAttr("disabled").attr("required", true);
-                $(`[name="section"]`).removeAttr("disabled").attr("required", true);
-            } else {
-                $(`[name="course_id"]`).attr("disabled", true);
-                $(`[name="year_id"]`).attr("disabled", true);
-                $(`[name="section"]`).attr("disabled", true);
-                $(`[name="course_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
-                $(`[name="year_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
-                $(`[name="section"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
-                $(`[name="course_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
-                $(`[name="year_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
-                $(`[name="section"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
-            }
-        })
-        // ----- END CHANGE PATIENT TYPE -----
-
-        // ----- CHANGE COURSE -----
-        $(document).on("change", `[name="course_id"]`, function() {
-            let courseID = $(this).val();
-            let options  = getYearOptionDisplay(courseID);
-            $(`[name="year_id"]`).html(options);
-        })
-        // ----- END CHANGE COURSE -----
-
-
-         
-
-
-
-});
 
     
 </script>

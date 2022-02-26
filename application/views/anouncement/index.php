@@ -21,7 +21,6 @@
 </div>
 </div>
 
-
 <section class="testimonial-area2 section-padding">
 <div class="container-fluid fix pb-40">
 <div class="row justify-content-center">

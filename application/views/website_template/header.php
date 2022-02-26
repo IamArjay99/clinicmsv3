@@ -1,4 +1,6 @@
-<?php $sessionID = !$this->session->has_userdata('patientID') ? false : $this->session->userdata('patientID'); ?>
+<?php 
+    $sessionID = !$this->session->has_userdata('patientID') ? false : $this->session->userdata('patientID'); 
+?>
 
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -18,9 +20,17 @@
 
 <script src="<?=base_url('assets/js/sweetalert2.all.min.js')?>"></script>
 <script src="<?=base_url('assets/js/sweetalert2.min.js')?>"></script>
+
 <!-- End Sweet Alert -->
+
+<script src="<?=base_url()?>assets/website/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="<?=base_url()?>assets/website/assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="<?=base_url()?>assets/website/assets/js/popper.min.js bootstrap.min.js.pagespeed.jc.M2u69PhM2B.js"></script><script>eval(mod_pagespeed_yHSzYa$i1N);</script>
+<script src="<?= base_url('assets/vendors/inputmask/jquery.inputmask.bundle.js') ?>"></script>
+    <script src="<?= base_url('assets/js/inputmask.js') ?>"></script>
+
 </head>
-<body base_url="<?=base_url()?>" sessionid="<?=$sessionID?>">
+<body base_url="<?=base_url()?>" sessionid="<?=$sessionID?>" website="true">
 <header>
 <div class="header-area header-transparent">
 <div class="main-header header-sticky">
@@ -50,6 +60,7 @@
 </li>
 
 <?php if($sessionID ):?>
+    <li><a href="<?= base_url("monitoring")?>">Monitoring</a></li>
     <li><a href="<?= base_url("login/logoutWebsite")?>">Logout</a></li>
     <li class="header-right-btn"><a href="#" class="header-btn make-appointment">Make Appointment</a> </li>
 <?php else:?>

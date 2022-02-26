@@ -1,3 +1,7 @@
+html {
+	scroll-behavior: smooth;
+}
+
 #loader {
 	background: #0c0c0cad !important;
 	width: 100vw !important;

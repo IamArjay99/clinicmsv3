@@ -567,6 +567,35 @@ INSERT INTO `medicines` VALUES (1,'Biogesic','',5,4,2,NULL,10,100,0,'2022-01-01 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `messages` (
+  `message_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `is_admin` bigint(20) DEFAULT NULL,
+  `patient_id` bigint(20) DEFAULT NULL,
+  `message` longtext DEFAULT NULL,
+  `is_read` int(11) DEFAULT 0,
+  `is_deleted` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `monitoring_form_items`
 --
 
@@ -614,7 +643,7 @@ CREATE TABLE `monitoring_forms` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`monitoring_form_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -623,7 +652,6 @@ CREATE TABLE `monitoring_forms` (
 
 LOCK TABLES `monitoring_forms` WRITE;
 /*!40000 ALTER TABLE `monitoring_forms` DISABLE KEYS */;
-INSERT INTO `monitoring_forms` VALUES (1,11,1,0,'2022-02-25 11:04:26','2022-02-25 11:04:26'),(2,15,2,0,'2022-02-25 11:05:04','2022-02-25 11:05:04');
 /*!40000 ALTER TABLE `monitoring_forms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1518,4 +1546,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-26  2:33:53
+-- Dump completed on 2022-02-26 22:18:38

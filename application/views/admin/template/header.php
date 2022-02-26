@@ -259,6 +259,12 @@
                         </div>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('admin/messages') ?>">
+                        <i class="fas fa-envelope"></i>
+                        <span class="menu-title ml-3"> Messages</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#settings-menu" aria-expanded="false" aria-controls="settings-menu">
                             <i class="fas fa-cogs"></i>
                             <span class="menu-title ml-3"> Settings</span>

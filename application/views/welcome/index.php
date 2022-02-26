@@ -8,7 +8,7 @@
 <div class="hero-caption">
 <h1 data-animation="fadeInUp" data-delay=".4s">A brighter clinic<br> care experienced</h1>
 <p data-animation="fadeInUp" data-delay=".7s">Ensure That Student and employees have access to high Quality Health Care</p>
-<a href="#">
+<a href="#" class="make-appointment">
 <div class="button_base b3d_roll" data-animation="bounceIn" data-delay=".6s">
 <div>Make an Appointment</div>
 <div>Make an Appointment</div>
