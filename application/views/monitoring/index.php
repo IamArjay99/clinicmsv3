@@ -86,7 +86,7 @@
 
 
 <!-- ----- MODAL ----- -->
-<div id="modal" class="modal custom-modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+<div id="modal-monitoring" class="modal custom-modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
     <div class="modal-dialog modal-md mt-5" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -443,11 +443,11 @@
         // ----- BUTTON ADD -----
         $(document).on("click", "#btnAddMonitoring", function() {
             let html = formContent();
-            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
-            $("#modal_content").html(html);
-            $("#modal .page-title").text("ADD MONITORING");
-            $("#modal").modal('show');
-            generateInputsID("#modal");
+            $("#modal-monitoring .modal-dialog").removeClass("modal-md").addClass("modal-md");
+            $("#modal-monitoring_content").html(html);
+            $("#modal-monitoring .page-title").text("ADD MONITORING");
+            $("#modal-monitoring").modal('show');
+            generateInputsID("#modal-monitoring");
         });
         // ----- END BUTTON ADD -----
 
@@ -457,15 +457,15 @@
             let monitoringFormItemID = $(this).attr("monitoringFormItemID");
             let data = getTableData(`monitoring_form_items WHERE monitoring_form_item_id = ${monitoringFormItemID}`);
 
-            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
-            $("#modal_content").html(preloader);
-            $("#modal .page-title").text("EDIT MONITORING");
-            $("#modal").modal('show');
+            $("#modal-monitoring .modal-dialog").removeClass("modal-md").addClass("modal-md");
+            $("#modal-monitoring_content").html(preloader);
+            $("#modal-monitoring .page-title").text("EDIT MONITORING");
+            $("#modal-monitoring").modal('show');
 
             setTimeout(() => {
                 let html = formContent(data, true);
-                $("#modal_content").html(html);
-                generateInputsID("#modal");
+                $("#modal-monitoring_content").html(html);
+                generateInputsID("#modal-monitoring");
             }, 100);
         });
         // ----- END BUTTON EDIT -----
@@ -477,7 +477,7 @@
             
             let validate = validateForm("modal");
             if (validate) {
-                $("#modal").modal("hide");
+                $("#modal-monitoring").modal("hide");
 
                 let data = getFormData("modal");
                     data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
@@ -497,7 +497,7 @@
             
             let validate = validateForm("modal");
             if (validate) {
-                $("#modal").modal("hide");
+                $("#modal-monitoring").modal("hide");
 
                 let data = getFormData("modal");
                     data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
@@ -539,7 +539,7 @@
 
         // ----- CLOSE MODAL -----
         $(document).on("click", ".btnCloseModal", function() {
-            $("#modal").modal("hide");
+            $("#modal-monitoring").modal("hide");
         })
         // ----- END CLOSE MODAL -----
 
