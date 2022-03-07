@@ -93,13 +93,13 @@ function refreshConversation(isWebsite = false, isAsync = false) {
                 `messages
                 WHERE patient_id=${PATIENT_ID}
                     AND message_id > ${LAST_ID}
-                ORDER BY created_at`
+                ORDER BY message_id DESC`
             ) : 
             getTableData2(
                 `messages
                 WHERE patient_id=${PATIENT_ID}
                     AND message_id > ${LAST_ID}
-                ORDER BY created_at`
+                ORDER BY message_id DESC`
             );
         data.map((m, i) => {
             html += renderMessage(data, m, i, isWebsite);

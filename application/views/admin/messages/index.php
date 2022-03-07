@@ -244,6 +244,7 @@
                     let { patient_id, count } = i;
                     if (count > 0) {
                         $(`.patient[patientID="${patient_id}"]`).addClass("unread");
+                        $(`.patient[patientID="${patient_id}"]`).prependTo("tbody");
                     } else {
                         $(`.patient[patientID="${patient_id}"]`).removeClass("unread");
                     }
