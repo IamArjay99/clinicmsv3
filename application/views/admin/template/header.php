@@ -259,9 +259,12 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/messages') ?>">
-                        <i class="fas fa-envelope"></i>
-                        <span class="menu-title ml-3"> Messages</span>
+                        <a class="nav-link d-flex justify-content-between align-items-center" href="<?= base_url('admin/messages') ?>">
+                            <div class="">
+                                <i class="fas fa-envelope"></i>
+                                <span class="menu-title ml-3"> Messages</span>
+                            </div>
+                            <span class="mx-2" id="unreadMessagesCount"></span>
                         </a>
                     </li>
                     <li class="nav-item">

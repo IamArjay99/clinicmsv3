@@ -257,7 +257,7 @@ $(document).ready(function() {
                 let { count = 0 } = i;
                 $("#messageCount").text(count);
             })
-        }, 1000);
+        }, 2000);
     }
     
 

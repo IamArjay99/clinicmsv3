@@ -189,7 +189,7 @@
                                 <th>Patients</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tableTbody">
                             ${getPatientList()}
                         </tbody>
                     </table>
@@ -229,29 +229,6 @@
 
         })
         // ----- END CLICK PATIENT -----
-
-
-        // ----- INTERVAL -----
-        setInterval(() => {
-            if (patientList && patientList.length) {
-                let getUnreadMessages = getTableData(
-                    `patients AS p
-                    WHERE p.is_deleted = 0`,
-                    `(SELECT COUNT(*) FROM messages WHERE is_read = 0 AND is_admin = 0 AND patient_id = p.patient_id AND is_deleted = 0) AS count,
-                    p.patient_id`
-                );
-                getUnreadMessages.map(i => {
-                    let { patient_id, count } = i;
-                    if (count > 0) {
-                        $(`.patient[patientID="${patient_id}"]`).addClass("unread");
-                        $(`.patient[patientID="${patient_id}"]`).prependTo("tbody");
-                    } else {
-                        $(`.patient[patientID="${patient_id}"]`).removeClass("unread");
-                    }
-                })
-            }
-        }, 1000);
-        // ----- END INTERVAL -----
 
     })
 

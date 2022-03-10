@@ -160,6 +160,50 @@
             })
             // ----- END BUTTON MONITOR NOW -----
 
+
+
+
+            // ----- NEW MESSAGES INTERVAL -----
+            let LAST_ID = 0; PATIENT_ID = 0;
+            let patientList = getTableData(
+                `patients AS p 
+                    LEFT JOIN patient_type AS pt USING(patient_type_id)
+                WHERE p.is_deleted = 0`,
+                `patient_id, CONCAT(firstname, ' ', lastname) AS fullname, pt.name AS occupationType`
+            );
+
+            setInterval(() => {
+                if (patientList && patientList.length) {
+                    let getUnreadMessages = getTableData(
+                        `patients AS p
+                        ORDER BY last_message`,
+                        `p.patient_id,
+                        (SELECT COUNT(*) FROM messages WHERE is_read = 0 AND is_admin = 0 AND patient_id = p.patient_id AND is_deleted = 0) AS count,
+                        (SELECT created_at FROM messages WHERE patient_id = p.patient_id ORDER BY created_at DESC LIMIT 1) AS last_message`
+                    );
+                    let total = 0;
+                    getUnreadMessages.map(i => {
+                        let { patient_id, count = 0 } = i;
+                        total += parseFloat(count) > 0 ? 1 : 0;
+
+                        $(`.patient[patientID="${patient_id}"]`).prependTo("#tableTbody");
+                        
+                        if (count > 0) {
+                            $(`.patient[patientID="${patient_id}"]`).addClass("unread");
+                        } else {
+                            $(`.patient[patientID="${patient_id}"]`).removeClass("unread");
+                        }
+                    })
+
+                    if (total > 0) {
+                        $("#unreadMessagesCount").html(`<span class="badge badge-danger">${total}</span>`);
+                    } else {
+                        $("#unreadMessagesCount").empty();
+                    }
+                }
+            }, 2000);
+            // ----- END NEW MESSAGES INTERVAL -----
+
         })
 
     </script>
