@@ -25,6 +25,7 @@ class Survey_report extends CI_Controller {
         $data = [
             "title" => "Survey Report",
             "monthName" => $monthName,
+            "month"     => $month,
             "year"      => $year,
             "data"  => $this->surveyreport->getSurveyReport($year, $month)
         ];

@@ -102,7 +102,8 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                stepSize: 1
                             }
                         }]
                     },
@@ -133,12 +134,14 @@
                     'Question 9',
                     'Question 10',
                 ];
-                let barData = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10];
+                let barData = [parseInt(q1),parseInt(q2), parseInt(q3), 
+                               parseInt(q4), parseInt(q5),  parseInt(q6), 
+                               parseInt(q7), parseInt(q8), parseInt(q9), parseInt(q10)];
 
                 var data = {
                     labels,
                     datasets: [{
-                        label: 'Total Ratings',
+                        label: 'Total Ratingsss',
                         data: barData,
                         backgroundColor: [
                             'rgba(255, 159, 64, 0.2)',
