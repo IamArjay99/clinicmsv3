@@ -106,7 +106,7 @@ function refreshConversation(isWebsite = false, isAsync = false) {
         })
     }
     $("#messageContent").append(html);
-    location.href = "#last";
+    // location.href = "#last";
 }
 // ----- END REFRESH CONVERSATION -----
 
@@ -208,7 +208,7 @@ $(document).ready(function() {
                     let html = loadConverstation(true);
                     $("#messageContent").html(html);
                     $(`[name="message"]`).focus();
-                    location.href = "#last";
+                    // location.href = "#last";
                 }, 100);
             }
         });

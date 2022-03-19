@@ -101,9 +101,9 @@ if ($environment == "development") {
 	$db['default'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
-		'username' => 'u996570550_clinicmsv3',
+		'username' => 'u996570550_clinicmsv2',
 		'password' => 'P@$$w0rd2022',
-		'database' => 'u996570550_clinicmsv3',
+		'database' => 'u996570550_clinicmsv2',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
