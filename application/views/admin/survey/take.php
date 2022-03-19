@@ -70,339 +70,346 @@
                 </div>
                 <h4 class="text-center my-2">CUSTOMER SATISFACTION SURVEY</h4>
                 <div class="row mt-3">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label class="mb-0">Name of Office: </label>
                             <input type="text" class="form-control-plaintext border-bottom">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label class="mb-0">Date: </label>
                             <input type="text" class="form-control-plaintext border-bottom" readonly value="<?= date("F d, Y") ?>">
                         </div>
                     </div>
                 </div>
-                <table class="table table-hover table-bordered">
-                    <tr>
-                        <th colspan="12">PLEASE CHECK APPROPRIATE BOX</th>
-                    </tr>
-                    <tr>
-                        <th colspan="3" rowspan="2">RATER</th>
-                        <th class="text-center">
-                            <input type="checkbox" <?= $information->patient_type_id == 2 ? "checked" : "" ?> disabled>
-                        </th>
-                        <th colspan="3">Student</th>
-                        <th class="text-center">
-                            <input type="checkbox" <?= $information->patient_type_id == 3 ? "checked" : "" ?> disabled>
-                        </th>
-                        <th colspan="4">Non-Teaching</th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">
-                            <input type="checkbox" <?= $information->patient_type_id == 1 ? "checked" : "" ?> disabled>
-                        </th>
-                        <th colspan="3">Faculty</th>
-                        <th class="text-center">
-                            <input type="checkbox" <?= $information->patient_type_id == 4 ? "checked" : "" ?> disabled>
-                        </th>
-                        <th colspan="4">External Stakeholders</th>
-                    </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <th colspan="12">PLEASE CHECK APPROPRIATE BOX</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" rowspan="2">RATER</th>
+                            <th class="text-center">
+                                <input type="checkbox" <?= $information->patient_type_id == 2 ? "checked" : "" ?> disabled>
+                            </th>
+                            <th colspan="3">Student</th>
+                            <th class="text-center">
+                                <input type="checkbox" <?= $information->patient_type_id == 3 ? "checked" : "" ?> disabled>
+                            </th>
+                            <th colspan="4">Non-Teaching</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">
+                                <input type="checkbox" <?= $information->patient_type_id == 1 ? "checked" : "" ?> disabled>
+                            </th>
+                            <th colspan="3">Faculty</th>
+                            <th class="text-center">
+                                <input type="checkbox" <?= $information->patient_type_id == 4 ? "checked" : "" ?> disabled>
+                            </th>
+                            <th colspan="4">External Stakeholders</th>
+                        </tr>
+                    </table>
+                </div>
 
                 <div class="mt-4"><b>Dear Respondent:</b></div>
                 <div style="text-indent: 50px">Please take a moment to provide us your assessment and suggestions as we would like to give our clients the best services. Using the code below please encircle the number opposite each item that corresponds to your assessment.</div>
 
-                <table class="table table-hover table-bordered mt-4 text-center">
-                    <tr>
-                        <th>5</th>
-                        <th>4</th>
-                        <th>3</th>
-                        <th>2</th>
-                        <th>1</th>
-                    </tr>
-                    <tr>
-                        <th>Absolutely Satisfied</th>
-                        <th>Highly Satisfied</th>
-                        <th>Moderately Satisfied</th>
-                        <th>Fairly Satisfied</th>
-                        <th>Not satisfied</th>
-                    </tr>
-                    <tr>
-                        <td>Lubos na Kasiya-siya</td>
-                        <td>Lubhang Kasiya-siya</td>
-                        <td>Kasiya-siya</td>
-                        <td>Di gaanong Kasiya-siya</td>
-                        <td>Hindi Kasiya-siya</td>
-                    </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered mt-4 text-center">
+                        <tr>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                        </tr>
+                        <tr>
+                            <th>Absolutely Satisfied</th>
+                            <th>Highly Satisfied</th>
+                            <th>Moderately Satisfied</th>
+                            <th>Fairly Satisfied</th>
+                            <th>Not satisfied</th>
+                        </tr>
+                        <tr>
+                            <td>Lubos na Kasiya-siya</td>
+                            <td>Lubhang Kasiya-siya</td>
+                            <td>Kasiya-siya</td>
+                            <td>Di gaanong Kasiya-siya</td>
+                            <td>Hindi Kasiya-siya</td>
+                        </tr>
+                    </table>
+                </div>
 
-                <table class="table table-hover table-bordered mt-4">
-                    <tr>
-                        <td colspan="7">
-                            <b>1. Served with a smile and appropriately dressed.</b>
-                            <div>Nagsilbing nakangiti, disente at agkop ang kasuotan</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q1" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q1" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q1" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q1" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q1" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>2. Observed clean, organized office with appropriate facilites and visible and clear information</b>
-                            <div>May malinis, maayos at angkop na pasilidad sa opisina at nakakakitaan ng malinaw na impormasyon</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q2" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q2" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q2" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q2" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q2" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>3. Rendered on time service.</b>
-                            <div>Nagbigay ng servisyo sa tamang oras</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q3" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q3" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q3" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q3" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q3" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>4. Delivered accurate service</b>
-                            <div>Nagbigay ng tamang serbisyo</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q4" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q4" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q4" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q4" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q4" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>5. Provide quick services.</b>
-                            <div>Nagbigay ng mabilis na serbisyo</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q5" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q5" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q5" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q5" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q5" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>6. Handled request, complaints and solution/s to problem with flexibility</b>
-                            <div>Natugunan ang mga kahilingan, reklamo at nagbigay ng solusyon ang mga problemang naayon sa sitwasyo</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q6" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q6" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q6" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q6" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q6" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>7. Observed trust and confidentiality</b>
-                            <div>Pairalin ang tiwala at pagiging konpidensyal</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q7" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q7" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q7" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q7" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q7" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>8. Demonstrated courtesy and competence</b>
-                            <div>Nagpakitang paggalang at kagalingan</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q8" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q8" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q8" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q8" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q8" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>9. Made the client feel important</b>
-                            <div>Ipinaramdam ang pagpapahalaga sa kliyente</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q9" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q9" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q9" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q9" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q9" value="1">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7">
-                            <b>10. Spoke clearly, and used appropriate langeuage</b>
-                            <div>Nakipag-usap ng malinaw at tamang pananalita</div>
-                        </td>
-                        <td class="text-center">
-                            <div>5</div>
-                            <input type="radio" name="q10" value="5">
-                        </td>
-                        <td class="text-center">
-                            <div>4</div>
-                            <input type="radio" name="q10" value="4">
-                        </td>
-                        <td class="text-center">
-                            <div>3</div>
-                            <input type="radio" name="q10" value="3">
-                        </td>
-                        <td class="text-center">
-                            <div>2</div>
-                            <input type="radio" name="q10" value="2">
-                        </td>
-                        <td class="text-center">
-                            <div>1</div>
-                            <input type="radio" name="q10" value="1">
-                        </td>
-                    </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered mt-4">
+                        <tr>
+                            <td colspan="7">
+                                <b>1. Served with a smile and appropriately dressed.</b>
+                                <div>Nagsilbing nakangiti, disente at agkop ang kasuotan</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q1" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q1" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q1" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q1" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q1" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>2. Observed clean, organized office with appropriate facilites and visible and clear information</b>
+                                <div>May malinis, maayos at angkop na pasilidad sa opisina at nakakakitaan ng malinaw na impormasyon</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q2" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q2" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q2" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q2" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q2" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>3. Rendered on time service.</b>
+                                <div>Nagbigay ng servisyo sa tamang oras</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q3" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q3" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q3" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q3" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q3" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>4. Delivered accurate service</b>
+                                <div>Nagbigay ng tamang serbisyo</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q4" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q4" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q4" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q4" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q4" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>5. Provide quick services.</b>
+                                <div>Nagbigay ng mabilis na serbisyo</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q5" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q5" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q5" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q5" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q5" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>6. Handled request, complaints and solution/s to problem with flexibility</b>
+                                <div>Natugunan ang mga kahilingan, reklamo at nagbigay ng solusyon ang mga problemang naayon sa sitwasyo</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q6" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q6" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q6" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q6" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q6" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>7. Observed trust and confidentiality</b>
+                                <div>Pairalin ang tiwala at pagiging konpidensyal</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q7" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q7" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q7" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q7" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q7" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>8. Demonstrated courtesy and competence</b>
+                                <div>Nagpakitang paggalang at kagalingan</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q8" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q8" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q8" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q8" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q8" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>9. Made the client feel important</b>
+                                <div>Ipinaramdam ang pagpapahalaga sa kliyente</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q9" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q9" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q9" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q9" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q9" value="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <b>10. Spoke clearly, and used appropriate langeuage</b>
+                                <div>Nakipag-usap ng malinaw at tamang pananalita</div>
+                            </td>
+                            <td class="text-center">
+                                <div>5</div>
+                                <input type="radio" name="q10" value="5">
+                            </td>
+                            <td class="text-center">
+                                <div>4</div>
+                                <input type="radio" name="q10" value="4">
+                            </td>
+                            <td class="text-center">
+                                <div>3</div>
+                                <input type="radio" name="q10" value="3">
+                            </td>
+                            <td class="text-center">
+                                <div>2</div>
+                                <input type="radio" name="q10" value="2">
+                            </td>
+                            <td class="text-center">
+                                <div>1</div>
+                                <input type="radio" name="q10" value="1">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
                 <div class="mt-4">
                     <b>Please give your comments and suggestion/s for the improvement of our services. Thank you very much!</b>
                     <div>Maaaring magbigay ng mungkahi at puna para sa lalong ikabubuti ng aming serbisyo. Maraming salamat po!</div>
+                    <input type="text" name="comment" class="form-control-plaintext border-bottom">
                 </div>
 
             </div>
