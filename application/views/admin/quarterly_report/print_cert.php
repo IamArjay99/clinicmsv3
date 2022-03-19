@@ -46,28 +46,32 @@
 
     <style>
         body {
-            font-size: 15px;
+            font-size: 1.15rem;
         }
         .border-bottom {
             border-bottom: 1px solid #000000 !important;
         }
-        @page {
-            size: landscape;
+        span{
+            font-family: "Arial";
+            font-size: 20px;
+            font-weight: normal;
         }
-        .table tr th, .table tr td {
-            padding: 0;
-            margin: 0;
-        }
+        @page{
+            margin-top:0px;
+            margin-bottom: 10px;
+            margin-right: 20px;
+            margin-left: 20px;
+            }
     </style>
 </head>
 <body>
     
-    <div class="container-fluid p-3 pb-5" id="pageContent">
+    <div class="container-fluid pb-5" id="pageContent">
 
         <div class="d-flex justify-content-center align-items-center border-bottom pb-3">
             <div class="text-center">
                 <img src="<?= base_url('assets/images/modules/bsu-logo.png') ?>"
-                    height="100" width="100"><br>
+                    height="100" width="100">
                     <small>
                         <div>ISO 9001:2015</div>
                         <div>CERTIFIED</div>
@@ -82,76 +86,24 @@
         </div>
 
         <div class="mt-3">
-            <h4 class="text-center my-2 font-weight-bold">CUSTOMER SATISFACTORY SURVEY MONTHLY ACCOMPLISHMENT REPORT</h4>
-            <h4 class="text-center my-2 font-weight-light"><?= '<sup>S/Y</sup> '.$year ?></h4>
+            <h4 class="text-center my-2 font-weight-bold">MEDICAL CERTIFICATE</h4>
         </div>
 
-        <div class="mt-4">
-            <table class="table table-bordered">
-                <tr class="text-center">
-                    <th rowspan="2" style="width: 100px; white-space: nowrap">Month</th>
-                    <th colspan="5">Ratings 1 to 5</th>
-                    <th rowspan="2" style="width: 100px; white-space: nowrap">Other & Suggestions</th>
-                    <th rowspan="2" style="width: 100px; white-space: nowrap">Number of Respondent</th>
-                </tr>
-                <tr class="text-center">
-                    <th style="width: 50px !important">
-                        <div>1</div>
-                        <small>Not Satisfied</small>
-                    </th>
-                    <th style="width: 50px !important">
-                        <div>2</div>
-                        <small>Fairly Satisfied</small>
-                    </th>
-                    <th style="width: 50px !important">
-                        <div>3</div>
-                        <small>Moderately Satisfied</small>
-                    </th>
-                    <th style="width: 50px !important">
-                        <div>4</div>
-                        <small>Highly Satisfied</small>
-                    </th>
-                    <th style="width: 50px !important">
-                        <div>5</div>
-                        <small>Absolutely Satisfied</small>
-                    </th>
-                </tr>
-
-                <?php 
-                    $col1 = $col2 = $col3 = $col4 = $col5 = $totalRespondent = 0;
-                    foreach($data as $dt) { 
-                        $average = $dt['average'];
-
-                        $col1 += ($average == 1 ? 1 : 0);
-                        $col2 += ($average == 2 ? 1 : 0);
-                        $col3 += ($average == 3 ? 1 : 0);
-                        $col4 += ($average == 4 ? 1 : 0);
-                        $col5 += ($average == 5 ? 1 : 0);
-
-                        $totalRespondent++;
-                    }
-                    $html = '
-                    <tr class="text-center">
-                        <td>'.strtoupper($monthName).'</td>
-                        <td>'.$col1.'</td>
-                        <td>'.$col2.'</td>
-                        <td>'.$col3.'</td>
-                        <td>'.$col4.'</td>
-                        <td>'.$col5.'</td>
-                        <td></td>
-                        <td>'.$totalRespondent.'</td>
-                    </tr>';
-
-                    echo $html;
-                ?>
-            </table>
-
+        <div class="mt-5">
+            <div class="d-flex justify-content-end align-items-end">
+                <div class="text-right w-100">Date:</div>
+                <div style="border-bottom:1px solid black; width: 300px;" class="text-center"><?=$date?></div>
+            </div>
+           <span>To Whom It May Concern:</span>
+           <br><br>
+           <span>This is to certify that MR./MS. <strong><?=$patientName?> </strong> was seen and examined on <strong><?=$dateDiagnosed?></strong> and was diagnose to have ______________________________. therefore recommend ___________________________________.</span>
+           <br><br>
+           <span>This certificate is being issued upon the request of <strong><?=$patientName?> </strong> for whatever purpose it may serve. </span>
         </div>
-        
 
 
         <div class="w-100 mt-5 d-flex justify-content-end">
-            <div class="text-left"><strong>Prepared By:</strong></div>
+            <div class="text-left">Prepared By:</div>
             <div class="d-flex justify-content-end align-items-end mt-5">
             <div class="w-100 text-center" style="border-top: 2px solid black">
                     <?=$fullname?>
@@ -159,9 +111,8 @@
             </div>         
             </div>
         </div>
-    </div>
 
-    
+    </div>
 
     <!-- base:js -->
     <script src="<?= base_url('assets/vendors/js/vendor.bundle.base.js') ?>"></script>

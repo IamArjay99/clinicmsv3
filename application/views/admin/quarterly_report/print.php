@@ -66,10 +66,14 @@
     
     <div class="container-fluid p-3 pb-5" id="pageContent">
 
-        <div class="d-flex justify-content-start align-items-center border-bottom pb-3">
-            <div>
+        <div class="d-flex justify-content-center align-items-center border-bottom pb-3">
+            <div class="text-center">
                 <img src="<?= base_url('assets/images/modules/bsu-logo.png') ?>"
                     height="100" width="100">
+                    <small>
+                        <div>ISO 9001:2015</div>
+                        <div>CERTIFIED</div>
+                    </small>
             </div>
             <div class="ml-4">
                 <div>Republic of the Philippines</div>
@@ -128,6 +132,17 @@
                 ?>
             </table>
 
+        </div>
+
+
+        <div class="w-100 mt-5 d-flex justify-content-end">
+            <div class="text-left"><strong>Prepared By:</strong></div>
+            <div class="d-flex justify-content-end align-items-end mt-5">
+            <div class="w-100 text-center" style="border-top: 2px solid black">
+                    <?=$fullname?>
+                    <div>Nurse</div>
+            </div>         
+            </div>
         </div>
 
     </div>

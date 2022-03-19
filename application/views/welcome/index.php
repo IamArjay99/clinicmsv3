@@ -15,13 +15,16 @@
 </div>
 </a>
 
-<div class="hero-shape">
-<img src="<?=base_url()?>assets/website/assets/img/hero/tooth.png" alt="">
+    <div class="hero-shape d-none d-sm-none d-md-none d-lg-block d-xl-block">
+        <img src="<?=base_url()?>assets/website/assets/img/hero/tooth.png" alt="">
+    </div>
+
 </div>
-</div>
-<div class="hero-img position-relative d-flex justify-content-center">
-<img src="<?=base_url()?>assets/website/assets/img/hero/h1_hero1.png" style="width: 50%" alt="" data-animation="pulse" data-transition-duration="5s">
-</div>
+    <div class="hero-img position-relative d-flex justify-content-center d-none d-sm-none d-md-none d-lg-block d-xl-block">
+        <img src="<?=base_url()?>assets/website/assets/img/hero/h1_hero1.png" style="width: 50%" alt="" data-animation="pulse" data-transition-duration="5s">
+    </div>
+
+
 </div>
 </div>
 </div>

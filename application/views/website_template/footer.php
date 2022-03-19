@@ -40,7 +40,7 @@
 <div class="single-footer-caption mb-20">
 
 <div class="footer-logo mb-35">
-<a href="#"><img src="<?=base_url()?>assets/website/assets/img/logo/xlogo2_footer.png.pagespeed.ic.5e6IWwEKNO.png" alt=""></a>
+<a href="#"><img src="<?=base_url()?>assets/website/assets/img/logo/xlogo.png.pagespeed.ic.RElERxDpcp.png" alt=""></a>
 </div>
 <p style="line-height: 1.6;">There are many variations of passages of lorem ipsum available be the majority.</p>
 

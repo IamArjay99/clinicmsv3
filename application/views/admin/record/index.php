@@ -39,10 +39,10 @@
                     sorting:        [],
                     scrollCollapse: true,
                     columnDefs: [
-                        { targets: 0, width: "50px"  },	
-                        { targets: 1, width: "150px" },	
-                        { targets: 2, width: "150px" },	
-                        { targets: 3, width: "100px" },	
+                        { targets: 0, width: 50  },	
+                        { targets: 1, width: 150 },	
+                        { targets: 2, width: 150 },	
+                        { targets: 3, width: 80  },	
                     ],
                 });
 
@@ -252,6 +252,11 @@
                                 target="_blank"
                                 class="btn btn-outline-info">
                                 <i class="fas fa-eye"></i> View    
+                            </a>
+                            <a href="quarterly_report/printmedcert?checkupid=${item.check_up_id}"
+                                target="_blank"
+                                class="btn btn-outline-success">
+                                <i class="fas fa-print"></i> Print Med Cert.    
                             </a>
                         </td>
                     </tr>`;

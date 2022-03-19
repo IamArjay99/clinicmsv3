@@ -31,10 +31,31 @@ class Quarterly_report extends CI_Controller {
         $data = [
             "title" => "Quarterly Report",
             "year"  => $year,
+            "fullname"  => "Mary Francessca N. Villafuerte, RN",
             "data"  => $this->quarterlyreport->getQuarterlyReport($year, $quarter)
         ];
         $this->load->view("admin/quarterly_report/print", $data);
     }
 
+    public function printmedcert(){
+        $checkupid    = $this->input->get('checkupid');
+        $sql          = "SELECT cu.*, CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname FROM check_ups AS cu
+                                LEFT JOIN patients AS p ON cu.patient_id = p.patient_id
+                            WHERE cu.is_deleted = 0
+                                AND cu.service_id = 1 AND cu.check_up_id = '$checkupid' ";
+        $query        = $this->db->query($sql);
+        $result       = $query->row();
+        $dateDiagnosed=date_create($result->created_at);
+        $data         = [   
+                            "title"         => "Medical Certificate",
+                            "date"          => date("F d, Y"),
+                            "dateDiagnosed" => date_format($dateDiagnosed,"F d, Y"),
+                            "patientName"   => $result->fullname,
+                            "fullname"      => "Mary Francessca N. Villafuerte, RN",
+                        ];
+
+        $this->load->view("admin/quarterly_report/print_cert", $data);
+
+    }
 }
 

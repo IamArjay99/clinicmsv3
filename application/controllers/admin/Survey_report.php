@@ -19,14 +19,15 @@ class Survey_report extends CI_Controller {
 
     public function print()
     {
-        $year  = $this->input->get('year');
-        $month = $this->input->get('month');
-        $monthName = $this->input->get('monthName');
+        $sessionID  = $this->session->userdata('sessionID');
+        $year       = $this->input->get('year');
+        $month      = $this->input->get('month');
+        $monthName  = $this->input->get('monthName');
         $data = [
             "title" => "Survey Report",
             "monthName" => $monthName,
-            "month"     => $month,
             "year"      => $year,
+            "fullname"  => "Mary Francessca N. Villafuerte, RN",
             "data"  => $this->surveyreport->getSurveyReport($year, $month)
         ];
         $this->load->view("admin/survey_report/print", $data);
