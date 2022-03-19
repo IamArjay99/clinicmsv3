@@ -28,7 +28,7 @@ $environment = $_SERVER["HTTP_HOST"] == "localhost" ? "development" : "productio
 if ($environment == "development") {
     $config['base_url'] = 'http://localhost/clinicmsv3/';
 } else {
-    $config['base_url'] = 'https://'.$_SERVER["HTTP_HOST"];
+    $config['base_url'] = 'http://'.$_SERVER["HTTP_HOST"];
     $config['base_url'] .= preg_replace("@/+$@", "", dirname($_SERVER['SCRIPT_NAME'])).'/';
 }
 
