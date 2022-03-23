@@ -484,7 +484,7 @@
                             class="form-control validate"
                             name="quantity"
                             min="1"
-                            max="999999"
+                            max="10"
                             value=""
                             required>
                         <div class="d-block invalid-feedback"></div>
