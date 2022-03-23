@@ -39,7 +39,7 @@
 <div class="header-info-left d-flex align-items-center">
 
 <div class="logo">
-<a href="index.html"><img src="<?=base_url()?>assets/website/assets/img/logo/xlogo.png.pagespeed.ic.RElERxDpcp.png" alt=""></a>
+<a href="<?= base_url() ?>"><img src="<?=base_url()?>assets/website/assets/img/logo/xlogo.png.pagespeed.ic.RElERxDpcp.png" alt=""></a>
 </div>
 </div>
 <div class="header-righ">

@@ -389,3 +389,11 @@ $(document).on("keypress", `[type="number"]`, function(e) {
 	if(key < 48 || key > 57) e.preventDefault();
 })
 // ----- END KEYUP NUMBER -----
+
+
+// ----- NOT NUMBER -----
+$(document).on("keypress", `[name="firstname"], [name="middlename"], [name="lastname"]`, function(e) {
+	let key = e.which;
+	if(key >= 48 && key <= 57) e.preventDefault();
+})
+// ----- END NOT NUMBER -----

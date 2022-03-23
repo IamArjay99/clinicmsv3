@@ -77,7 +77,7 @@
                         <div>CERTIFIED</div>
                     </small>
             </div>
-            <div class="ml-4">
+            <div class="ml-4 text-center">
                 <div>Republic of the Philippines</div>
                 <div><b>CENTRAL BICOL STATE UNIVERSITY OF AGRICULTURE</b></div>
                 <div>Impig, Sipocot, Camarines Sur - 4408</div>

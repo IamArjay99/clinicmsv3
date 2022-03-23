@@ -29,6 +29,7 @@
         let courseList      = getTableData(`courses WHERE is_deleted = 0`);
         let yearList        = getTableData(`years WHERE is_deleted = 0`);
         let patientTypeList = getTableData('patient_type WHERE is_deleted = 0');
+        let patientList     = getTableData(`patients WHERE is_deleted = 0`, 'patient_id, email');
         let patientIDList   = [];
         // ----- END GLOBAL VARIABLES -----
 
@@ -570,6 +571,13 @@
         // ----- END TOGGLE PASSWORD -----
 
 
+        // ----- VALIDATE EMAIL ------
+        function validateEmail(patientID = 0, email = '') {
+            return patientID ? !patientList.filter(p => p.email == email && p.patient_id != patientID).length : !patientList.filter(p => p.email == email).length;
+        }
+        // ----- END VALIDATE EMAIL ------
+
+
         // ----- BUTTON SAVE -----
         $(document).on("click", `#btnSave`, function() {
             let patientID   = $(this).attr("patientID");
@@ -577,17 +585,24 @@
             
             let validate       = validateForm("modal");
             let checkPatientID = validatePatientID(patientID, patientCode);
+            let checkEmail     = validateEmail(patientID, $(`[name="email"]`).val()?.trim());
 
-            if (validate && checkPatientID) {
-                $("#modal").modal("hide");
+            if (checkEmail) {
+                if (validate && checkPatientID) {
+                    $("#modal").modal("hide");
 
-                let data = getFormData("modal");
-                    data["tableName"] = "patients";
-                    data["feedback"]  = $(`[name="patient_code"]`).val();
-                    data["method"]    = "add";
-    
-                sweetAlertConfirmation("add", "Patient", "modal", null, data, true, refreshTableContent);
+                    let data = getFormData("modal");
+                        data["tableName"] = "patients";
+                        data["feedback"]  = $(`[name="patient_code"]`).val();
+                        data["method"]    = "add";
+        
+                    sweetAlertConfirmation("add", "Patient", "modal", null, data, true, refreshTableContent);
+                }
+            } else {
+                showNotification("danger", "Email is already exists!");
             }
+
+            
         })
         // ----- END BUTTON SAVE -----
 
@@ -599,17 +614,22 @@
             
             let validate       = validateForm("modal");
             let checkPatientID = validatePatientID(patientID, patientCode);
+            let checkEmail     = validateEmail(patientID, $(`[name="email"]`).val()?.trim());
             
-            if (validate && checkPatientID) {
-                $("#modal").modal("hide");
-
-                let data = getFormData("modal");
-                    data["tableName"]   = "patients";
-                    data["feedback"]    = $(`[name="patient_code"]`).val();
-                    data["method"]      = "update";
-                    data["whereFilter"] = `patient_id=${patientID}`;
+            if (checkEmail) {
+                if (validate && checkPatientID) {
+                    $("#modal").modal("hide");
     
-                sweetAlertConfirmation("update", "Patient", "modal", null, data, true, refreshTableContent);
+                    let data = getFormData("modal");
+                        data["tableName"]   = "patients";
+                        data["feedback"]    = $(`[name="patient_code"]`).val();
+                        data["method"]      = "update";
+                        data["whereFilter"] = `patient_id=${patientID}`;
+        
+                    sweetAlertConfirmation("update", "Patient", "modal", null, data, true, refreshTableContent);
+                }
+            } else {
+                showNotification("danger", "Email is already exists!");
             }
         })
         // ----- END BUTTON SAVE -----

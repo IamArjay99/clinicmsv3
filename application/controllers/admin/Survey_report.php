@@ -27,6 +27,7 @@ class Survey_report extends CI_Controller {
             "title" => "Survey Report",
             "monthName" => $monthName,
             "year"      => $year,
+            "month"     => $month,
             "fullname"  => "Mary Francessca N. Villafuerte, RN",
             "data"  => $this->surveyreport->getSurveyReport($year, $month)
         ];

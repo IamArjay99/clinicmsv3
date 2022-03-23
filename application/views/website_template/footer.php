@@ -632,6 +632,7 @@
                                             <input type="date"
                                                 class="form-control text-left"
                                                 name="date_appointment" id="date_appointment"
+                                                min="${moment().format("YYYY-MM-DD")}"
                                                 value="">
                                             <div class="d-block invalid-feedback"></div>
                                         </div>
