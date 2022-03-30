@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header bg-dark text-white">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0">TANGA</h4>
+                        <h4 class="mb-0">Dashboard</h4>
                         <div><?= date("F d, Y") ?></div>
                     </div>
                 </div>
