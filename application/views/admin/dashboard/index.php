@@ -342,7 +342,7 @@
                 var data = {
                     labels,
                     datasets: [{
-                        label: 'Stocks',
+                        label: 'Average',
                         data: barData,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',

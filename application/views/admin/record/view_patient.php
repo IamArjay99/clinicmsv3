@@ -72,94 +72,8 @@
                             </div>
                         </div>
 
-                        <div class="col-12 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="mb-0">Check-up History</h4>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-hover table-bordered" id="tableMedicine">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>&nbsp;</th>
-                                                <th>Date</th>
-                                                <th>Service</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
 
-                                        <?php 
-                                            if ($data['check_up_data'] && !empty($data['check_up_data'])):
-                                            foreach ($data['check_up_data'] as $i => $cu):
-                                                $type = $cu['service_id'] == 1 ? "medical" : "dispensing_medicine";
-                                        ?>
-                                            <tr>
-                                                <td class="text-center"><?= $i + 1 ?></td>
-                                                <td><?= date('F d, Y', strtotime($cu['created_at'])) ?></td>
-                                                <td><?= $cu['service_name'] ?></td>
-                                                <td class="text-center">
-                                                    <a href="<?= base_url('admin/record/view_service?id='. $cu['check_up_id'] .'&type='.$type) ?>"
-                                                        target="_blank"
-                                                        class="btn btn-outline-info">
-                                                        <i class="fas fa-eye"></i> View    
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                            endforeach;
-                                            endif;
-                                        ?>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="mb-0">Monitoring Form</h4>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-bordered table-hover" id="tableMonitoringForm">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th>No.</th>
-                                                <th>Patient</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Case of Patient</th>
-                                                <th>Activity</th>
-                                                <th>Medicine Taken</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if ($monitoringData && !empty($monitoringData)): ?>
-                                            <?php foreach ($monitoringData as $i => $x): 
-                                                $status = $x['status'] == 0 ? '<span class="badge badge-danger">Serious/Bad</span>' : 
-                                                    ($x['status'] == 1 ? '<span class="badge badge-primary">Fair</span>' : '<span class="badge badge-success">Good</span>');    
-                                            ?>
-                                                <tr>
-                                                    <td><?= $i+1 ?></td>
-                                                    <td><?= $x['patient_name'] ?></td>
-                                                    <td><?= date("F d, Y h:i A", strtotime($x['date'])) ?></td>
-                                                    <td><?= date("h:i A", strtotime("2021-01-01 ".$x['time'])) ?></td>
-                                                    <td><?= $x['patient_case'] ?></td>
-                                                    <td><?= $x['activity'] ?></td>
-                                                    <td><?= $x['medicine_taken'] ?></td>
-                                                    <td><?= $status ?></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- MEDICAL HISTORY / PERSONAL HEALTH HISTORY -->
                         <div class="col-12 mb-3">
                             <div class="card">
                                 <div class="card-header">
@@ -563,6 +477,100 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- CHECK UP FORM -->
+                        <div class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Check-up History</h4>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-hover table-bordered" id="tableMedicine">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>&nbsp;</th>
+                                                <th>Date</th>
+                                                <th>Service</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <?php 
+                                            if ($data['check_up_data'] && !empty($data['check_up_data'])):
+                                            foreach ($data['check_up_data'] as $i => $cu):
+                                                $type = $cu['service_id'] == 1 ? "medical" : "dispensing_medicine";
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= $i + 1 ?></td>
+                                                <td><?= date('F d, Y', strtotime($cu['created_at'])) ?></td>
+                                                <td><?= $cu['service_name'] ?></td>
+                                                <td class="text-center">
+                                                    <a href="<?= base_url('admin/record/view_service?id='. $cu['check_up_id'] .'&type='.$type) ?>"
+                                                        target="_blank"
+                                                        class="btn btn-outline-info">
+                                                        <i class="fas fa-eye"></i> View    
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                            endforeach;
+                                            endif;
+                                        ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- MONITORTING FORM  -->
+                        <div class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Monitoring Form</h4>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-hover" id="tableMonitoringForm">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>No.</th>
+                                                <th>Patient</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Case of Patient</th>
+                                                <th>Activity</th>
+                                                <th>Medicine Taken</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if ($monitoringData && !empty($monitoringData)): ?>
+                                            <?php foreach ($monitoringData as $i => $x): 
+                                                $status = $x['status'] == 0 ? '<span class="badge badge-danger">Serious/Bad</span>' : 
+                                                    ($x['status'] == 1 ? '<span class="badge badge-primary">Fair</span>' : '<span class="badge badge-success">Good</span>');    
+                                            ?>
+                                                <tr>
+                                                    <td><?= $i+1 ?></td>
+                                                    <td><?= $x['patient_name'] ?></td>
+                                                    <td><?= date("F d, Y h:i A", strtotime($x['date'])) ?></td>
+                                                    <td><?= date("h:i A", strtotime("2021-01-01 ".$x['time'])) ?></td>
+                                                    <td><?= $x['patient_case'] ?></td>
+                                                    <td><?= $x['activity'] ?></td>
+                                                    <td><?= $x['medicine_taken'] ?></td>
+                                                    <td><?= $status ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        
 
                         <div class="col-12 mt-3" id="clinicalCaseRecordContent">
                             <div class="card">

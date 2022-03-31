@@ -275,7 +275,7 @@
 
             let html = `
             <div class="row p-3">
-                <div class="col-md-3">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label>Patient ID <code>*</code></label>
                         <input type="text" 
@@ -289,8 +289,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-12"></div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>First Name <code>*</code></label>
                         <input type="text" 
@@ -303,7 +302,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Middle Name</label>
                         <input type="text" 
@@ -315,7 +314,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Last Name <code>*</code></label>
                         <input type="text" 
@@ -328,7 +327,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Suffix</label>
                         <select class="form-control validate"
@@ -345,7 +344,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-12 col-sm-12">
                     <div class="form-group">
                         <label>Email <code>*</code></label>
                         <input type="text" 
@@ -358,10 +357,9 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Password <code>*</code></label>
-
                         <div class="input-group">
                             <input type="password" 
                                 class="form-control validate"
@@ -369,19 +367,57 @@
                                 minlength="2"
                                 maxlength="50"
                                 value="${password}"
+                                style="border-right: none;"
                                 required>
                             <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="password-icon mdi mdi-eye" style="cursor: pointer;" display="true"></i>
+                                <span class="input-group-text"
+                                    style="background: rgb(0 0 0 / 0%); border-left: none;">
+                                    <i class="mdi mdi-eye" style="cursor: pointer;" display="true"
+                                        onClick="
+                                            let element = document.querySelector('[name=password]');
+                                            let display = this.getAttribute('display') == 'true';
+                                            let classes = display ? 'mdi mdi-eye-off' : 'mdi mdi-eye';
+                                            this.classList = classes;
+                                            this.setAttribute('display', display ? 'false' : 'true');
+                                            element.setAttribute('type', display ? 'text' : 'password');
+                                        "></i>
                                 </span>
                             </div>
                         </div>
-
-                        
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Confirm Password <code>*</code></label>
+                        <div class="input-group">
+                            <input type="password" 
+                                class="form-control validate"
+                                name="confirmPassword"
+                                minlength="2"
+                                maxlength="50"
+                                value="${password}"
+                                style="border-right: none;"
+                                required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"
+                                    style="background: rgb(0 0 0 / 0%); border-left: none;">
+                                    <i class="mdi mdi-eye" style="cursor: pointer;" display="true"
+                                        onClick="
+                                            let element = document.querySelector('[name=confirmPassword]');
+                                            let display = this.getAttribute('display') == 'true';
+                                            let classes = display ? 'mdi mdi-eye-off' : 'mdi mdi-eye';
+                                            this.classList = classes;
+                                            this.setAttribute('display', display ? 'false' : 'true');
+                                            element.setAttribute('type', display ? 'text' : 'password');
+                                        "></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Age <code>*</code></label>
                         <input type="number" 
@@ -395,7 +431,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Gender <code>*</code></label>
                         <select class="form-control validate"
@@ -409,7 +445,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Occupation Type <code>*</code></label>
                         <select class="form-control validate"
@@ -420,7 +456,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Course</label>
                         <select class="form-control validate"
@@ -432,7 +468,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Year</label>
                         <select class="form-control validate"
@@ -444,7 +480,7 @@
                         <div class="d-block invalid-feedback"></div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Section</label>
                         <input type="text" 
@@ -481,10 +517,76 @@
         // ----- END VALIDATE PATIENT ID -----
 
 
+        // ----- VALIDATE PASSWORD -----
+        function validatePassword() {
+            let invalid   = $(`[name="password"]`).closest('.form-group').find('.invalid-feedback');
+            let password  = $(`[name="password"]`).val();
+            let element   = $(`[name="password"]`);
+            let validated = element.hasClass('validated');
+
+            let errors = [];
+            if (password.length < 8) {
+                errors.push("Your password must be at least 8 characters"); 
+            }
+
+            if (password.search(/.*[a-z].*/) < 0) {
+                errors.push("Your password must contain at least one lower letter.");
+            }
+
+            if (password.search(/.*[A-Z].*/) < 0) {
+                errors.push("Your password must contain at least one upper letter.");
+            }
+
+            if (password.search(/[0-9]/) < 0) {
+                errors.push("Your password must contain at least one digit."); 
+            }
+            console.log(errors);
+            if (errors.length) {
+                validated ? element.removeClass("is-valid").removeClass("no-error").addClass("is-invalid").addClass('has-error') : element.removeClass("is-valid").removeClass("no-error").removeClass("is-invalid").removeClass("has-error");
+                invalid.text(errors[0]);
+                return false;
+            } else {
+                validated ? element.removeClass("is-invalid").removeClass("has-error").addClass("is-valid").addClass("no-error") : element.removeClass("is-invalid").removeClass('has-error').removeClass("is-valid").removeClass("no-error");
+                invalid.text('');
+                return true;
+            }
+        }
+
+        function comparePassword() {
+            let password  = $(`[name="password"]`).val();
+            let compare   = $(`[name="confirmPassword"]`).val();
+            let invalid   = $(`[name="confirmPassword"]`).closest('.form-group').find('.invalid-feedback');
+            let element   = $(`[name="confirmPassword"]`);
+            let validated = element.hasClass('validated');
+
+            if (password == compare) {
+                validated ? element.removeClass("is-invalid").removeClass("has-error").addClass("is-valid").addClass("no-error") : element.removeClass("is-invalid").removeClass('has-error').removeClass("is-valid").removeClass("no-error");
+                invalid.text('');
+                return true;
+            } else {
+                validated ? element.removeClass("is-valid").removeClass("no-error").addClass("is-invalid").addClass('has-error') : element.removeClass("is-valid").removeClass("no-error").removeClass("is-invalid").removeClass("has-error");
+                invalid.text('Password not match');
+                return false;
+            }
+        }
+        // ----- END VALIDATE PASSWORD -----
+
+
+        // ----- KEYUP -----
+        $(document).on('keyup', `[name="password"]`, function() {
+            validatePassword();
+        })
+
+        $(document).on('keyup', `[name="confirmPassword"]`, function() {
+            comparePassword();
+        })
+        // ----- END KEYUP -----
+
+
         // ----- BUTTON ADD -----
         $(document).on("click", "#btnAdd", function() {
             let html = formContent();
-            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-lg");
+            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(html);
             $("#modal .page-title").text("ADD PATIENT");
             $("#modal").modal('show');
@@ -502,7 +604,7 @@
             let patientID = $(this).attr("patientID");
             let data = getTableData(`patients WHERE patient_id = ${patientID}`);
 
-            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-lg");
+            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
             $("#modal_content").html(preloader);
             $("#modal .page-title").text("EDIT PATIENT");
             $("#modal").modal('show');
@@ -586,22 +688,25 @@
             let validate       = validateForm("modal");
             let checkPatientID = validatePatientID(patientID, patientCode);
             let checkEmail     = validateEmail(patientID, $(`[name="email"]`).val()?.trim());
+            let checkPassword  = validatePassword() && comparePassword();
 
-            if (checkEmail) {
-                if (validate && checkPatientID) {
-                    $("#modal").modal("hide");
-
-                    let data = getFormData("modal");
-                        data["tableName"] = "patients";
-                        data["feedback"]  = $(`[name="patient_code"]`).val();
-                        data["method"]    = "add";
-        
-                    sweetAlertConfirmation("add", "Patient", "modal", null, data, true, refreshTableContent);
+            if (checkPassword) {
+                if (checkEmail) {
+                    if (validate && checkPatientID) {
+                        $("#modal").modal("hide");
+    
+                        let data = getFormData("modal");
+                            data["tableName"] = "patients";
+                            data["feedback"]  = $(`[name="patient_code"]`).val();
+                            data["method"]    = "add";
+                        delete data.tableData['confirmPassword'];
+            
+                        sweetAlertConfirmation("add", "Patient", "modal", null, data, true, refreshTableContent);
+                    }
+                } else {
+                    showNotification("danger", "Email is already exists!");
                 }
-            } else {
-                showNotification("danger", "Email is already exists!");
             }
-
             
         })
         // ----- END BUTTON SAVE -----
@@ -615,22 +720,27 @@
             let validate       = validateForm("modal");
             let checkPatientID = validatePatientID(patientID, patientCode);
             let checkEmail     = validateEmail(patientID, $(`[name="email"]`).val()?.trim());
-            
-            if (checkEmail) {
-                if (validate && checkPatientID) {
-                    $("#modal").modal("hide");
-    
-                    let data = getFormData("modal");
-                        data["tableName"]   = "patients";
-                        data["feedback"]    = $(`[name="patient_code"]`).val();
-                        data["method"]      = "update";
-                        data["whereFilter"] = `patient_id=${patientID}`;
+            let checkPassword  = validatePassword() && comparePassword();
+
+            if (checkPassword) {
+                if (checkEmail) {
+                    if (validate && checkPatientID) {
+                        $("#modal").modal("hide");
         
-                    sweetAlertConfirmation("update", "Patient", "modal", null, data, true, refreshTableContent);
+                        let data = getFormData("modal");
+                            data["tableName"]   = "patients";
+                            data["feedback"]    = $(`[name="patient_code"]`).val();
+                            data["method"]      = "update";
+                            data["whereFilter"] = `patient_id=${patientID}`;
+                        delete data.tableData['confirmPassword'];
+            
+                        sweetAlertConfirmation("update", "Patient", "modal", null, data, true, refreshTableContent);
+                    }
+                } else {
+                    showNotification("danger", "Email is already exists!");
                 }
-            } else {
-                showNotification("danger", "Email is already exists!");
             }
+            
         })
         // ----- END BUTTON SAVE -----
         
