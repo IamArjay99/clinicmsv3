@@ -103,7 +103,6 @@
 
 <script>
 
-
     $(document).ready(function() {
 
         // ----- GLOBAL VARIABLE -----
@@ -116,6 +115,34 @@
             `patient_id, CONCAT(firstname, ' ', lastname) AS fullname, pt.name AS occupationType`
         );
         // ----- END GLOBAL VARIABLE -----
+
+
+        // ----- DATATABLES -----
+        function initDataTables() {
+            if ($.fn.DataTable.isDataTable("#tablePatient")) {
+                $("#tablePatient").DataTable().destroy();
+            }
+            
+            var table = $("#tablePatient")
+                .css({ "min-width": "100%" })
+                .removeAttr("width")
+                .DataTable({
+                    proccessing:    false,
+                    serverSide:     false,
+                    scrollX: true,
+                    scrollY: 400,
+                    sorting: [],
+                    scrollCollapse: true,
+                    paging: false,
+                    sorting: false,
+                    columnDefs: [
+                        { targets: 0, width: '100%'  },
+                    ],
+                });
+
+            $(`[type="search"]`).closest('.row').find(`.col-md-6`).first().remove()
+        }
+        // ----- END DATATABLES -----
 
 
         // ----- PATIENT LIST -----
@@ -183,7 +210,7 @@
             let html = `
             <div class="row" id="messageDisplay">
                 <div class="col-md-3 col-sm-12">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="tablePatient">
                         <thead>
                             <tr>
                                 <th>Patients</th>
@@ -204,6 +231,7 @@
 
             setTimeout(() => {
                 $("#pageContent").html(html);
+                initDataTables();
             }, 100);
         }
         pageContent();

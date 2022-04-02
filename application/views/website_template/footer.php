@@ -311,15 +311,22 @@
 <script>
 
     $(document).ready(function(){
+        
         let content     = loginContent();
         let sessionID   = $("body").attr("sessionid");
-        let yearList    = getTableData(`years WHERE is_deleted = 0`);
+
         // ----- GLOBAL VARIABLES -----
+        let yearList        = getTableData(`years WHERE is_deleted = 0`);
         let courseList      = getTableData(`courses WHERE is_deleted = 0`);
         let patientTypeList = getTableData('patient_type WHERE is_deleted = 0');
         let patientList     = getTableData(`patients WHERE is_deleted = 0`);
         let serviceList     = getTableData(`services WHERE is_deleted = 0`);
+        let patientIDList   = [];
+        patientList.map(i => {
+            patientIDList.push({patient_id: i.patient_id, patient_code: i.patient_code})
+        })
         // ----- END GLOBAL VARIABLES -----
+
         $(document).on("click",".login",function(){
             $(".modal").modal("hide");
             $(".modal-dialog").removeClass("modal-lg").addClass("modal-md");
@@ -335,7 +342,7 @@
             $(".modal-dialog").removeClass("modal-md").addClass("modal-lg");
             let content = registerContent();
 
-            $(".modal-title").text("SIGN UP");
+            $(".modal-title").text("REGISTER");
             $(".modal-body").html(content);
             $(`[name="patient_code"]`).inputmask({
                     mask:        "99-9999",
@@ -343,6 +350,7 @@
             });
             setTimeout(() => {
                 $(".modal").modal("show");
+                generateInputsID("#modal");
             }, 120);
         });
 
@@ -369,210 +377,342 @@
             return html;
         }
 
+        // ----- REGISTER -----
         function registerContent(){
-        
-                let html = `
-                <div class="row p-3">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Patient ID <code>*</code></label>
-                            <input type="text" 
-                                class="form-control validate inputmask"
-                                name="patient_code"
-                                minlength="2"
-                                maxlength="20"
-                                data-inputmask-alias="99-9999"
-                                value=""
-                                required>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
+
+            let html = `
+            <div class="row p-3">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Patient ID <code>*</code></label>
+                        <input type="text" 
+                            class="form-control validate inputmask"
+                            name="patient_code"
+                            minlength="2"
+                            maxlength="20"
+                            data-inputmask-alias="99-9999"
+                            required>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-12"></div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>First Name <code>*</code></label>
-                            <input type="text" 
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>First Name <code>*</code></label>
+                        <input type="text" 
+                            class="form-control validate"
+                            name="firstname"
+                            minlength="2"
+                            maxlength="20"
+                            required>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Middle Name</label>
+                        <input type="text" 
+                            class="form-control validate"
+                            name="middlename"
+                            minlength="2"
+                            maxlength="20">
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Last Name <code>*</code></label>
+                        <input type="text" 
+                            class="form-control validate"
+                            name="lastname"
+                            minlength="2"
+                            maxlength="20"
+                            required>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Suffix</label>
+                        <select class="form-control validate"
+                            name="suffix">
+                            <option value="" selected>Select suffix</option>    
+                            <option value="Jr.">Jr.</option>
+                            <option value="Sr.">Sr.</option>
+                            <option value="I"  >I</option>
+                            <option value="II" >II</option>
+                            <option value="III">III</option>
+                            <option value="IV" >IV</option>
+                            <option value="V"  >V</option>
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label>Email <code>*</code></label>
+                        <input type="text" 
+                            class="form-control validate"
+                            name="email"
+                            minlength="2"
+                            maxlength="50"
+                            required>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Password <code>*</code></label>
+                        <div class="input-group">
+                            <input type="password" 
                                 class="form-control validate"
-                                name="firstname"
-                                id="firstname"
-                                minlength="2"
-                                maxlength="20"
-                                value=""
-                                required>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Middle Name</label>
-                            <input type="text" 
-                                class="form-control validate"
-                                name="middlename"
-                                id="middlename"
-                                minlength="2"
-                                maxlength="20"
-                                value="">
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Last Name <code>*</code></label>
-                            <input type="text" 
-                                class="form-control validate"
-                                name="lastname"
-                                id="lastname"
-                                minlength="2"
-                                maxlength="20"
-                                value=""
-                                required>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Suffix</label>
-                            <select class="form-control validate"
-                                name="suffix" id="suffix">
-                                <option value="" selected>Select suffix</option>    
-                                <option value="Jr.">Jr.</option>
-                                <option value="Sr.">Sr.</option>
-                                <option value="I" >I</option>
-                                <option value="II" >II</option>
-                                <option value="III" >III</option>
-                                <option value="IV"  >IV</option>
-                                <option value="V" >V</option>
-                            </select>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <div class="form-group">
-                            <label>Email <code>*</code></label>
-                            <input type="text" 
-                                class="form-control validate"
-                                name="email"
-                                id="email"
+                                name="password"
                                 minlength="2"
                                 maxlength="50"
-                                value=""
+                                style="border-right: none;"
                                 required>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <div class="form-group">
-                            <label>Password <code>*</code></label>
-
-                            <div class="input-group">
-                                <input type="password" 
-                                    class="form-control validate"
-                                    name="password"
-                                    minlength="2"
-                                    maxlength="50"
-                                    value=""
-                                    id="password"
-                                    required>
+                            <div class="input-group-append">
+                                <span class="input-group-text"
+                                    style="background: rgb(0 0 0 / 0%); border-left: none; height: 100%;">
+                                    <i class="fas fa-eye" style="cursor: pointer;" display="true"
+                                        onClick="
+                                            let element = document.querySelector('[name=password]');
+                                            let display = this.getAttribute('display') == 'true';
+                                            let classes = display ? 'fas fa-eye-slash' : 'fas fa-eye';
+                                            this.classList = classes;
+                                            this.setAttribute('display', display ? 'false' : 'true');
+                                            element.setAttribute('type', display ? 'text' : 'password');
+                                        "></i>
+                                </span>
                             </div>
-
-                            
-                            <div class="d-block invalid-feedback"></div>
                         </div>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-md-2 col-sm-12">
-                        <div class="form-group">
-                            <label>Age <code>*</code></label>
-                            <input type="number" 
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label>Confirm Password <code>*</code></label>
+                        <div class="input-group">
+                            <input type="password" 
                                 class="form-control validate"
-                                name="age"
-                                min="1"
+                                name="confirmPassword"
                                 minlength="2"
                                 maxlength="50"
-                                value=""
-                                id="age"
+                                style="border-right: none;"
                                 required>
-                            <div class="d-block invalid-feedback"></div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"
+                                    style="background: rgb(0 0 0 / 0%); border-left: none; height: 100%;">
+                                    <i class="fas fa-eye" style="cursor: pointer;" display="true"
+                                        onClick="
+                                            let element = document.querySelector('[name=confirmPassword]');
+                                            let display = this.getAttribute('display') == 'true';
+                                            let classes = display ? 'fas fa-eye-slash' : 'fas fa-eye';
+                                            this.classList = classes;
+                                            this.setAttribute('display', display ? 'false' : 'true');
+                                            element.setAttribute('type', display ? 'text' : 'password');
+                                        "></i>
+                                </span>
+                            </div>
                         </div>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-md-2 col-sm-12">
-                        <div class="form-group">
-                            <label>Gender <code>*</code></label>
-                            <select class="form-control validate"
-                                name="gender" id="gender"
-                                required>
-                                <option value="" selected>Select gender</option>    
-                                <option value="Male"  >Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Others">Others</option>
-                            </select>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Age <code>*</code></label>
+                        <input type="number" 
+                            class="form-control validate"
+                            name="age"
+                            min="1"
+                            minlength="2"
+                            maxlength="50"
+                            required>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Patient Type <code>*</code></label>
-                            <select class="form-control validate"
-                                name="patient_type_id" id="patient_type_id"
-                                required>
-                                ${getPatientTypeOptionDisplay()}
-                            </select>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Gender <code>*</code></label>
+                        <select class="form-control validate"
+                            name="gender"
+                            required>
+                            <option value="" selected>Select gender</option>    
+                            <option value="Male"  >Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Course</label>
-                            <select class="form-control validate"
-                                name="course_id" id="course_id">
-                                ${getCourseOptionDisplay()}
-                            </select>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Occupation Type <code>*</code></label>
+                        <select class="form-control validate"
+                            name="patient_type_id"
+                            required>
+                            ${getPatientTypeOptionDisplay()}
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Year</label>
-                            <select class="form-control validate"
-                                name="year_id">
-                                ${getYearOptionDisplay()}
-                            </select>
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Course</label>
+                        <select class="form-control validate"
+                            name="course_id"
+                            disabled>
+                        ${getCourseOptionDisplay()}
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-group">
-                            <label>Section</label>
-                            <input type="text" 
-                                class="form-control validate"
-                                name="section"
-                                minlength="1"
-                                maxlength="50"
-                                value="" >
-                            <div class="d-block invalid-feedback"></div>
-                        </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Year</label>
+                        <select class="form-control validate"
+                            name="year_id"
+                            disabled>
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                    <div class="col-12">
-                        <button type="submit" class="button button-contactForm boxed-btn w-100 py-2" id="btnSave">Save</button>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Section</label>
+                        <input type="text" 
+                            class="form-control validate"
+                            name="section"
+                            minlength="1"
+                            maxlength="50"
+                            disabled>
+                        <div class="d-block invalid-feedback"></div>
                     </div>
-                </div>`;
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button style="
+                    background: green;
+                    color: white;
+                    padding: 5px 30px;
+                    border-radius: 5px;
+                    outline: none;
+                    border: 1px solid green;" 
+                    id="btnSave">Save</button>
+            </div>`;
+
             return html;
         }
 
+        function validatePassword() {
+            let invalid   = $(`[name="password"]`).closest('.form-group').find('.invalid-feedback');
+            let password  = $(`[name="password"]`).val();
+            let element   = $(`[name="password"]`);
+            let validated = element.hasClass('validated');
+
+            let errors = [];
+            if (password.length < 8) {
+                errors.push("Your password must be at least 8 characters"); 
+            }
+
+            if (password.search(/.*[a-z].*/) < 0) {
+                errors.push("Your password must contain at least one lower letter.");
+            }
+
+            if (password.search(/.*[A-Z].*/) < 0) {
+                errors.push("Your password must contain at least one upper letter.");
+            }
+
+            if (password.search(/[0-9]/) < 0) {
+                errors.push("Your password must contain at least one digit."); 
+            }
+
+            if (errors.length) {
+                validated ? element.removeClass("is-valid").removeClass("no-error").addClass("is-invalid").addClass('has-error') : element.removeClass("is-valid").removeClass("no-error").removeClass("is-invalid").removeClass("has-error");
+                invalid.text(errors[0]);
+                return false;
+            } else {
+                validated ? element.removeClass("is-invalid").removeClass("has-error").addClass("is-valid").addClass("no-error") : element.removeClass("is-invalid").removeClass('has-error').removeClass("is-valid").removeClass("no-error");
+                invalid.text('');
+                return true;
+            }
+        }
+
+        function comparePassword() {
+            let password  = $(`[name="password"]`).val();
+            let compare   = $(`[name="confirmPassword"]`).val();
+            let invalid   = $(`[name="confirmPassword"]`).closest('.form-group').find('.invalid-feedback');
+            let element   = $(`[name="confirmPassword"]`);
+            let validated = element.hasClass('validated');
+
+            if (password == compare) {
+                validated ? element.removeClass("is-invalid").removeClass("has-error").addClass("is-valid").addClass("no-error") : element.removeClass("is-invalid").removeClass('has-error').removeClass("is-valid").removeClass("no-error");
+                invalid.text('');
+                return true;
+            } else {
+                validated ? element.removeClass("is-valid").removeClass("no-error").addClass("is-invalid").addClass('has-error') : element.removeClass("is-valid").removeClass("no-error").removeClass("is-invalid").removeClass("has-error");
+                invalid.text('Password not match');
+                return false;
+            }
+        }
+
+        $(document).on('keyup', `[name="password"]`, function() {
+            validatePassword();
+        })
+
+        $(document).on('keyup', `[name="confirmPassword"]`, function() {
+            comparePassword();
+        })
+
+        function validateEmail(patientID = 0, email = '') {
+            return patientID ? !patientList.filter(p => p.email == email && p.patient_id != patientID).length : !patientList.filter(p => p.email == email).length;
+        }
+
+        // ----- VALIDATE PATIENT ID -----
+        function validatePatientID(patientID = 0, patientCode = '') {
+            let arr = patientIDList.filter(id => id.patient_id != patientID && id.patient_code == patientCode);
+            let flag = arr.length ? false : true;
+            if (!flag) {
+                showNotification('danger', 'Patient ID is already exists!');
+            }
+            return flag;
+        }
+        // ----- END VALIDATE PATIENT ID -----
+
         $(document).on("click", `#btnSave`, function() {
-                
-                let validate = validateForm("modal");
-                if (validate) {
-                    $("#modal").modal("hide");
+            let patientCode = $(`[name="patient_code"]`).val();
+            
+            let validate       = validateForm("modal");
+            let checkPatientID = validatePatientID(0, patientCode);
+            let checkEmail     = validateEmail(0, $(`[name="email"]`).val()?.trim());
+            let checkPassword  = validatePassword() && comparePassword();
 
-                    let data = getFormData("modal");
-                        data["tableName"] = "patients";
-                        data["feedback"]  = $(`[name="patient_code"]`).val();
-                        data["method"]    = "add";
-                        data["year"]
-
-                    sweetAlertConfirmation("add", "Patient", "modal", null, data, true);
+            if (checkPassword) {
+                if (checkEmail) {
+                    if (validate && checkPatientID) {
+                        $("#modal").modal("hide");
+    
+                        let data = getFormData("modal");
+                            data["tableName"] = "patients";
+                            data["feedback"]  = $(`[name="patient_code"]`).val();
+                            data["method"]    = "add";
+                            data['tableData[is_verified]'] = '0';
+                        delete data.tableData['confirmPassword'];
+            
+                        sweetAlertConfirmation("add", "Patient", "modal", null, data, true);
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Error!",
+                        text: "Email already exists!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
+            }
         });
+        // ----- END REGISTER -----
+
 
 
     
@@ -774,38 +914,39 @@
 
 
         // ----- CHANGE PATIENT TYPE -----
-            $(document).on("change", `[name="patient_type_id"]`, function() {
-                let patientType = $(this).val();
+        $(document).on("change", `[name="patient_type_id"]`, function() {
+            let patientType = $(this).val();
 
-                $(`[name="course_id"]`).val('').trigger('change');
-                $(`[name="year_id"]`).val('').trigger('change');
-                $(`[name="section"]`).val('');
+            $(`[name="course_id"]`).val('').trigger('change');
+            $(`[name="year_id"]`).val('').trigger('change');
+            $(`[name="section"]`).val('');
 
-                if (patientType && patientType == 2) {
-                    $(`[name="course_id"]`).removeAttr("disabled").attr("required", true);
-                    $(`[name="year_id"]`).removeAttr("disabled").attr("required", true);
-                    $(`[name="section"]`).removeAttr("disabled").attr("required", true);
-                } else {
-                    $(`[name="course_id"]`).attr("disabled", true);
-                    $(`[name="year_id"]`).attr("disabled", true);
-                    $(`[name="section"]`).attr("disabled", true);
-                    $(`[name="course_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
-                    $(`[name="year_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
-                    $(`[name="section"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
-                    $(`[name="course_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
-                    $(`[name="year_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
-                    $(`[name="section"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
-                }
-            })
-            // ----- END CHANGE PATIENT TYPE -----
+            if (patientType && patientType == 2) {
+                $(`[name="course_id"]`).removeAttr("disabled").attr("required", true);
+                $(`[name="year_id"]`).removeAttr("disabled").attr("required", true);
+                $(`[name="section"]`).removeAttr("disabled").attr("required", true);
+            } else {
+                $(`[name="course_id"]`).attr("disabled", true);
+                $(`[name="year_id"]`).attr("disabled", true);
+                $(`[name="section"]`).attr("disabled", true);
+                $(`[name="course_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="year_id"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="section"]`).removeClass("is-valid").removeClass("is-invalid").removeClass("no-error").removeClass("has-error");
+                $(`[name="course_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                $(`[name="year_id"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+                $(`[name="section"]`).closest(`.form-group`).find(`.invalid-feedback`).text('');
+            }
+        })
+        // ----- END CHANGE PATIENT TYPE -----
 
-            // ----- CHANGE COURSE -----
-            $(document).on("change", `[name="course_id"]`, function() {
-                let courseID = $(this).val();
-                let options  = getYearOptionDisplay(courseID);
-                $(`[name="year_id"]`).html(options);
-            })
-            // ----- END CHANGE COURSE -----
+
+        // ----- CHANGE COURSE -----
+        $(document).on("change", `[name="course_id"]`, function() {
+            let courseID = $(this).val();
+            let options  = getYearOptionDisplay(courseID);
+            $(`[name="year_id"]`).html(options);
+        })
+        // ----- END CHANGE COURSE -----
 
 
     });

@@ -1,0 +1,11 @@
+ALTER TABLE `monitoring_form_items` 
+    ADD COLUMN `temperature` VARCHAR(45) NULL AFTER `time`,
+    ADD COLUMN `pulse_rate` VARCHAR(45) NULL AFTER `temperature`,
+    ADD COLUMN `respiratory_rate` VARCHAR(45) NULL AFTER `pulse_rate`,
+    ADD COLUMN `blood_pressure` VARCHAR(45) NULL AFTER `respiratory_rate`,
+    ADD COLUMN `random_blood_sugar` VARCHAR(45) NULL AFTER `blood_pressure`,
+    ADD COLUMN `referral` TEXT NULL AFTER `random_blood_sugar`;
+ALTER TABLE `clinic_appointments` 
+    ADD COLUMN `appointment_status` INT NULL DEFAULT 1 AFTER `date_appointment`;
+ALTER TABLE `patients` 
+    ADD COLUMN `is_verified` INT NULL DEFAULT 1 AFTER `section`;

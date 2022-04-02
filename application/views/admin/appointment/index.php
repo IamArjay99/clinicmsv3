@@ -81,6 +81,7 @@
                     p_lastname            = "",
                     p_suffix              = "",
                     s_name                = "",
+                    appointment_status    = "",
                 } = item;
 
                 const statusStyle = (is_done = 0) => {
@@ -93,6 +94,16 @@
                     }
                 }
 
+                const statusStyle2 = (appointment_status = 0) => {
+                    if (appointment_status == 2) {
+                        return `<div class="badge badge-danger">Rejected</div>`;
+                    } else if (appointment_status == 1) {
+                        return `<div class="badge badge-success">Accepted</div>`;
+                    } else {
+                        return `<div class="badge badge-warning">Pending</div>`;
+                    }
+                }
+
                 tbodyHTML += `
                 <tr>
                     <td>${index+1}</td>
@@ -100,6 +111,7 @@
                     <td>${s_name}</td>
                     <td>${date_appointment ? moment(date_appointment).format("MMMM DD, YYYY") : "-"}</td>
                     <td>${purpose}</td>
+                    <td>${statusStyle2(appointment_status)}</td>
                     <td>${statusStyle(is_done)}</td>
                     <td>
                         <div class="text-center">
@@ -121,7 +133,8 @@
                         <th class="thSm">Appointment Type</th>
                         <th class="thSm">Date Appointment</th>
                         <th class="thMd">Purpose</th>
-                        <th class="thXs">Status</th>
+                        <th class="thXs">Appointment Status</th>
+                        <th class="thXs">Service Status</th>
                         <th class="thSm">Action</th>
                     </tr>
                 </thead>
@@ -224,6 +237,7 @@
                 service_id            = "",
                 purpose               = "",
                 is_done               = "",
+                appointment_status    = "",
                 date_appointment      = "",
             } = data && data[0];
 
@@ -285,7 +299,20 @@
                 </div>
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label>Status</label>
+                        <label>Appointment Status</label>
+                        <select class="form-control validate"
+                            name="appointment_status"
+                            required>
+                            <option value="" selected>Select appointment status</option>
+                            <option value="1" ${appointment_status == 1 ? "selected" : ""}>Accepted</option>
+                            <option value="2" ${appointment_status == 2 ? "selected" : ""}>Rejected</option>
+                        </select>
+                        <div class="d-block invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label>Service Status</label>
                         <select class="form-control validate"
                             name="is_done"
                             required>

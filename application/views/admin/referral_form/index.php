@@ -1,4 +1,6 @@
-<div class="content-wrapper">
+<div class="content-wrapper"
+    id="content-wrapper"
+    patientID="<?= isset($_GET['patient_id']) ? $_GET['patient_id'] : 'false' ?>">
 
     <div class="row">
         <div class="col-12 grid-margin">
@@ -24,6 +26,8 @@
 
 
     $(document).ready(function() {
+        let issetPatientID = $('#content-wrapper').attr("patientID");
+        let hasPatientID   = issetPatientID != 'false';
 
         // ----- GLOBAL VARIABLES -----
         let patientList = getTableData(
@@ -167,6 +171,11 @@
             setTimeout(() => {
                 $("#pageContent").html(html);
                 initDataTables();
+
+                if (hasPatientID) {
+                    $("#btnAdd").trigger('click');
+                    $(`[name="patient_id"]`).val(issetPatientID).trigger('change');
+                }
             }, 100);
         }
         pageContent();

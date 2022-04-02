@@ -394,6 +394,6 @@ $(document).on("keypress", `[type="number"]`, function(e) {
 // ----- NOT NUMBER -----
 $(document).on("keypress", `[name="firstname"], [name="middlename"], [name="lastname"]`, function(e) {
 	let key = e.which;
-	if(key >= 48 && key <= 57) e.preventDefault();
+	if(!((key >= 65 && key <= 90) || (key >= 97 && key <= 122) || key == 32)) e.preventDefault();
 })
 // ----- END NOT NUMBER -----

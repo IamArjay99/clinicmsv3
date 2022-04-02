@@ -2,13 +2,52 @@
 <?php 
     $sessionID = !$this->session->has_userdata('patientID') ? false : $this->session->userdata('patientID'); 
     $hasMonitoring = false;
+    $appointment = '';
     if ($sessionID) {
         $sql = "SELECT * FROM monitoring_forms WHERE patient_id = $sessionID AND status = 0";
         $query = $this->db->query($sql);
         $hasMonitoring = $query ? ($query->num_rows() ? true : false) : false;
+
+        $appointmentSql = "
+        SELECT 
+            ca.*,
+            CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname,
+            s.name AS s_name
+        FROM clinic_appointments AS ca 
+            LEFT JOIN patients AS p USING(patient_id)
+            LEFT JOIN services AS s USING(service_id) 
+        WHERE ca.patient_id = $sessionID 
+            AND ca.is_deleted = 0
+        ORDER BY date_appointment DESC";
+        $appointmentQuery = $this->db->query($appointmentSql);
+        $appointmentResult = $appointmentQuery ? $appointmentQuery->result_array() : [];
+        if ($appointmentResult && count($appointmentResult)) {
+            foreach ($appointmentResult as $i => $x) {
+                if ($x['appointment_status'] == '2') {
+                    $status = '<div class="badge badge-warning" style="background: red;">Rejected</div>';
+                } else if ($x['appointment_status'] == '1') {
+                    $status = '<div class="badge badge-success" style="background: green;">Done</div>';
+                } else {
+                    $status = '<div class="badge badge-danger" style="background: yellow;">Pending</div>';
+                }
+    
+                $appointment .= "
+                <tr>
+                    <td>". ($i+1) ."</td>
+                    <td>". $x['fullname'] ."</td>
+                    <td>". $x['s_name'] ."</td>
+                    <td>". date('F d, Y', strtotime($x['date_appointment'])) ."</td>
+                    <td>". $x['purpose'] ."</td>
+                    <td>". $status ."</td>  
+                </tr>";
+            }
+        }
     }
 
     $btnAdd = $hasMonitoring ? '<button class="btn btn-success p-3 btnAddMonitoring" id="btnAddMonitoring">Add Monitoring</button>' : '';
+
+
+
 ?>
 
 <main>
@@ -42,7 +81,29 @@
                     <h4 class="mb-0">Monitoring</h4>
                     <?= $btnAdd ?>
                 </div>
-                <div class="card-body" id="pageContent">
+                <div class="card-body" id="monitoringContent">
+                </div>
+            </div>
+            <div class="card mt-5">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Appointment</h4>
+                </div>
+                <div class="card-body" id="appointmentContent">
+                    <table class="table table-hover table-bordered" id="tableClinicAppointment">
+                        <thead>
+                            <tr class="text-center">
+                                <th class="thXs">#</th>
+                                <th class="thSm">Full Name</th>
+                                <th class="thSm">Appointment Type</th>
+                                <th class="thSm">Date Appointment</th>
+                                <th class="thMd">Purpose</th>
+                                <th class="thXs">Appointment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableClinicAppointmentTbody">
+                            <?= $appointment ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -298,8 +359,8 @@
 
 
         // ----- PAGE CONTENT -----
-        function pageContent() {
-            !document.getElementsByClassName("jumping-dots-loader").length && $("#pageContent").html(preloader);
+        function monitoringContent() {
+            !document.getElementsByClassName("jumping-dots-loader").length && $("#monitoringContent").html(preloader);
 
             let html = `
             <div class="row">
@@ -307,11 +368,11 @@
             </div>`;
 
             setTimeout(() => {
-                $("#pageContent").html(html);
+                $("#monitoringContent").html(html);
                 initDataTables();
             }, 100);
         }
-        pageContent();
+        monitoringContent();
         // ----- END PAGE CONTENT -----
 
 

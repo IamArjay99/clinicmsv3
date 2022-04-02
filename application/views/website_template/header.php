@@ -60,7 +60,7 @@
 </li>
 
 <?php if($sessionID ):?>
-    <li><a href="<?= base_url("monitoring")?>">Monitoring</a></li>
+    <li><a href="<?= base_url("forms")?>">Forms</a></li>
     <li><a href="<?= base_url("login/logoutWebsite")?>">Logout</a></li>
     <li class="header-right-btn"><a href="#" class="header-btn make-appointment">Make Appointment</a> </li>
 <?php else:?>

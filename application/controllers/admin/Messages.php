@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Manila');
 
 class Messages extends CI_Controller {
 
@@ -25,7 +26,8 @@ class Messages extends CI_Controller {
         $data = [
             "is_admin"   => $isAdmin,
             "patient_id" => $patientID,
-            "message"    => $message
+            "message"    => $message,
+            "created_at" => date("Y-m-d H:i:s"),
         ];
         $sendMessage = $this->messages->sendMessage($data);
         $updateConversation = $this->messages->updateConversation($isAdmin, $patientID);

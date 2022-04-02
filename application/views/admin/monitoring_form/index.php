@@ -43,11 +43,11 @@
 
         // ----- DATATABLES -----
         function initDataTables() {
-            if ($.fn.DataTable.isDataTable("#tableMonitoringForm")) {
-                $("#tableMonitoringForm").DataTable().destroy();
+            if ($.fn.DataTable.isDataTable("#tableMonitoringRecord")) {
+                $("#tableMonitoringRecord").DataTable().destroy();
             }
-            
-            var table = $("#tableMonitoringForm")
+
+            var table = $("#tableMonitoringRecord")
                 .css({ "min-width": "100%" })
                 .removeAttr("width")
                 .DataTable({
@@ -56,16 +56,13 @@
                     scrollX:        true,
                     sorting:        [],
                     scrollCollapse: true,
-                    columnDefs: [	
-                        { targets: 0, width: "50px"  },		
-                        { targets: 1, width: "200px" },		
-                        { targets: 2, width: "100px" },		
-                        { targets: 3, width: "110px" },		
-                        { targets: 4, width: "200px" },		
-                        { targets: 5, width: "200px" },		
-                        { targets: 6, width: "200px" },		
-                        { targets: 7, width: "100px" },		
-                        { targets: 8, width: "100px" },		
+                    columnDefs: [
+                        { targets: 0, width: "50px"  },	
+                        { targets: 1, width: "150px" },	
+                        { targets: 2, width: "100px" },	
+                        { targets: 3, width: "100px" },	
+                        { targets: 4, width: "100px" },	
+                        { targets: 5, width: "100px" },	
                     ],
                 });
         }
@@ -74,148 +71,60 @@
 
         // ----- TABLE CONTENT -----
         function tableContent(patientID = 0) {
+            let data = getTableData(
+                `monitoring_forms AS mf
+                    LEFT JOIN patients AS p USING(patient_id)
+                    LEFT JOIN patient_type AS pt ON p.patient_type_id = pt.patient_type_id
+                WHERE p.is_deleted = 0
+                    AND mf.status = 0`,
+                `mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname, pt.name AS patient_type_name`);
 
             let tbodyHTML = '';
-            let data = getTableData(
-                `monitoring_form_items AS mf
-                    LEFT JOIN patients USING(patient_id) 
-                WHERE mf.is_deleted = 0 ${patientID && patientID != 0 ? `AND mf.patient_id = ${patientID}` : ""}
-                ORDER BY mf.created_at DESC`,
-                `mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS patient_name`);
-            data.map((item, index) => {
-                let {
-                    patient_name       = "",
-                    monitoring_form_item_id = "",
-                    patient_id         = "",
-                    date               = "",
-                    time               = "",
-                    patient_case       = "",
-                    activity           = "",
-                    medicine_taken     = "",
-                    status             = "",
-                    is_deleted         = "",
-                    created_at         = "",
-                    updated_at         = "",
-                } = item;
+            if (data && data.length) {
+                data.map((item, index) => {
 
-                let statusDisplay = (status = 0) => {
-                    if (status == 0)      return `<span class="badge badge-danger">Serious/Bad</span>`;
-                    else if (status == 1) return `<span class="badge badge-primary">Fair</span>`;
-                    else                  return `<span class="badge badge-success">Good</span>`;
-                }
+                    let statusDisplay = (status = 0) => {
+                        if (status == 0)      return `<span class="badge badge-primary">Ongoing</span>`;
+                        else if (status == 1) return `<span class="badge badge-success">Done</span>`;
+                        else                  return `<span class="badge badge-danger">Cancelled</span>`;
+                    }
 
-                tbodyHTML += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${patient_name}</td>
-                    <td>${date ? moment(date).format("MMMM DD, YYYY") : "-"}</td>
-                    <td>${time ? moment("2021-01-01 " + time).format("hh:mm A") : "-"}</td>
-                    <td>${patient_case}</td>
-                    <td>${activity}</td>
-                    <td>${medicine_taken}</td>
-                    <td>${statusDisplay(status)}</td>
-                    <td>
-                        <div class="text-center">
-                            <button class="btn btn-outline-info btnEdit"
-                                monitoringFormItemID="${monitoring_form_item_id}"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn btn-outline-danger btnDelete"
-                                monitoringFormItemID="${monitoring_form_item_id}"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </td>   
-                </tr>`;
-            });
+                    tbodyHTML += `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td>${item.fullname}</td>
+                        <td>${item.patient_type_name}</td>
+                        <td>${moment(item.created_at).format("MMMM DD, YYYY hh:mm A")}</td>
+                        <td>${statusDisplay(item.status)}</td>
+                        <td class="text-center">
+                            <a href="${base_url}admin/monitoring_form/edit_monitoring?id=${item.monitoring_form_id}"
+                                class="btn btn-outline-secondary">
+                                <i class="fas fa-pencil-alt"></i> Edit    
+                            </a>
+                        </td>
+                    </tr>`;
+                })
+            }
 
             let html = `
-            <table class="table table-hover table-bordered" id="tableMonitoringForm">
+            <table class="table table-bordered table-hover" id="tableMonitoringRecord">
                 <thead>
-                    <tr class="text-center">
+                    <tr>
                         <th>No.</th>
-                        <th>Patient</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Case of Patient</th>
-                        <th>Activity</th>
-                        <th>Medicine Taken</th>
+                        <th>Patient Name</th>
+                        <th>Occupation Type</th>
+                        <th>Date Created</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="tableMonitoringFormTbody">
+                <tbody>
                     ${tbodyHTML}
                 </tbody>
             </table>`;
-
             return html;
         }
         // ----- END TABLE CONTENT -----
-
-
-        // ----- REFRESH TABLE CONTENT -----
-        function refreshTableContent() {
-            $("#tableContent").html(preloader);
-
-            let status           = $(`[name="status"]`).val();
-            let monitoringFormID = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
-            console.log(status, monitoringFormID);
-            if (status == 2) { // GOOD
-                $.ajax({
-                    method: "POST",
-                    url: `<?= base_url('admin/monitoring_form/updateMonitorPatient') ?>`,
-                    data: { monitoringFormID },
-                    async: true,
-                    success: function(data) {}
-                })
-            }
-            
-            setTimeout(() => {
-                let patientID = $(`[name="filterPatient"]`).val();
-                let content = tableContent(patientID);
-                $("#tableContent").html(content);
-                initDataTables();
-            }, 100);
-        }
-        // ----- END REFRESH TABLE CONTENT -----
-
-
-        // ----- PATIENT OPTION DISPLAY -----
-        function getPatientOptionDisplay(patientID = 0, forFilter = false) {
-            let html = '';
-            if (forFilter) {
-                html = `<option value="0" selected>All</option>`;
-                patientList.map(patient => {
-                    let {
-                        patient_id,
-                        fullname,
-                    } = patient;
-
-                    html += `
-                    <option value="${patient_id}"
-                        ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
-                });
-            } else {
-                html = `<option value="" disabled selected>Select patient</option>`;
-                let monitorPatientList = getTableData(
-                    `monitoring_forms AS mf
-                        LEFT JOIN patients AS p USING(patient_id)
-                    WHERE mf.status = 0
-                        AND p.is_deleted = 0`,
-                    `mf.*, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname`
-                );
-                monitorPatientList.map(mp => {
-                    let {
-                        monitoring_form_id,
-                        patient_id,
-                        fullname
-                    } = mp;
-                    html += `
-                    <option value="${patient_id}"
-                        monitoringFormID="${monitoring_form_id}"
-                        ${patientID == patient_id ? "selected" : ""}>${fullname}</option>`;
-                })
-            }
-            return html;
-        }
-        // ----- END PATIENT OPTION DISPLAY -----
 
 
         // ----- PAGE CONTENT -----
@@ -224,23 +133,7 @@
 
             let html = `
             <div class="row">
-                <div class="col-12" id="filterContent">
-                    <div class="row mb-4">
-                        <div class="col-md-4 col-sm-12">
-                            <div class="form-group">
-                                <label>Filter Patient</label>
-                                <select class="form-control"
-                                    name="filterPatient">
-                                    ${getPatientOptionDisplay(0, true)}    
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-sm-12 text-right">
-                            <button class="btn btn-primary"
-                                id="btnAdd"><i class="fas fa-plus"></i> Add Monitoring Form</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-12" id="filterContent"></div>
                 <div class="col-12" id="tableContent">${tableContent()}</div>
             </div>`;
 
@@ -251,229 +144,6 @@
         }
         pageContent();
         // ----- END PAGE CONTENT -----
-
-
-        // ----- FORM CONTENT -----
-        function formContent(data = false, isUpdate = false) {
-            let {
-                monitoring_form_item_id = "",
-                patient_id         = "",
-                date               = "",
-                time               = "",
-                patient_case       = "",
-                activity           = "",
-                medicine_taken     = "",
-                status             = "",
-                is_deleted         = "",
-                created_at         = "",
-                updated_at         = "",
-            } = data && data[0];
-
-            let buttonSaveUpdate = !isUpdate ? `
-            <button class="btn btn-primary" 
-                id="btnSave"
-                monitoringFormItemID="${monitoring_form_item_id}">Save</button>` : `
-            <button class="btn btn-primary" 
-                id="btnUpdate"
-                monitoringFormItemID="${monitoring_form_item_id}">Update</button>`;
-
-            let html = `
-            <div class="row p-3">
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Patient <code>*</code></label>
-                        <select class="form-control"
-                            name="patient_id"
-                            required>
-                            ${getPatientOptionDisplay(patient_id)}    
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label>Date <code>*</code></label>
-                        <input type="date" 
-                            class="form-control validate"
-                            name="date"
-                            value="${date}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label>Time <code>*</code></label>
-                        <input type="time" 
-                            class="form-control validate"
-                            name="time"
-                            value="${time}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Case of Patient <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="patient_case"
-                            minlength="1"
-                            maxlength="250"
-                            value="${patient_case}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Activity (What did you do?) <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="activity"
-                            minlength="1"
-                            maxlength="500"
-                            value="${activity}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Medicine Taken (Please include how many grams) <code>*</code></label>
-                        <input type="text" 
-                            class="form-control validate"
-                            name="medicine_taken"
-                            minlength="1"
-                            maxlength="500"
-                            value="${medicine_taken}"
-                            required>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-sm-12">
-                    <div class="form-group">
-                        <label>Status <code>*</code></label>
-                        <select class="form-control validate"
-                            name="status"
-                            required>
-                            <option value="" selected>Select status</option>    
-                            <option value="0" ${status == "0" ? "selected" : ""}>Serious/Bad</option>     
-                            <option value="1" ${status == "1" ? "selected" : ""}>Fair</option>    
-                            <option value="2" ${status == "2" ? "selected" : ""}>Good</option>    
-                        </select>
-                        <div class="d-block invalid-feedback"></div>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="modal-footer">
-                ${buttonSaveUpdate}
-                <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            </div>`;
-
-            return html;
-        }
-        // ----- END FORM CONTENT -----
-
-
-        // ----- BUTTON ADD -----
-        $(document).on("click", "#btnAdd", function() {
-            let html = formContent();
-            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
-            $("#modal_content").html(html);
-            $("#modal .page-title").text("ADD MONITORING");
-            $("#modal").modal('show');
-            generateInputsID("#modal");
-            initDateRangePicker();
-        });
-        // ----- END BUTTON ADD -----
-
-
-        // ----- BUTTON EDIT -----
-        $(document).on("click", ".btnEdit", function() {
-            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
-            let data = getTableData(`monitoring_form_items WHERE monitoring_form_item_id = ${monitoringFormItemID}`);
-
-            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-md");
-            $("#modal_content").html(preloader);
-            $("#modal .page-title").text("EDIT MONITORING");
-            $("#modal").modal('show');
-
-            setTimeout(() => {
-                let html = formContent(data, true);
-                $("#modal_content").html(html);
-                generateInputsID("#modal");
-                initDateRangePicker();
-            }, 100);
-        });
-        // ----- END BUTTON EDIT -----
-
-
-        // ----- BUTTON SAVE -----
-        $(document).on("click", `#btnSave`, function() {
-            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
-            
-            let validate = validateForm("modal");
-            if (validate) {
-                $("#modal").modal("hide");
-
-                let data = getFormData("modal");
-                    data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
-                    data["tableName"] = "monitoring_form_items";
-                    data["feedback"]  = "Monitoring Form";
-                    data["method"]    = "add";
-    
-                sweetAlertConfirmation("add", "Monitoring Form", "modal", null, data, true, refreshTableContent);
-            }
-        })
-        // ----- END BUTTON SAVE -----
-
-
-        // ----- BUTTON SAVE -----
-        $(document).on("click", `#btnUpdate`, function() {
-            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
-            
-            let validate = validateForm("modal");
-            if (validate) {
-                $("#modal").modal("hide");
-
-                let data = getFormData("modal");
-                    data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
-                    data["tableName"]   = "monitoring_form_items";
-                    data["feedback"]    = "Monitoring Form";
-                    data["method"]      = "update";
-                    data["whereFilter"] = `monitoring_form_item_id=${monitoringFormItemID}`;
-    
-                sweetAlertConfirmation("update", "Monitoring Form", "modal", null, data, true, refreshTableContent);
-            }
-        })
-        // ----- END BUTTON SAVE -----
-        
-
-        // ----- BUTTON DELETE -----
-        $(document).on("click", `.btnDelete`, function() {
-            let monitoringFormItemID = $(this).attr("monitoringFormItemID");
-
-            let data = {
-                tableName: 'monitoring_form_items',
-                tableData: {
-                    is_deleted: 1
-                },
-                whereFilter: `monitoring_form_item_id=${monitoringFormItemID}`,
-                feedback:    "Monitoring Form",
-                method:      "update"
-            }
-            sweetAlertConfirmation("delete", "Monitoring Form", "modal", null, data, true, refreshTableContent);
-        })
-        // ----- END BUTTON DELETE -----
-
-
-        // ----- FILTER PATIENT -----
-        $(document).on('change', `[name="filterPatient"]`, function() {
-            refreshTableContent();
-        })
-        // ----- END FILTER PATIENT -----
 
     })
 
