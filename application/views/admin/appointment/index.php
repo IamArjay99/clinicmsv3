@@ -304,7 +304,7 @@
                             name="appointment_status"
                             required>
                             <option value="" selected>Select appointment status</option>
-                            <option value="1" ${appointment_status == 1 ? "selected" : ""}>Accepted</option>
+                            <option value="1" ${appointment_status == 1 ? "selected" : ""}>Approved</option>
                             <option value="2" ${appointment_status == 2 ? "selected" : ""}>Rejected</option>
                         </select>
                         <div class="d-block invalid-feedback"></div>

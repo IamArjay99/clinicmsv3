@@ -29,12 +29,16 @@ class Login_model extends CI_Model {
             $result = $query ? $query->row() : null;
             if ($result)
             {
-                $patientID = $result->patient_id ?? 0;
-                $this->session->set_userdata('patientID', $patientID);
-                return true;
+                if ($result->is_verified == '1') {
+                    $patientID = $result->patient_id ?? 0;
+                    $this->session->set_userdata('patientID', $patientID);
+                    return true;
+                } else {
+                    return "false|Your account is not yet verified";
+                }
             }
         }
-        return false;
+        return "false|Invalid username or password";
     }
 
 }

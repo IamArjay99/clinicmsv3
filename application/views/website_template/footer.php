@@ -1,23 +1,27 @@
 
-<div class="modal" id="modal" tabindex="-1" role="dialog">
+<div id="modal" class="modal custom-modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-dark">
-        <h5 class="modal-title font-weight-bolder text-white" id="modalTitle">Login</h5>
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+        <h4 class="modal-title font-weight-bolder text-white" id="modalTitle">Login</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            style="background: transparent;
+                outline: none;
+                border: 1px solid gray;
+                border-radius: 50%;">
+            <span class="text-light" aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <form action="" method="POST">
             <div class="row">
                 <div class="col-12 my-2">
                     <label for="username">Username</label>
-                    <input class="form-control valid" name="username" id="username" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username">
+                    <input class="form-control valid validate" name="username" id="username" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username" required>
                 </div>
                 <div class="col-12 my-2">
                     <label for="password">Password</label>
-                    <input class="form-control valid" name="password" id="password" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password">
+                    <input class="form-control valid validate" name="password" id="password" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password" required>
                 </div>
                 <div class="col-12 my-2">
                     <button type="submit" class="button button-contactForm boxed-btn w-100 py-2">Login</button>
@@ -311,6 +315,13 @@
 <script>
 
     $(document).ready(function(){
+
+        // ----- MODAL CLOSE -----
+        $(document).on('click', `[class="close"]`, function() {
+            $('#modal').modal("hide");
+        })
+        // ----- END MODAL CLOSE -----
+
         
         let content     = loginContent();
         let sessionID   = $("body").attr("sessionid");
@@ -355,25 +366,27 @@
         });
 
         function loginContent(){
-            let html = `    <form action="${base_url}login/authenticateWebsite" method="POST">
-                                <div class="row">
-                                    <div class="col-12 my-2">
-                                        <div class="form-group">
-                                            <label for="email">Username</label>
-                                            <input class="form-control valid" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username">
-                                    </div>
-                                    </div>
-                                    <div class="col-12 my-2">
-                                        <div class="form-group">
-                                            <label for="password">Password</label>
-                                            <input class="form-control valid" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 my-2">
-                                        <button type="submit" class="button button-contactForm boxed-btn w-100 py-2">Login</button>
-                                    </div>
-                                </div>
-                            </form>`;
+            let html = `    
+            <form action="${base_url}login/authenticateWebsite" method="POST" id="loginForm">
+                <div class="alert alert-danger d-none" id="loginError"></div>
+                <div class="row">
+                    <div class="col-12 my-2">
+                        <div class="form-group">
+                            <label for="email">Username</label>
+                            <input class="form-control valid validate" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username" required>
+                    </div>
+                    </div>
+                    <div class="col-12 my-2">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input class="form-control valid validate" name="password" id="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your password'" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    <div class="col-12 my-2">
+                        <button type="submit" class="button button-contactForm boxed-btn w-100 py-2">Login</button>
+                    </div>
+                </div>
+            </form>`;
             return html;
         }
 
@@ -597,7 +610,7 @@
                     border-radius: 5px;
                     outline: none;
                     border: 1px solid green;" 
-                    id="btnSave">Save</button>
+                    id="btnSaveRegister">Save</button>
             </div>`;
 
             return html;
@@ -678,7 +691,7 @@
         }
         // ----- END VALIDATE PATIENT ID -----
 
-        $(document).on("click", `#btnSave`, function() {
+        $(document).on("click", `#btnSaveRegister`, function() {
             let patientCode = $(`[name="patient_code"]`).val();
             
             let validate       = validateForm("modal");
@@ -947,6 +960,34 @@
             $(`[name="year_id"]`).html(options);
         })
         // ----- END CHANGE COURSE -----
+
+
+
+        // ----- LOGIN -----
+        $(document).on('submit', '#loginForm', function(e) {
+            e.preventDefault();
+            let base_url = $(`body`).attr("base_url");
+            $.ajax({
+                method: "POST",
+                url: `${base_url}login/authenticateWebsite`,
+                data: {
+                    email:    $(`[name="email"]`).val(),
+                    password: $(`[name="password"]`).val(),
+                },
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    let result = data.split('|');
+                    if (result[0] == 'true') {
+
+                    } else {
+                        let html = `<b class="text-danger">Error! </b>${result[1]}`;
+                        $('#loginError').removeClass('d-none').html(html);
+                    }
+                }
+            })
+        })
+        // ----- END LOGIN -----
 
 
     });

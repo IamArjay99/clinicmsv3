@@ -26,7 +26,7 @@
                 if ($x['appointment_status'] == '2') {
                     $status = '<div class="badge badge-warning" style="background: red;">Rejected</div>';
                 } else if ($x['appointment_status'] == '1') {
-                    $status = '<div class="badge badge-success" style="background: green;">Done</div>';
+                    $status = '<div class="badge badge-success" style="background: green;">Approved</div>';
                 } else {
                     $status = '<div class="badge badge-danger" style="background: yellow;">Pending</div>';
                 }

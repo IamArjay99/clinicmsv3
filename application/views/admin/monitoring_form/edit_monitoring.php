@@ -72,15 +72,15 @@
                     info:           false,
                     scrollCollapse: true,
                     columnDefs: [
-                        { targets: 0,  width: '100px' },
-                        { targets: 1,  width: '100px' },
-                        { targets: 2,  width: '50px'  },
-                        { targets: 3,  width: '50px'  },
-                        { targets: 4,  width: '50px'  },
-                        { targets: 5,  width: '50px'  },
-                        { targets: 6,  width: '50px'  },
-                        { targets: 7,  width: '150px' },
-                        { targets: 8,  width: '150px' },
+                        { targets: 0,  width: '210px' },
+                        { targets: 1,  width: '145px' },
+                        { targets: 2,  width: '100px' },
+                        { targets: 3,  width: '110px' },
+                        { targets: 4,  width: '110px' },
+                        { targets: 5,  width: '110px' },
+                        { targets: 6,  width: '110px' },
+                        { targets: 7,  width: '200px' },
+                        { targets: 8,  width: '200px' },
                         { targets: 9,  width: '150px' },
                         { targets: 10, width: '150px' },
                         { targets: 11, width: '150px' },
@@ -263,9 +263,13 @@
 
             let tbodyHTML = '';
             let tableData = getTableData(`monitoring_form_items WHERE monitoring_form_id = ${monitoring_form_id}`);
-            tableData.map(i => {
-                tbodyHTML += getTableRow(i);
-            })
+            if (tableData && tableData.length) {
+                tableData.map(i => {
+                    tbodyHTML += getTableRow(i);
+                })
+            } else {
+                tbodyHTML += getTableRow();
+            }
 
             let html = `
             <table class="table table-bordered table-hover" style="white-space: nowrap;" id="tableMonitoringForm">

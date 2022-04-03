@@ -52,12 +52,20 @@ class Login extends CI_Controller {
         $this->load->library('encryption');
 
         $authenticate = $this->login->authenticateWebsite($email, $password);
-        if ($authenticate) {
+        $result = explode("|", $authenticate);
+        if ($result[0] == "true") {
             redirect('welcome','refresh');
         } else {
-            $this->session->set_flashdata('feedback', 'error');
-            redirect(base_url('welcome'));
+            echo json_encode($authenticate);
         }
+
+
+        // if ($authenticate) {
+            
+        // } else {
+        //     $this->session->set_flashdata('feedback', 'error');
+        //     redirect(base_url('welcome'));
+        // }
     }
 
     public function logoutWebsite()
