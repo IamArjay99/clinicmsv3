@@ -143,6 +143,12 @@ class System_operations extends CI_Controller {
                 }
             }
             echo json_encode($this->systemoperations->insertTableData($tableName, $data, $feedback, $method));
+
+            if($tableName == "patients"){
+                $this->sendEmail($tableData);
+            }
+
+
         } else {
             echo json_encode("false|Invalid arguments");
         }
@@ -184,5 +190,67 @@ class System_operations extends CI_Controller {
             echo json_encode("false|Invalid arguments");
         }
     }
+
+
+    public function sendEmail($data){
+		$from_user 	= 'cbsuaclinic@gmail.com';
+        $from_pass 	= 'cbsuaclinicmsadmin';
+        $email_to   = $data["email"];
+
+        $config = Array(
+            'protocol'  => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+
+            'smtp_user' => $from_user,
+            'smtp_pass' => $from_pass,
+            'mailtype'  => 'html',
+            'charset'   => 'iso-8859-1',
+            'wordwrap'  => TRUE,
+            'starttls'  => true,
+            'newline'   => "\r\n"
+            );
+
+            $this->encryption->initialize(
+                array(
+                        'cipher' => 'aes-256',
+                        'mode'   => 'ctr',
+                        'key'    => '<a 32-character random string>'
+                )
+            );
+
+            $this->encryption->initialize(array('driver' => 'mcrypt'));
+
+            $code    =  str_replace('/','slash',$this->encryption->encrypt($email_to));
+            $subject = "Activate Your Account";
+            $message = '<b><h2>Confirm Your Registration</h2></b>
+                        <br>
+                        <B>Welcome to Clinic Management System!</B>
+                        <br>
+                        <br>
+                        Thank you for registering. To activate your account, please click the link below to confirm your account.
+                        <br>
+                        '.base_url().'welcome/verify_account/'.$code.'
+                        <br>
+                        <br>
+                        <br>
+                            Clinic Staff,
+                        <br>
+                        This is an automated message, please do not reply.';
+        
+        $this->load->library('email', $config);
+        $this->email->set_mailtype("html");
+        $this->email->set_newline("\r\n");
+        $this->email->from($from_user,'CLINIC MANAGEMENT PORTAL');
+        $this->email->to($email_to);
+        $this->email->subject("Clinic Portal - $subject");
+        $this->email->message($message);
+        
+        if(!$this->email->send())
+        {
+            print_r($this->email->print_debugger());
+        }
+    }
+
 
 }

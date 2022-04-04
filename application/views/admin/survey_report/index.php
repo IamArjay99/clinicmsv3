@@ -182,6 +182,7 @@
                 initDataTables();
             }, 100);
         }
+
         pageContent();
         // ----- END PAGE CONTENT -----
 
@@ -227,26 +228,26 @@
                     case 1:
                             switch (rate) {
                                 case 1:
-                                        message = `<strong>Sorry!</strong> , You’ve got <strong>(${percentage}%)</strong>  you need to Smile, 
-                                                    <br>if you’re offering face-to-face customer service. <br> If you’re on the phone, 
+                                        message = `<strong>Sorry!</strong> , You've got <strong>(${percentage}%)</strong>  you need to Smile, 
+                                                    <br>if you're offering face-to-face customer service. <br> If you're on the phone, 
                                                         <br>sound engaged, friendly and eager to help in order to have a smooth conversation to your customer.`;
 
                                     break;
                                 case 2:
-                                        message = `You’ve got <strong>(${percentage}%)</strong> Smile, 
-                                                    <br>if you’re offering face-to-face customer service. 
-                                                    <br>If you’re on the phone, sound engaged, friendly and eager to help.`;
+                                        message = `You've got <strong>(${percentage}%)</strong> Smile, 
+                                                    <br>if you're offering face-to-face customer service. 
+                                                    <br>If you're on the phone, sound engaged, friendly and eager to help.`;
                                     break;
                                 case 3:
                                         message = `Please make sure that your customers feel as valued as the first time they walked into your clinic`;
                                     break;
                                 case 4:
-                                        message = `You’ve got <strong>(${percentage}%)</strong> Continue to wear your <br>smile together with your appropriate dress. 
+                                        message = `You've got <strong>(${percentage}%)</strong> Continue to wear your <br>smile together with your appropriate dress. 
                                                     <br>Thank you for giving your best!`;
                                     break;
                                 default:
                                     // 5
-                                        message = `<strong>Congratulation!</strong> You’ve got <strong>(${percentage}%)</strong> thank you for always wearing your 
+                                        message = `<strong>Congratulation!</strong> You've got <strong>(${percentage}%)</strong> thank you for always wearing your 
                                                         <br><strong>SMILE</strong> because smile can lessen their illness they feel. Continue being a happy one.`;
                                     break;
                             }
@@ -254,82 +255,82 @@
                     case 2:
                             switch (rate) {
                                 case 1:
-                                        message = `<strong>Sorry!</strong> But You’ve got <strong>(${percentage}%)</strong> of ratings. 
+                                        message = `<strong>Sorry!</strong> But You've got <strong>(${percentage}%)</strong> of ratings. 
                                                     <br>Take note that this is your home in 5 days of the week so please Help keep it clean.`;
 
                                     break;
                                 case 2:
-                                        message = `<strong>Sorry!</strong> but You’ve got <strong>(${percentage}%)</strong> of ratings. 
+                                        message = `<strong>Sorry!</strong> but You've got <strong>(${percentage}%)</strong> of ratings. 
                                                     <br>Take note that this is your home in 5 days of the week so please Help keep it clean.`;
                                     break;
                                 case 3:
-                                        message = `You’ve got <strong>(${percentage}%)</strong> of ratings. 
+                                        message = `You've got <strong>(${percentage}%)</strong> of ratings. 
                                                     <br>Take note that this is your home in 5 days of the week so please Help keep it clean.`;
                                     break;
                                 case 4:
-                                        message = `You’ve got <strong>(${percentage}%)</strong> of ratings. 
+                                        message = `You've got <strong>(${percentage}%)</strong> of ratings. 
                                                     <br>Keep your workplace clean because a clean office can boost productivity. `;
                                     break;
                                 default:
                                     // 5
-                                        message = `<strong>Congratulation!</strong>! You’ve got <strong>(${percentage}%)</strong> Continue to Maintain the cleanliness of the clinic. 
-                                                    <br>-“a clean place is a safe place “`;
+                                        message = `<strong>Congratulation!</strong>! You've got <strong>(${percentage}%)</strong> Continue to Maintain the cleanliness of the clinic. 
+                                                    <br>a clean place is a safe place '`;
                                     break;
                             }
                         break;
                     case 3:
                             switch (rate) {
                                 case 1:
-                                        message = `<strong>Sorry!</strong> You’ve got <strong>(${percentage}%)</strong> please make sure to follow your time schedule. 
+                                        message = `<strong>Sorry!</strong> You've got <strong>(${percentage}%)</strong> please make sure to follow your time schedule. 
                                                     <br>Hopefully next time you will have a high ratings.`;
 
                                     break;
                                 case 2:
-                                        message = `<strong>Sorry!</strong> You’ve got <strong>(${percentage}%)</strong> please make sure to follow your time schedule. 
+                                        message = `<strong>Sorry!</strong> You've got <strong>(${percentage}%)</strong> please make sure to follow your time schedule. 
                                                     <br>Hopefully next time you will have a high ratings.`;
                                     break;
                                 case 3:
-                                        message = `You’ve got <strong>(${percentage}%)</strong> please have time to your client <br> during your working hours. Thank you. `;
+                                        message = `You've got <strong>(${percentage}%)</strong> please have time to your client <br> during your working hours. Thank you. `;
                                     break;
                                 case 4:
-                                        message = `You’ve got <strong>(${percentage}%)</strong> of ratings. 
+                                        message = `You've got <strong>(${percentage}%)</strong> of ratings. 
                                                     <br>Thank you for  accommodating  with your client.`;
                                     break;
                                 default:
                                     // 5
                                         message = `Thank you for always on time and spending time to your client even on your busy hours. 
-                                                    <br>You’ve got <strong>(${percentage}%)</strong> of ratings. `;
+                                                    <br>You've got <strong>(${percentage}%)</strong> of ratings. `;
                                     break;
                             }
                         break;
                     case 4:
                             switch (rate) {
                                 case 1:
-                                        message = `Sad to say but You’ve got <strong>(${percentage}%)</strong> , <br>find some ways to improve your sevices.`;
+                                        message = `Sad to say but You've got <strong>(${percentage}%)</strong> , <br>find some ways to improve your sevices.`;
 
                                     break;
                                 case 2:
-                                        message = `Sad to say but You’ve got <strong>(${percentage}%)</strong> , <br>find some ways to improve your sevices.`;
+                                        message = `Sad to say but You've got <strong>(${percentage}%)</strong> , <br>find some ways to improve your sevices.`;
                                     break;
                                 case 3:
-                                        message = `Hello You’ve got <strong>(${percentage}%)</strong> <br> please do some strategies to improve your services. Thank you!`;
+                                        message = `Hello You've got <strong>(${percentage}%)</strong> <br> please do some strategies to improve your services. Thank you!`;
                                     break;
                                 case 4:
                                         message = `<strong>Good job!</strong> please continue to make way to <br> delivered an accurate services to your client.`;
                                     break;
                                 default:
                                     // 5
-                                        message = `CONGRATULATIONS for doing your best to deliver accurate service to your client <br> You’ve got a <strong>(${percentage}%)</strong> of ratings.`;
+                                        message = `CONGRATULATIONS for doing your best to deliver accurate service to your client <br> You've got a <strong>(${percentage}%)</strong> of ratings.`;
                                     break;
                             }
                         break;
                     case 5:
                             switch (rate) {
                                 case 1:
-                                        message = `<strong>Sorry!</strong> You’ve got <strong>(${percentage}%)</strong> <br> therefore you need to improved quick services. “I know you can do.”`;
+                                        message = `<strong>Sorry!</strong> You've got <strong>(${percentage}%)</strong> <br> therefore you need to improved quick services. 'I know you can do.'`;
                                     break;
                                 case 2:
-                                        message = `Hello You’ve got <strong>(${percentage}%)</strong>, <br>Please , Improved the fast service to the clients.`;
+                                        message = `Hello You've got <strong>(${percentage}%)</strong>, <br>Please , Improved the fast service to the clients.`;
                                     break;
                                 case 3:
                                         message = `You got <strong>(${percentage}%)</strong>, <br>a little bit of hard work and improvement in service, to fully  `;
@@ -346,17 +347,17 @@
                     case 6:
                             switch (rate) {
                                 case 1:
-                                        message = `Sad to say You’ve got <strong>(${percentage}%)</strong>, 
+                                        message = `Sad to say You've got <strong>(${percentage}%)</strong>, 
                                                     <br>to improved handling some problem always be confident and think for many solution as can.`;
                                     break;
                                 case 2:
-                                        message = `You’ve got <strong>(${percentage}%)</strong>, 
-                                                        <br>Please remain this “the customer may not always be right, but they are always the customer.” 
+                                        message = `You've got <strong>(${percentage}%)</strong>, 
+                                                        <br>Please remain this 'the customer may not always be right, but they are always the customer.' 
                                                         <br>Always be responsible in every single of files.`;
                                     break;
                                 case 3:
                                         message = `You got <strong>(${percentage}%)</strong>, a little bit, handled request, complaints and solution to problem with flexibility. 
-                                                        <br>“Be thankful for customers who complain. You still have the opportunity to make them happy.”`;
+                                                        <br>'Be thankful for customers who complain. You still have the opportunity to make them happy.'`;
                                     break;
                                 case 4:
                                         message = `You got <strong>(${percentage}%)</strong> to finally complete, <br>A complaining customer can be you best opportunity to show how good you are and create a customer evangelist.`;
@@ -373,7 +374,7 @@
                                         message = `<strong>Sorry!</strong> You got <strong>(${percentage}%)</strong> , <br>always be aware in keeping files because trust is built with consistency.`;
                                     break;
                                 case 2:
-                                        message = `You’ve got <strong>(${percentage}%)</strong>, remind this quote be careful who you trust. 
+                                        message = `You've got <strong>(${percentage}%)</strong>, remind this quote be careful who you trust. 
                                                     <br>If someone will discuss others with you they will certainly discuss you with other`;
                                     break;
                                 case 3:
@@ -394,13 +395,13 @@
                                         message = `<strong>Sorry!</strong> You got <strong>(${percentage}%)</strong> , <br>must improve the courtesy to each patient/clients enter and gave`;
                                     break;
                                 case 2:
-                                        message = `You’ve got <strong>(${percentage}%)</strong>, <br>Please improved the performance in demonstrated courtesy and show competence , <br>patient because it is a avenue that reflect in one self.`;
+                                        message = `You've got <strong>(${percentage}%)</strong>, <br>Please improved the performance in demonstrated courtesy and show competence , <br>patient because it is a avenue that reflect in one self.`;
                                     break;
                                 case 3:
-                                        message = `You’ve got a <strong>(${percentage}%)</strong>,from your clients , <br>a little bit of efficient because our most intimate friend <br>is not he to whom we show the worst, but the best of our nature.`;
+                                        message = `You've got a <strong>(${percentage}%)</strong>,from your clients , <br>a little bit of efficient because our most intimate friend <br>is not he to whom we show the worst, but the best of our nature.`;
                                     break;
                                 case 4:
-                                        message = `You’ve got <strong>(${percentage}%)</strong>, <br>to effectively perform that help you to improved, <br>like what said of “George Washington” Be courteous to all, but intimate with few and let those <br>few well tried before you give them confidence.`;
+                                        message = `You've got <strong>(${percentage}%)</strong>, <br>to effectively perform that help you to improved, <br>like what said of 'George Washington' Be courteous to all, but intimate with few and let those <br>few well tried before you give them confidence.`;
                                     break;
                                 default:
                                     // 5
@@ -415,17 +416,17 @@
                                                     <br>and action to feel them comfortable with you.`;
                                     break;
                                 case 2:
-                                        message = `You’ve got <strong>(${percentage}%)</strong>, <br>please do some strategy like asking your patient in a gentle voice, <br>and action to feel them comfortable.`;
+                                        message = `You've got <strong>(${percentage}%)</strong>, <br>please do some strategy like asking your patient in a gentle voice, <br>and action to feel them comfortable.`;
                                     break;
                                 case 3:
-                                        message = `Hello, You’ve got a <strong>(${percentage}%)</strong>,<br>remember that always take goodcare to your client`;
+                                        message = `Hello, You've got a <strong>(${percentage}%)</strong>,<br>remember that always take goodcare to your client`;
                                     break;
                                 case 4:
-                                        message = `Hello, have a nice day a head You’ve got <strong>(${percentage}%)</strong> , <br>thank you for being a heart of healthcare to your patient .`;
+                                        message = `Hello, have a nice day a head You've got <strong>(${percentage}%)</strong> , <br>thank you for being a heart of healthcare to your patient .`;
                                     break;
                                 default:
                                     // 5
-                                        message = `Great Job! You’ve got a <strong>(${percentage}%)</strong> <br>thank you for taking care of your patient. <br>
+                                        message = `Great Job! You've got a <strong>(${percentage}%)</strong> <br>thank you for taking care of your patient. <br>
                                         They may forget your name, but they will never forget how you made them feel.`;
                                     break;
                             }
@@ -435,21 +436,21 @@
                         // 10
                         switch (rate) {
                                 case 1:
-                                        message = `<strong>Sorry!</strong>, You’ve got <strong>(${percentage}%)</strong>  <br>you need to control your emotion if you are angry because it will affect to your client please be patient and  sound engaged, 
+                                        message = `<strong>Sorry!</strong>, You've got <strong>(${percentage}%)</strong>  <br>you need to control your emotion if you are angry because it will affect to your client please be patient and  sound engaged, 
                                         <br>friendly and eager to help in order to have a smooth conversation to your customer.`;
                                     break;
                                 case 2:
                                         message = `Please speak clearly, if you speak at all; carve every word before you let it fall.`;
                                     break;
                                 case 3:
-                                        message = `You’ve got a <strong>(${percentage}%)</strong> from your client , <br>sometimes when we are angry we speak brutal to our customer but you need to control and  be patience and speak appropriately `;
+                                        message = `You've got a <strong>(${percentage}%)</strong> from your client , <br>sometimes when we are angry we speak brutal to our customer but you need to control and  be patience and speak appropriately `;
                                     break;
                                 case 4:
-                                        message = `Hello, have a nice day a head You’ve got <strong>(${percentage}%)</strong> <br>thank you for showing a good manner to your client. `;
+                                        message = `Hello, have a nice day a head You've got <strong>(${percentage}%)</strong> <br>thank you for showing a good manner to your client. `;
                                     break;
                                 default:
                                     // 5
-                                        message = `Great Job! You’ve got a <strong>(${percentage}%)</strong> .<br>Thank you for being kind and respectful to your customer hoping that you will continue this kind of practices.`;
+                                        message = `Great Job! You've got a <strong>(${percentage}%)</strong> .<br>Thank you for being kind and respectful to your customer hoping that you will continue this kind of practices.`;
                                     break;
                             }
                         break;
