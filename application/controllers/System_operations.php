@@ -142,12 +142,12 @@ class System_operations extends CI_Controller {
                     $data[$key] = $value;
                 }
             }
-            echo json_encode($this->systemoperations->insertTableData($tableName, $data, $feedback, $method));
-
+            
             if($tableName == "patients"){
                 $this->sendEmail($tableData);
             }
-
+            
+            echo json_encode($this->systemoperations->insertTableData($tableName, $data, $feedback, $method));
 
         } else {
             echo json_encode("false|Invalid arguments");

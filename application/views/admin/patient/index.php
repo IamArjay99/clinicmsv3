@@ -699,6 +699,7 @@
                             data["tableName"] = "patients";
                             data["feedback"]  = $(`[name="patient_code"]`).val();
                             data["method"]    = "add";
+                            data['tableData[is_verified]'] = '0';
                         delete data.tableData['confirmPassword'];
             
                         sweetAlertConfirmation("add", "Patient", "modal", null, data, true, refreshTableContent);

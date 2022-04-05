@@ -235,6 +235,7 @@
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/quarterly_report') ?>">Quarterly Report</a></li>
                             <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/survey_report') ?>">Survey Report</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="<?= base_url('admin/medicine_report') ?>">Medicine Report</a></li>
                         </ul>
                         </div>
                     </li>
