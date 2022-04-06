@@ -21,23 +21,12 @@ class Medicine_report extends CI_Controller {
     {
         $sessionID  = $this->session->userdata('sessionID');
         $year       = $this->input->get('year');
-        $month      = $this->input->get('month');
-        $monthName  = $this->input->get('monthName');
         $data = [
-            "title" => "Medicine Report",
-            "monthName" => $monthName,
+            "title"     => "Medicine Report",
             "year"      => $year,
-            "month"     => $month,
             "fullname"  => "Mary Francessca N. Villafuerte, RN",
-            "data"  => $this->surveyreport->getMedicineReport($year)
         ];
-        $this->load->view("admin/survey_report/print", $data);
-    }
-
-
-
-    public function getMedicineReport($year){
-
+        $this->load->view("admin/medicine_report/print", $data);
     }
 
 
