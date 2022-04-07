@@ -86,7 +86,7 @@
         </div>
 
         <div class="mt-3">
-            <h4 class="text-center my-2 font-weight-bold">CUSTOMER SATISFACTORY SURVEY MONTHLY ACCOMPLISHMENT REPORT</h4>
+            <h4 class="text-center my-2 font-weight-bold">MEDICINE REPORT</h4>
             <h4 class="text-center my-2 font-weight-light"><?= '<sup>S/Y</sup> '.$year ?></h4>
         </div>
 
