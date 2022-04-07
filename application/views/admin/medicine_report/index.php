@@ -24,40 +24,19 @@
 
 
     $(document).ready(function() {
-
+        const MEDICINE_DATA = getTableData(`medicines`, ``,`is_deleted = '0'`);
+        const CHECK_UP_DATA = getTableData(`check_up_medicines`,``,`is_deleted = 0`);
 
         // ----- DATATABLES -----
         function initDataTables() {
-            if ($.fn.DataTable.isDataTable("#tableSurveyReport")) {
-                $("#tableSurveyReport").DataTable().destroy();
-            }
             
-            var table = $("#tableSurveyReport")
-                .css({ "min-width": "100%" })
-                .removeAttr("width")
-                .DataTable({
-                    proccessing:    false,
-                    serverSide:     false,
-                    scrollX:        true,
-                    sorting:        [],
-                    scrollCollapse: true,
-                    columnDefs: [	
-                        { targets: 0, width: "150px" },	
-                        { targets: 1, width: "100px" },	
-                        { targets: 2, width: "100px" },	
-                        { targets: 3, width: "100px" },	
-                        { targets: 4, width: "100px" },	
-                        { targets: 5, width: "100px" },	
-                        { targets: 6, width: "150px" },	
-                        { targets: 7, width: "150px" },	
-                    ],
-                });
+
         }
         // ----- END DATATABLES -----
 
 
         // ----- TABLE CONTENT -----
-        function tableContent(year = '', month = '', monthName = '') {
+        function tableContent(year = '') {
 
             let html = `
             <div class="w-100 py-5 text-center">
@@ -66,59 +45,80 @@
                 <h4 class="mt-3">Please select year and month</h4>
             </div>`;
 
-            if (year && month) {
+            if (year) {
                 let col1 = 0, col2 = 0, col3 = 0, col4 = 0, col5 = 0, totalRespondent = 0;
+                let tableHeadRow = "";
+                
+                MEDICINE_DATA.map((value,index)=>{
+                    tableHeadRow +=` <th>${value.name}<br><smal>${value.brand}</small></th>`;
+                });
 
-                let tbodyHTML = '';
-                let data = getTableData(
-                    `surveys WHERE status = 1
-                        AND YEAR(created_at) = '${year}' AND MONTH(created_at) = '${month}'`,
-                    `ROUND(SUM(q1)/COUNT(survey_id), 0) AS q1average,
-                    ROUND(SUM(q2)/COUNT(survey_id), 0) AS q2average,
-                    ROUND(SUM(q3)/COUNT(survey_id), 0) AS q3average,
-                    ROUND(SUM(q4)/COUNT(survey_id), 0) AS q4average,
-                    ROUND(SUM(q5)/COUNT(survey_id), 0) AS q5average,
-                    ROUND(SUM(q6)/COUNT(survey_id), 0) AS q6average,
-                    ROUND(SUM(q7)/COUNT(survey_id), 0) AS q7average,
-                    ROUND(SUM(q8)/COUNT(survey_id), 0) AS q8average,
-                    ROUND(SUM(q9)/COUNT(survey_id), 0) AS q9average,
-                    ROUND(SUM(q10)/COUNT(survey_id), 0) AS q10average,
-                    COUNT(survey_id) AS respondent
-                    `);
-                    
-                    for (let index = 0; index < 10; index++) {
-                        let objData       = data[0]
-                        let numberIndex   = parseFloat(index) + 1;
-                        let averageRating = objData[`q${numberIndex}average`] || 0;
-                        let percentage    = (parseFloat(averageRating) / 5) * 100; 
-                        tbodyHTML += `
-                                        <tr>
-                                             ${index == 0 ?  `<td rowspan="10">${monthName}</td>` : ``}
-                                            <td>${questionaireList(numberIndex)}</td>
-                                            <td class="text-center">${averageRating}</td>
-                                            <td class="text-center">${percentage}%</td>
-                                            <td>${surverRecommendation(numberIndex,averageRating)}</td>
-                                            ${index == 0 ? `<td rowspan="10" class="text-center">${objData.respondent}</td>`:`` } 
-                                        </tr>
-                                        `;
-                        
-                    }
+                let tbodyHTML       = '';
+                let monthArr        = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+                let footerArr       = [];
+
+                monthArr.map((value,index)=>{
+                    let totalConsume    = 0;
+                    let totalFooter     = 0;
+                    let indexValue      = parseFloat(index) + 1;
+                    let colData         = ``;
+                    MEDICINE_DATA.map(item=>{
+                        let sumData     = 0;
+                        let footerTotal = 0;
+                        CHECK_UP_DATA.filter(x => x.medicine_id == item.medicine_id && moment(x.created_at).format("YYYY") == year  && moment(x.created_at).format("MMMM") == value).map( x =>{
+                            sumData += parseFloat(x.quantity);
+                        });
+                                                
+                        totalConsume += parseFloat(sumData);
+                        colData += `<td class="text-center">${sumData}</td>`;
+
+
+                       
+
+                    });
+
+
+                    tbodyHTML += `
+                                    <tr>
+                                        <td>${value}</td>
+                                        ${colData}
+                                        <td>${totalConsume}</td>
+                                    </tr>
+                                 `;
+                
+                });
+                MEDICINE_DATA.map(i => {
+                    // ----- FOOTER -----
+                    let MEDICINE_ID = i.medicine_id;
+                    let TOTAL_CONSUME = CHECK_UP_DATA.filter(x => x.medicine_id == MEDICINE_ID && moment(x.created_at).format("YYYY") == year).map(x => parseFloat(x.quantity)).reduce((a,b) => a+b, 0);
+                    footerArr.push(TOTAL_CONSUME);
+                    // ----- END FOOTER -----
+                })
+                let totalFooter = 0;
+                footerArr.map(x=>{
+                    totalFooter += parseFloat(x);
+                });
                 html = `
                 <div class="table-responsive">
-                    <button class="btn btn-primary mb-2" id="btnPrint" year="${year}" month="${month}" monthName="${monthName}"><i class="fas fa-print"></i> Print</button>
+                    <button class="btn btn-primary mb-2" id="btnPrint" year="${year}"><i class="fas fa-print"></i> Print</button>
                     <table class="table table-bordered table-hover">
                         <thead class="text-center">
                             <tr>
-                                <th style="width:150px; ">Month</th>
-                                <th style="width:150px ">Questionaires</th>
-                                <th style="width:100px; ">Average Ratings</th>
-                                <th style="width:100px; ">Percentage</th>
-                                <th style="width:150px; ">Recommendations</th>
-                                <th style="width:100px; ">Number of Respondent</th>
+                                <th style="width:150px;" rowspan="2">Month</th>
+                                <th style="width:150px" colspan="${MEDICINE_DATA.length}">Monthly Medicine Report</th>
+                                <th style="width:100px;" rowspan="2">Total Consume</th>
+                            </tr>
+                            <tr>
+                                ${tableHeadRow}
                             </tr>
                         </thead>
                         <tbody>
                             ${tbodyHTML}
+                            <tr>
+                                <td>Total</td>
+                               ${footerArr.map(x=>{return `<td class="text-center">${x}</td>`}).join("")}
+                                <td class="text-center">${totalFooter}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>`;
@@ -151,27 +151,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-12">
-                            <div class="form-group">
-                                <label>Month</label>
-                                <select class="form-control validate filter"
-                                    name="month">
-                                    <option value='' selected>Select month</option>    
-                                    <option value='01'>January</option>   
-                                    <option value='02'>February</option>   
-                                    <option value='03'>March</option>   
-                                    <option value='04'>April</option>   
-                                    <option value='05'>May</option>   
-                                    <option value='06'>June</option>   
-                                    <option value='07'>July</option>   
-                                    <option value='08'>August</option>   
-                                    <option value='09'>September</option>   
-                                    <option value='10'>October</option>   
-                                    <option value='11'>November</option>   
-                                    <option value='12'>December</option>   
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-12" id="tableContent">${tableContent()}</div>
@@ -190,14 +169,12 @@
         // ----- SELECT FILTER -----
         $(document).on('change', '.filter', function() {
             let year      = $(`[name="year"]`).val();
-            let month     = $(`[name="month"]`).val();
-            let monthName = $(`[name="month"] option:selected`).text().trim();
 
-            if (year && month) {
+            if (year) {
                 !document.getElementsByClassName("jumping-dots-loader").length && $("#tableContent").html(preloader);
 
                 setTimeout(() => {
-                    let html = tableContent(year, month, monthName);
+                    let html = tableContent(year);
                     $("#tableContent").html(html);
                     initDataTables();
                 }, 100);
