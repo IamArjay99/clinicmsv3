@@ -188,7 +188,7 @@
             let year  = $(this).attr("year");
             let month = $(this).attr("month");
             let monthName = $(this).attr("monthName");
-            window.open(`survey_report/print?year=${year}&month=${month}&monthName=${monthName}`, '_blank');
+            window.open(`medicine_report/print?year=${year}&month=${month}&monthName=${monthName}`, '_blank');
         })
         // ----- END BUTTON PRINT -----
 
