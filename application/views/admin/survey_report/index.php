@@ -24,8 +24,7 @@
 
 
     $(document).ready(function() {
-
-
+        
         // ----- DATATABLES -----
         function initDataTables() {
             if ($.fn.DataTable.isDataTable("#tableSurveyReport")) {
@@ -73,47 +72,56 @@
                 let data = getTableData(
                     `surveys WHERE status = 1
                         AND YEAR(created_at) = '${year}' AND MONTH(created_at) = '${month}'`,
-                    `ROUND(SUM(q1)/COUNT(survey_id), 0) AS q1average,
-                    ROUND(SUM(q2)/COUNT(survey_id), 0) AS q2average,
-                    ROUND(SUM(q3)/COUNT(survey_id), 0) AS q3average,
-                    ROUND(SUM(q4)/COUNT(survey_id), 0) AS q4average,
-                    ROUND(SUM(q5)/COUNT(survey_id), 0) AS q5average,
-                    ROUND(SUM(q6)/COUNT(survey_id), 0) AS q6average,
-                    ROUND(SUM(q7)/COUNT(survey_id), 0) AS q7average,
-                    ROUND(SUM(q8)/COUNT(survey_id), 0) AS q8average,
-                    ROUND(SUM(q9)/COUNT(survey_id), 0) AS q9average,
-                    ROUND(SUM(q10)/COUNT(survey_id), 0) AS q10average,
+                    `SUM(q1) AS q1average,
+                     SUM(q2) AS q2average,
+                     SUM(q3) AS q3average,
+                     SUM(q4) AS q4average,
+                     SUM(q5) AS q5average,
+                     SUM(q6) AS q6average,
+                     SUM(q7) AS q7average,
+                     SUM(q8) AS q8average,
+                     SUM(q9) AS q9average,
+                     SUM(q10) AS q10average,
                     COUNT(survey_id) AS respondent
                     `);
                     
-                    for (let index = 0; index < 10; index++) {
-                        let objData       = data[0]
-                        let numberIndex   = parseFloat(index) + 1;
-                        let averageRating = objData[`q${numberIndex}average`] || 0;
-                        let percentage    = (parseFloat(averageRating) / 5) * 100; 
+                        let objData       = data[0];
                         tbodyHTML += `
                                         <tr>
-                                             ${index == 0 ?  `<td rowspan="10">${monthName}</td>` : ``}
-                                            <td>${questionaireList(numberIndex)}</td>
-                                            <td class="text-center">${averageRating}</td>
-                                            <td class="text-center">${percentage}%</td>
-                                            <td>${surverRecommendation(numberIndex,averageRating)}</td>
-                                            ${index == 0 ? `<td rowspan="10" class="text-center">${objData.respondent}</td>`:`` } 
+                                             <td>${monthName}</td>
+                                             <td class="text-center">${objData.q1average || 0}</td>
+                                             <td class="text-center">${objData.q2average || 0}</td>
+                                             <td class="text-center">${objData.q3average || 0}</td>
+                                             <td class="text-center">${objData.q4average || 0}</td>
+                                             <td class="text-center">${objData.q5average || 0}</td>
+                                             <td class="text-center">${objData.q6average || 0}</td>
+                                             <td class="text-center">${objData.q7average || 0}</td>
+                                             <td class="text-center">${objData.q8average || 0}</td>
+                                             <td class="text-center">${objData.q9average || 0}</td>
+                                             <td class="text-center">${objData.q10average || 0}</td>
+                                             <td class="text-center">${objData.respondent}</td>
                                         </tr>
                                         `;
-                        
-                    }
                 html = `
                 <div class="table-responsive">
+                    <div class="w-100 d-flex justify-content-between align-items-center">
                     <button class="btn btn-primary mb-2" id="btnPrint" year="${year}" month="${month}" monthName="${monthName}"><i class="fas fa-print"></i> Print</button>
+                    <button class="btn btn-primary mb-2" id="btnView"><i class="fas fa-eye"></i> View</button>
+                    </div>
                     <table class="table table-bordered table-hover">
                         <thead class="text-center">
                             <tr>
                                 <th style="width:150px; ">Month</th>
-                                <th style="width:150px ">Questionaires</th>
-                                <th style="width:100px; ">Average Ratings</th>
-                                <th style="width:100px; ">Percentage</th>
-                                <th style="width:150px; ">Recommendations</th>
+                                <th style="width:150px ">Question #1</th>
+                                <th style="width:150px ">Question #2</th>
+                                <th style="width:150px ">Question #3</th>
+                                <th style="width:150px ">Question #4</th>
+                                <th style="width:150px ">Question #5</th>
+                                <th style="width:150px ">Question #6</th>
+                                <th style="width:150px ">Question #7</th>
+                                <th style="width:150px ">Question #8</th>
+                                <th style="width:150px ">Question #9</th>
+                                <th style="width:150px ">Question #10</th>
                                 <th style="width:100px; ">Number of Respondent</th>
                             </tr>
                         </thead>
@@ -214,8 +222,207 @@
             window.open(`survey_report/print?year=${year}&month=${month}&monthName=${monthName}`, '_blank');
         })
         // ----- END BUTTON PRINT -----
+        
+        $(document).on("click","#btnView",function(){
+            let year         = $("#btnPrint").attr("year");
+            let month        = $("#btnPrint").attr("month");
+            let montName     = $("#btnPrint").attr("monthName");
+            let SURVEY_DATA  = getTableData(`surveys LEFT JOIN patients USING(patient_id) LEFT JOIN patient_type ON patients.patient_type_id = patient_type.patient_type_id`,
+                                            `surveys.*,patient_type.patient_type_id AS patient_type_id`,
+                                            `surveys.status = 1 AND YEAR(surveys.created_at) = '${year}' AND MONTH(surveys.created_at) = '${month}'`);
+            $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-lg");
+            $("#modal .page-title").text("VIEW DETAILS");
+            $("#modal").modal("show");
+            $("#modal_content").html(preloader);
+            let tableBody   = "";
+            let teachingRespondent = 0, studentRespondent = 0, nonTeachingRespondent = 0, stakeholderRespondent = 0; 
+            let teachingSum = 0, studentSum = 0, nonTeachingSum = 0, stakeholderSum = 0; 
+
+            let teachingData    = SURVEY_DATA.filter(obj => obj.patient_type_id == "1" || obj.patient_type_id == "5").map((obj, inde)=>{ teachingRespondent++});
+            let studentData     = SURVEY_DATA.filter(obj => obj.patient_type_id == "2").map((obj, inde)=>{ studentRespondent++});
+            let nonTeachingData = SURVEY_DATA.filter(obj => obj.patient_type_id == "3").map((obj, inde)=>{ nonTeachingRespondent++});
+            let stakeholderData = SURVEY_DATA.filter(obj => obj.patient_type_id == "4").map((obj, inde)=>{ stakeholderRespondent++});
+            let totalRespondent = teachingRespondent + studentRespondent + nonTeachingRespondent + stakeholderRespondent;
+            let totalMean       = 0;
+            tableBody +=    `
+                             <tr>
+                                <td class="text-left" colspan="2">No. of Respondent</td>
+                                <td class="text-center">${studentRespondent}</td>
+                                <td class="text-center">${teachingRespondent}</td>
+                                <td class="text-center">${nonTeachingRespondent}</td>
+                                <td class="text-center">${stakeholderRespondent}</td>
+                                <td class="text-center">${totalRespondent}</td>
+                             </tr>                
+                                `;
+
+            
+            for (let index = 1; index <= 10; index++) {
+                let teachingValue = 0, studentValue = 0, nonTeachingValue = 0, stakeholderValue = 0; 
+                let rowDivider    = 0;
+                SURVEY_DATA.map((obj)=>{ 
+                    let colValue  = obj[`q${index}`] ? parseFloat(obj[`q${index}`]) : 0;  
+                    switch (obj.patient_type_id) {
+                        case "2":
+                            studentValue     += parseFloat(colValue || 0); 
+                            studentSum       += parseFloat(colValue || 0);
+                            break;
+                        case "3":
+                            nonTeachingValue += parseFloat(colValue || 0); 
+                            nonTeachingSum   += parseFloat(colValue || 0);
+                            break;
+                        case "4":
+                            stakeholderValue += parseFloat(colValue || 0); 
+                            stakeholderSum   += parseFloat(colValue || 0);
+                            break;
+                        default:
+                            teachingValue    += parseFloat(colValue || 0); 
+                            teachingSum      += parseFloat(colValue || 0);
+                            break;
+                    }     
+                });
+                
+                let teachingColValue       = teachingValue / teachingRespondent || 0;
+                let studentColValue        = studentValue / studentRespondent || 0;
+                let nonTeachingColValue    = nonTeachingValue / nonTeachingRespondent || 0;
+                let stakeholderColValue    = stakeholderValue / stakeholderRespondent || 0;
+                let meanResult             = teachingColValue + studentColValue + nonTeachingColValue + stakeholderColValue;
+
+                teachingColValue != "0" && rowDivider++; 
+                studentColValue != "0" && rowDivider++; 
+                nonTeachingColValue != "0" && rowDivider++; 
+                stakeholderColValue != "0" && rowDivider++; 
+                totalMean += meanResult/rowDivider;
+                tableBody +=    `
+                             <tr>
+                                ${index == 1 ? ` <td rowspan="10" class="text-center">Item <br> Questionaire</td>` : ''}
+                                <td class="text-center">${index}</td>
+                                <td class="text-center">${studentColValue.toFixed(2)}</td>
+                                <td class="text-center">${teachingColValue.toFixed(2)}</td>
+                                <td class="text-center">${nonTeachingColValue.toFixed(2)}</td>
+                                <td class="text-center">${stakeholderColValue.toFixed(2)}</td>
+                                <td class="text-center">${(meanResult/rowDivider).toFixed(2)}</td>
+                             </tr>                
+                                `;
+            }
+            
+            let teachingMean    = ((teachingSum/teachingRespondent) / 10) || 0; 
+            let studentMean     = ((studentSum/studentRespondent)/ 10) || 0; 
+            let nonTeachingMean = ((nonTeachingSum/nonTeachingRespondent) / 10) || 0;
+            let stakeholderMean = ((stakeholderSum/stakeholderRespondent) / 10) || 0;
+            let grandTotalMean  = totalMean / 10;
+            tableBody += `  
+                            <tr class="bg-primary text-white font-weight-bold">
+                                <td class="text-left" colspan="2">Mean(Rater)</td>
+                                <td class="text-center">${studentMean.toFixed(2)}</td>
+                                <td class="text-center">${teachingMean.toFixed(2)}</td>
+                                <td class="text-center">${nonTeachingMean.toFixed(2)}</td>
+                                <td class="text-center">${stakeholderMean.toFixed(2)}</td>
+                                <td class="text-center">${grandTotalMean.toFixed(2)}</td>
+                                
+                            </tr>
+                         `;
+
+            tableBody += `  
+                            <tr>
+                                <td class="text-left" colspan="2">No. of Respondent mean 3 and above</td>
+                                <td class="text-center">${studentRespondent}</td>
+                                <td class="text-center">${teachingRespondent}</td>
+                                <td class="text-center">${nonTeachingRespondent}</td>
+                                <td class="text-center">${stakeholderRespondent}</td>
+                                <td class="text-center">${totalRespondent}</td>
+                            </tr>
+                         `;
+            
+            let teachingPercentage    =  ((teachingMean / 5) * 100)     || 0; 
+            let studentPercentage     =  ((studentMean / 5) * 100)      || 0; 
+            let nonTeachingPercentage =  ((nonTeachingMean / 5) * 100)  || 0;
+            let stakeholderPercentage =  ((stakeholderMean / 5) * 100)  || 0;
+            let grandTotalPercentage  =  ((grandTotalMean / 5) * 100)   || 0;
+        
+                         
+            tableBody += `  
+                            <tr>
+                                <td class="text-left" colspan="2">No. of Respondent mean 3 and above</td>
+                                <td class="text-center">${studentPercentage.toFixed(2)}%</td>
+                                <td class="text-center">${teachingPercentage.toFixed(2)}%</td>
+                                <td class="text-center">${nonTeachingPercentage.toFixed(2)}%</td>
+                                <td class="text-center">${stakeholderPercentage.toFixed(2)}%</td>
+                                <td class="text-center">${grandTotalPercentage.toFixed(2)}%</td>
+                            </tr>
+                         `;
+
+            let html = `
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="width:150px;" colspan="2">Type of Respondent</th>
+                                <th style="width:150px ">Student</th>
+                                <th style="width:150px ">Teaching Staff</th>
+                                <th style="width:150px ">Non-Teaching</th>
+                                <th style="width:150px ">External Stake Holder</th>
+                                <th style="width:150px ">Mean(Item)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableBody}
+
+                            <tr>
+                                <td colspan="7" class="text-center bg-primary text-white">Average Rating Legend</td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) <= 5 && "bg-primary text-white" }"> 5 | <span>(4.20-5.00)-Excellent (E)</span> </div>
+                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) <= 4 && "bg-primary text-white" }"> 4 | <span>(3.40-4.19)-Very Satisfactory (VS)</span> </div>
+                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) <= 3 && "bg-primary text-white" }"> 3 | <span>(2.60-3.99)-Satisfactory (S)</span> </div>
+                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) <= 2 && "bg-primary text-white" }"> 2 | <span>(1.80-2.59-Fair (F)</span> </div>
+                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) <= 1 && "bg-primary text-white" }"> 1 | <span>(1.00-1.79)-Needs Improvement-(N)</span> </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-center bg-primary text-white font-weight-bold">Feedback</td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-center font-weight-bold">
+                                    ${getFeedback(parseFloat(grandTotalMean))}
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            `;
 
 
+
+            setTimeout(() => {
+                $("#modal_content").html(html);
+            }, 1500);
+
+        });
+
+        function getFeedback(value = 0 ){
+            let msg = ``;
+            let grade = parseFloat(value);
+            if(grade <= 5){
+                return msg = `We greatly Appreciate your service !`;
+            }
+            if(grade <= 4){
+                return msg = `Keep  it up! Youre Doing a great job`;
+            }
+            if(grade <= 3){
+                return msg = `Thank you for your hardwork. I know you are trying your best to improve your services`;
+            }
+            if(grade <= 2){
+                return msg = `You've got this! you can find more ways to improve your service next time. `;
+            }
+            if(grade <= 1){
+                return msg = `You have a very low performance try to reflect on the services you've provided `;
+            }
+
+        }
 
         function surverRecommendation(question = false, rate = false,){
             let message    = "";
