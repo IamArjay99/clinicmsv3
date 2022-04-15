@@ -7,6 +7,9 @@
       let r_heading = "Success";
       if (r_icon == "danger") {
         r_heading = "Error";
+      }else if (r_icon == "danger2") {
+        r_heading = "Danger";
+        r_icon    = "error";
       } else if (r_icon == "warning") {
         r_heading = "Warning";
       }
