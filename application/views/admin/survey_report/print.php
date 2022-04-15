@@ -188,7 +188,6 @@
                                             <td style="font-size:80%;">${questionaireList(numberIndex)}</td>
                                             <td class="text-center">${averageRating}</td>
                                             <td class="text-center">${percentage}%</td>
-                                            <td style="font-size:80%;">${surverRecommendation(numberIndex,averageRating)}</td>
                                             ${index == 0 ? `<td rowspan="10" class="text-center">${objData.respondent}</td>`:`` } 
                                         </tr>
                                         `;
@@ -203,7 +202,6 @@
                                 <th style="width:150px ">Questionaires</th>
                                 <th style="width:100px; ">Average Ratings</th>
                                 <th style="width:100px; ">Percentage</th>
-                                <th style="width:150px; ">Recommendations</th>
                                 <th style="width:100px; ">Number of Respondent</th>
                             </tr>
                         </thead>

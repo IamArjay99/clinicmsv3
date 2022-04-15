@@ -4,7 +4,7 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Survey Report</h4>
+                    <h4 class="mb-0">Medicine Report</h4>
                 </div>
                 <div class="card-body" id="pageContent">  
                     <div class="jumping-dots-loader my-5">
@@ -50,7 +50,7 @@
                 let tableHeadRow = "";
                 
                 MEDICINE_DATA.map((value,index)=>{
-                    tableHeadRow +=` <th>${value.name}<br><smal>${value.brand}</small></th>`;
+                    tableHeadRow +=` <th class="bg-primary text-white">${value.name}<br><smal>${value.brand}</small></th>`;
                 });
 
                 let tbodyHTML       = '';
@@ -186,9 +186,7 @@
         // ----- BUTTON PRINT -----
         $(document).on("click", "#btnPrint", function() {
             let year  = $(this).attr("year");
-            let month = $(this).attr("month");
-            let monthName = $(this).attr("monthName");
-            window.open(`survey_report/print?year=${year}&month=${month}&monthName=${monthName}`, '_blank');
+            window.open(`medicine_report/print?year=${year}`, '_blank');
         })
         // ----- END BUTTON PRINT -----
 
