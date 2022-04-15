@@ -117,6 +117,36 @@ class Dashboard_model extends CI_Model {
         return $data;
     }
 
+    public function getAnsweringSurvey(){
+        $sqlTeachingData    = $this->db->query("SELECT COUNT(survey_id) AS survey_result FROM surveys LEFT JOIN patients USING(patient_id) WHERE patient_type_id = '1' AND surveys.is_deleted = '0' "); 
+        $sqlStudentData     = $this->db->query("SELECT COUNT(survey_id) AS survey_result FROM surveys LEFT JOIN patients USING(patient_id) WHERE patient_type_id = '2' AND surveys.is_deleted = '0' ");   
+        $sqlNonTeachingData = $this->db->query("SELECT COUNT(survey_id) AS survey_result FROM surveys LEFT JOIN patients USING(patient_id) WHERE patient_type_id = '3' AND surveys.is_deleted = '0' ");  
+        $sqlStakeholderData = $this->db->query("SELECT COUNT(survey_id) AS survey_result FROM surveys LEFT JOIN patients USING(patient_id) WHERE patient_type_id = '4' AND surveys.is_deleted = '0' ");    
+        $sqlTotalRespondent = $this->db->query("SELECT COUNT(survey_id) AS survey_result FROM surveys LEFT JOIN patients USING(patient_id) WHERE surveys.is_deleted = '0' ");                           
+        
+        $resultTeachingData    = $sqlTeachingData->row();
+        $resultStudentData     = $sqlStudentData->row();  
+        $resultNonTeachingData = $sqlNonTeachingData->row(); 
+        $resultStakeholderData = $sqlStakeholderData->row();   
+        $resultTotalRespondent = $sqlTotalRespondent->row(); 
+
+        $data = [
+            $resultStudentData     ? floatval($resultStudentData->survey_result)      : 0,     
+            $resultTeachingData    ? floatval($resultTeachingData->survey_result)     : 0,   
+            $resultNonTeachingData ? floatval($resultNonTeachingData->survey_result)  : 0,   
+            $resultStakeholderData ? floatval($resultStakeholderData->survey_result)  : 0,      
+            $resultTotalRespondent ? floatval($resultTotalRespondent->survey_result)  : 0   
+        ];
+        return $data;
+        // let barData = [
+        //     1123,
+        //     1023,
+        //     1623,
+        //     1523,
+        //     1623,
+        // ];
+    }
+
     public function getTotalRater($patientTypeID = 0)
     {
         $sql    = "SELECT COUNT(*) AS total FROM surveys LEFT JOIN patients USING(patient_id) WHERE patient_type_id = $patientTypeID";
@@ -198,6 +228,7 @@ class Dashboard_model extends CI_Model {
             "medicine"                 => $this->getMedicine(),
             "customerSatisfactory"     => $this->getCustomerSatisfactory(),
             "monthlySurveyResult"      => $this->getMonthlySurvey(),
+            "answeringSurveyResult"    => $this->getAnsweringSurvey(),
             "rater"                    => $this->getRater(),
             "questions"                => $this->getRating()
         ];

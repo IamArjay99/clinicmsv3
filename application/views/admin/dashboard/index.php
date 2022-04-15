@@ -21,7 +21,7 @@
 </div>
 
 <script>
-
+ 
     $(document).ready(function() {
 
         // ----- GLOBAL VARIABLE -----
@@ -244,6 +244,76 @@
         // ----- END MONTHLY SURVEY AREA CHART -----
 
 
+        function answeringSurveyBarChart(data = []){
+            if (data.length) {
+                var options = {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false
+                        },
+                        elements: {
+                        point: {
+                            radius: 0
+                        }
+                    }
+
+                };
+
+                let labels  = ['Student', 'Faculty', 'Non-Teaching', 'External Stakeholder', 'Grand Mean'];
+                let barData = data;
+                // let barData = [
+                //     1123,
+                //     1023,
+                //     1623,
+                //     1523,
+                //     1623,
+                // ];
+
+
+                var data = {
+                    labels,
+                    datasets: [{
+                        label: 'Average',
+                        data: barData,
+                        backgroundColor: [
+                            '#002cff30',
+                            '#db002430',
+                            '#49b64930',
+                            '#613a7e30',
+                            '#4cb0c830',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            '#002CFF',
+                            '#DB0024',
+                            '#49B649',
+                            '#613A7E',
+                            '#4cb0c8',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                };
+
+                var canvas = $(`#answeringSurveyResult`).get(0).getContext("2d");
+                // This will get the first returned node in the jQuery collection.
+                var barChart = new Chart(canvas, {
+                    type: 'bar',
+                    data: data,
+                    options: options
+                });
+            }
+        }
+
+
+
         // ----- MEDICINE BAR CHART -----
         function medicineBarChart(medicine = []) {
             if ($("#medicineBarChart").length && medicine.length) {
@@ -394,6 +464,7 @@
                 medicine                = [],
                 customerSatisfactory    = {},
                 monthlySurveyResult     = [],
+                answeringSurveyResult   = [],
                 rater                   = [],
                 questions               = [],
             } = data;
@@ -678,7 +749,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-12 mt-4">
+                <div class="col-lg-4 col-sm-12 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Customer Satisfactory</h4>
@@ -686,11 +757,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-12 mt-4">
+                <div class="col-lg-4 col-sm-12 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Monthly Survey Result</h4>
                             <canvas id="monthlySurveyResult"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-12 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Answering Survey Result</h4>
+                            <canvas id="answeringSurveyResult"></canvas>
                         </div>
                     </div>
                 </div>
@@ -704,6 +784,7 @@
                 medicineBarChart(medicine);
                 customerSatisfactoryBarChart(customerSatisfactory);
                 monthlySurveyAreaChart(monthlySurveyResult);
+                answeringSurveyBarChart(answeringSurveyResult);
                 
                 let questionArr = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'];
                 questionArr.map(elementID => {

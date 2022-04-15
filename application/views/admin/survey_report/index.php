@@ -232,6 +232,7 @@
                                             `surveys.status = 1 AND YEAR(surveys.created_at) = '${year}' AND MONTH(surveys.created_at) = '${month}'`);
             $("#modal .modal-dialog").removeClass("modal-md").addClass("modal-lg");
             $("#modal .page-title").text("VIEW DETAILS");
+            $(".modal-header").addClass("text-center");
             $("#modal").modal("show");
             $("#modal_content").html(preloader);
             let tableBody   = "";
@@ -311,7 +312,7 @@
             let stakeholderMean = ((stakeholderSum/stakeholderRespondent) / 10) || 0;
             let grandTotalMean  = totalMean / 10;
             tableBody += `  
-                            <tr class="bg-primary text-white font-weight-bold">
+                            <tr style="background-color:yellow;" class="text-black font-weight-bold">
                                 <td class="text-left" colspan="2">Mean(Rater)</td>
                                 <td class="text-center">${studentMean.toFixed(2)}</td>
                                 <td class="text-center">${teachingMean.toFixed(2)}</td>
@@ -352,6 +353,13 @@
                          `;
 
             let html = `
+                <div class="w-100 my-3">
+                    <div class="text-center w-100 font-weight-bold"><h4>CUSTOMER SATISFACTION SURVEY REPORT</h4></div>
+                    <div class="text-left w-100">Month and Year: <strong>${montName} of ${year}</strong></div>
+                    <div class="text-left w-100">Campus :<strong>CBSUA-Sipocot / SCHOOL CLINIC</strong></div>
+                </div>
+
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="text-center">
@@ -373,11 +381,11 @@
                             <tr>
                                 <td colspan="7">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) >= 4.20 && parseFloat(grandTotalMean) <= 5 && "bg-primary text-white" }"> 5 | <span>(4.20-5.00)-Excellent (E)</span> </div>
-                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) >= 3.40 && parseFloat(grandTotalMean) <= 4.19 && "bg-primary text-white" }"> 4 | <span>(3.40-4.19)-Very Satisfactory (VS)</span> </div>
-                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) >= 2.60 && parseFloat(grandTotalMean) <= 3.99 && "bg-primary text-white" }"> 3 | <span>(2.60-3.99)-Satisfactory (S)</span> </div>
-                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) >= 1.80 && parseFloat(grandTotalMean) <= 2.59 && "bg-primary text-white" }"> 2 | <span>(1.80-2.59-Fair (F)</span> </div>
-                                        <div class="w-25 border text-center ${parseFloat(grandTotalMean) >= 1.00 && parseFloat(grandTotalMean) <= 1.79 && "bg-primary text-white" }"> 1 | <span>(1.00-1.79)-Needs Improvement-(N)</span> </div>
+                                        <div class="w-25 border text-center"  style="${parseFloat(grandTotalMean) >= 4.20 && parseFloat(grandTotalMean) <= 5 &&     "background-color:yellow;text-color:black;" }"> 5 | <span>(4.20-5.00)-Excellent (E)</span> </div>
+                                        <div class="w-25 border text-center"  style="${parseFloat(grandTotalMean) >= 3.40 && parseFloat(grandTotalMean) <= 4.19 &&  "background-color:yellow;text-color:black;" }"> 4 | <span>(3.40-4.19)-Very Satisfactory (VS)</span> </div>
+                                        <div class="w-25 border text-center"  style="${parseFloat(grandTotalMean) >= 2.60 && parseFloat(grandTotalMean) <= 3.99 &&  "background-color:yellow;text-color:black;" }"> 3 | <span>(2.60-3.99)-Satisfactory (S)</span> </div>
+                                        <div class="w-25 border text-center"  style="${parseFloat(grandTotalMean) >= 1.80 && parseFloat(grandTotalMean) <= 2.59 &&  "background-color:yellow;text-color:black;" }"> 2 | <span>(1.80-2.59-Fair (F)</span> </div>
+                                        <div class="w-25 border text-center"  style="${parseFloat(grandTotalMean) >= 1.00 && parseFloat(grandTotalMean) <= 1.79 &&  "background-color:yellow;text-color:black;" }"> 1 | <span>(1.00-1.79)-Needs Improvement-(N)</span> </div>
                                     </div>
                                 </td>
                             </tr>
@@ -421,10 +429,10 @@
                 notifType = `warning`;
             }else if(grade >= 1.80 && grade <= 2.59){
                 msg = `You've got this! you can find more ways to improve your service next time. `;
-                notifType = `danger`;
+                notifType = `danger2`;
             }else if(grade >= 1.00 && grade <= 1.79){
                 msg = `You have a very low performance try to reflect on the services you've provided `;
-                notifType = `danger`;
+                notifType = `danger2`;
             }
 
             showNotification(notifType, msg);
