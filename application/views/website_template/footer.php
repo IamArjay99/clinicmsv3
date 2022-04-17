@@ -979,7 +979,7 @@
                 success: function(data) {
                     let result = data.split('|');
                     if (result[0] == 'true') {
-
+                        window.open('welcome', '_self');
                     } else {
                         let html = `<b class="text-danger">Error! </b>${result[1]}`;
                         $('#loginError').removeClass('d-none').html(html);

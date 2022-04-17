@@ -32,7 +32,7 @@ class Login_model extends CI_Model {
                 if ($result->is_verified == '1') {
                     $patientID = $result->patient_id ?? 0;
                     $this->session->set_userdata('patientID', $patientID);
-                    return true;
+                    return "true";
                 } else {
                     return "false|Your account is not yet verified";
                 }

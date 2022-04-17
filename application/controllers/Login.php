@@ -54,6 +54,7 @@ class Login extends CI_Controller {
         $authenticate = $this->login->authenticateWebsite($email, $password);
         $result = explode("|", $authenticate);
         if ($result[0] == "true") {
+            echo json_encode($authenticate);
             redirect('welcome','refresh');
         } else {
             echo json_encode($authenticate);
