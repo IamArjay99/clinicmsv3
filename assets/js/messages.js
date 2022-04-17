@@ -21,6 +21,11 @@ function renderMessage(data = [], msg = false, index = 0, isWebsite = false) {
         isLast = "id='last'";
     }
 
+    let filterWords = ['fuck', 'tangina', 'putangina', 'gago', 'shit', 'bobo', 'tanga', 'sex'];
+    let msgArr = message?.split(' ') ?? [];
+    let newMsgArr = msgArr.map(i => filterWords.includes(i) ? '*'.repeat(i.length) : i);
+    message = newMsgArr.join(' ');
+
     if (isWebsite) {
         if (is_admin == 0) {
             html += `
