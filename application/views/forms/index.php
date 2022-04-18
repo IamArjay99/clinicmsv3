@@ -252,7 +252,7 @@
                     <td>${patient_name}</td>
                     <td>${date ? moment(date).format("MMMM DD, YYYY") : "-"}</td>
                     <td>${time ? moment("2021-01-01 " + time).format("hh:mm A") : "-"}</td>
-                    <td>${patient_case}</td>
+                    <td>${patient_case || activity}</td>
                     <td>${activity}</td>
                     <td>${medicine_taken}</td>
                     <td>${statusDisplay(status)}</td>
@@ -505,7 +505,7 @@
         $(document).on("click", "#btnAddMonitoring", function() {
             let html = formContent();
             $("#modal-monitoring .modal-dialog").removeClass("modal-md").addClass("modal-md");
-            $("#modal-monitoring_content").html(html);
+            $("#modal-monitoring #modal_content").html(html);
             $("#modal-monitoring .page-title").text("ADD MONITORING");
             $("#modal-monitoring").modal('show');
             generateInputsID("#modal-monitoring");
@@ -519,13 +519,13 @@
             let data = getTableData(`monitoring_form_items WHERE monitoring_form_item_id = ${monitoringFormItemID}`);
 
             $("#modal-monitoring .modal-dialog").removeClass("modal-md").addClass("modal-md");
-            $("#modal-monitoring_content").html(preloader);
+            $("#modal-monitoring #modal_content").html(preloader);
             $("#modal-monitoring .page-title").text("EDIT MONITORING");
             $("#modal-monitoring").modal('show');
 
             setTimeout(() => {
                 let html = formContent(data, true);
-                $("#modal-monitoring_content").html(html);
+                $("#modal-monitoring #modal_content").html(html);
                 generateInputsID("#modal-monitoring");
             }, 100);
         });
@@ -536,17 +536,17 @@
         $(document).on("click", `#btnSaveMonitoring`, function() {
             let monitoringFormItemID = $(this).attr("monitoringFormItemID");
             
-            let validate = validateForm("modal");
+            let validate = validateForm("modal-monitoring");
             if (validate) {
                 $("#modal-monitoring").modal("hide");
 
-                let data = getFormData("modal");
+                let data = getFormData("modal-monitoring");
                     data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
                     data["tableName"] = "monitoring_form_items";
                     data["feedback"]  = "Monitoring Form";
                     data["method"]    = "add";
     
-                sweetAlertConfirmation("add", "Monitoring Form", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("add", "Monitoring Form", "modal-monitoring", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
@@ -556,18 +556,18 @@
         $(document).on("click", `#btnUpdate`, function() {
             let monitoringFormItemID = $(this).attr("monitoringFormItemID");
             
-            let validate = validateForm("modal");
+            let validate = validateForm("modal-monitoring");
             if (validate) {
                 $("#modal-monitoring").modal("hide");
 
-                let data = getFormData("modal");
+                let data = getFormData("modal-monitoring");
                     data["tableData[monitoring_form_id]"] = $(`[name="patient_id"] option:selected`).attr("monitoringFormID");
                     data["tableName"]   = "monitoring_form_items";
                     data["feedback"]    = "Monitoring Form";
                     data["method"]      = "update";
                     data["whereFilter"] = `monitoring_form_item_id=${monitoringFormItemID}`;
     
-                sweetAlertConfirmation("update", "Monitoring Form", "modal", null, data, true, refreshTableContent);
+                sweetAlertConfirmation("update", "Monitoring Form", "modal-monitoring", null, data, true, refreshTableContent);
             }
         })
         // ----- END BUTTON SAVE -----
