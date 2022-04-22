@@ -16,8 +16,8 @@
         <form action="" method="POST">
             <div class="row">
                 <div class="col-12 my-2">
-                    <label for="username">Username</label>
-                    <input class="form-control valid validate" name="username" id="username" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username" required>
+                    <label for="username">Email</label>
+                    <input class="form-control valid validate" name="username" id="username" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your email'" placeholder="Enter your email" required>
                 </div>
                 <div class="col-12 my-2">
                     <label for="password">Password</label>
@@ -372,8 +372,8 @@
                 <div class="row">
                     <div class="col-12 my-2">
                         <div class="form-group">
-                            <label for="email">Username</label>
-                            <input class="form-control valid validate" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your username'" placeholder="Enter your username" required>
+                            <label for="email">Email</label>
+                            <input class="form-control valid validate" name="email" id="email" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your email'" placeholder="Enter your email" required>
                     </div>
                     </div>
                     <div class="col-12 my-2">
@@ -746,14 +746,26 @@
 
         // ----- MAKING APPOINTMENT -----
         $(document).on("click", `.make-appointment`, function() {
-        $("#modal").modal("hide");
-        $(".modal-dialog").addClass("modal-lg");
-        let content = appointmentModalContent();
-        $(".modal-title").text("MAKE APPOINTMENT");
-        $(".modal-body").html(content);
-        setTimeout(() => {
-            $("#modal").modal("show");
-        }, 120);
+            $("#modal").modal("hide");
+            $(".modal-dialog").addClass("modal-lg");
+
+            if (sessionID) {
+                let content = appointmentModalContent();
+                $(".modal-title").text("MAKE APPOINTMENT");
+                $(".modal-body").html(content);
+                setTimeout(() => {
+                    $("#modal").modal("show");
+                }, 120);
+            } else {
+                $(".modal").modal("hide");
+                $(".modal-dialog").removeClass("modal-lg").addClass("modal-md");
+                $(".modal-title").text("LOGIN");
+                $(".modal-body").html(content);
+                setTimeout(() => {
+                    $(".modal").modal("show");
+                }, 120);
+            }
+
         })
         // ----- END MAKING APPOINTMENT -----
         function appointmentModalContent(){
