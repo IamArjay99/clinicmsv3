@@ -180,7 +180,7 @@
                         <th class="thSm">Type</th>
                         <th class="thSm">Email</th>
                         <th class="thSm">Age</th>
-                        <th class="thSm">Gender</th>
+                        <th class="thSm">Sex</th>
                         <th class="thMd">Course</th>
                         <th class="thSm">Year</th>
                         <th class="thSm">Section</th>
@@ -433,7 +433,7 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
-                        <label>Gender <code>*</code></label>
+                        <label>Sex <code>*</code></label>
                         <select class="form-control validate"
                             name="gender"
                             required>

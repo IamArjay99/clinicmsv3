@@ -28,6 +28,70 @@
 
     $(document).ready(function() {
 
+
+        // CHARLITO
+        $(document).on("keyup","[name=temperature]",function(){
+            let thisValue = parseFloat($(this).val());
+            if(thisValue >= 38){
+                alert(`Recommendation
+ • Take your temperature and assess your symptoms. If your temperature runs 100.4 ˚F (38˚c) or higher, you have a fever 
+Suggestion
+• Stay in bed and rest.
+• Eat more vegetable.
+• Keep hydrated. Drinking water, iced tea, or very diluted juice to replenish fluids lost through sweating. But if keeping liquids down difficult, suck on ice chips.
+• Take over-the-counter medications like acetaminophen and ibuprofen to reduce fever. Note the proper dosage, and don’t them use alongside other fever-reducing medications. You shouldn’t give aspirin to your baby or child without consulting your doctor. Infants under 6 months of age shouldn’t be given ibuprofen.
+• Stay cool. Remove extra layers of clothing and blankets, unless you have the chills.
+• Take tepid baths or using cold compresses to make you more comfortable. Cold baths, ice cube baths, or alcohol baths or rubs can be dangerous and should be avoided.
+• But no matter what the number on the thermometer reads, if you have any concerns consult your doctor.`);
+            }
+        });
+    
+$(document).on("keyup","[name=pulse_rate]",function(){
+            let thisValue  = parseFloat($(this).val());
+            let thisLength = $(this).val().length;
+            if((thisValue <= 61 || thisValue >= 101) && thisLength > 2 ){
+                alert(`Recommendation
+• Exercise more. When you take a brisk walk, swim, or bicycle, your heart beats faster during the activity and for a short time afterward. But exercising every day gradually slows the resting heart rate.
+Suggestion
+• Reduce stress. Performing the relaxation response, meditation, tai chi, and other stress-busting techniques lowers the resting heart rate over time.
+• Avoid tobacco products. Smokers have higher resting heart rates. Quitting brings it back down.
+• Lose weight if necessary. The larger the body, the more the heart must work to supply it with blood. Losing weight can help slow an elevated resting heart rate
+• Respiratory Rate 
+• Breathe through pursed lips.
+• Breathe slowly into a paper bag or cupped hands.
+`);
+            }
+        });
+
+        $(document).on("click","[name=blood_pressure]",function(){
+                alert(`Suggestion
+• Drink lemonade to reduce high blood pressure
+•  Eating diet that is rich in whole grains, fruits, vegetables and low-fat dairy products and skimps on saturated fat and cholesterol can lower your blood pressure.
+Recommendation
+• Lose extra pounds and watch your waistline
+• Exercise regularly
+•  Eat a healthy diet
+•  Reduce sodium in your diet
+•  Limit the amount of alcohol you drink
+• Quit smoking
+•  Reduce your stress
+•  Monitor your blood pressure at home and see your doctor regularly
+•  Get support
+`);
+        });
+
+        // CHARLITO
+
+
+
+
+
+
+
+
+
+
+
         // ----- GLOBAL VARIABLES -----
         let startDate = moment().format("YYYY-MM-DD 00:00:00");
         let endDate   = moment().format("YYYY-MM-DD 23:59:59");
@@ -1124,7 +1188,7 @@
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <div class="form-group">
-                                <label>Gender</label>
+                                <label>Sex</label>
                                 <input type="text"
                                     class="form-control"
                                     name="gender"

@@ -125,7 +125,7 @@
                             <tr class="text-center">
                                 <th class="thSm">Date</th>
                                 <th class="thMd">Full Name</th>
-                                <th class="thSm">Gender</th>
+                                <th class="thSm">Sex</th>
                                 <th class="thSm">Age</th>
                                 <th class="thSm">Course</th>
                                 <th class="thSm">Year</th>

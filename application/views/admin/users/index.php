@@ -93,7 +93,7 @@
                         <th class="thSm">Full Name</th>
                         <th class="thSm">Email</th>
                         <th class="thSm">Age</th>
-                        <th class="thSm">Gender</th>
+                        <th class="thSm">Sex</th>
                         <th class="thSm">Action</th>
                     </tr>
                 </thead>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <label>Gender <code>*</code></label>
+                        <label>Sex <code>*</code></label>
                         <select class="form-control validate"
                             name="gender"
                             required>

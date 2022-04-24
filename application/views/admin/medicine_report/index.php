@@ -26,7 +26,7 @@
     $(document).ready(function() {
         const MEDICINE_DATA = getTableData(`medicines`, ``,`is_deleted = '0'`);
         const CHECK_UP_DATA = getTableData(`check_up_medicines`,``,`is_deleted = 0`);
-
+        let MONTH = "", MEDICINE = "", MEDICINEQTY = 0;
         // ----- DATATABLES -----
         function initDataTables() {
             
@@ -68,12 +68,13 @@
                         CHECK_UP_DATA.filter(x => x.medicine_id == item.medicine_id && moment(x.created_at).format("YYYY") == year  && moment(x.created_at).format("MMMM") == value).map( x =>{
                             sumData += parseFloat(x.quantity);
                         });
-                                                
+                        
+                        if(sumData > MEDICINEQTY){
+                            MONTH = value, MEDICINE = item.name;
+                        }
+
                         totalConsume += parseFloat(sumData);
                         colData += `<td class="text-center">${sumData}</td>`;
-
-
-                       
 
                     });
 
@@ -122,6 +123,11 @@
                         </tbody>
                     </table>
                 </div>`;
+
+
+                setTimeout(() => {
+                    medicineOfTheMonth();
+                }, 500);
             }
 
             return html;
@@ -190,6 +196,12 @@
         })
         // ----- END BUTTON PRINT -----
 
+        function medicineOfTheMonth(){
+            alert(`It is good to stock or purchase medicine during ${MONTH} due to reason that there is more patient badly needed medicine so that you must stock ${MEDICINE} . 
+
+Thank You ! this is only a few reminder.
+`);
+        }
 
     })
 

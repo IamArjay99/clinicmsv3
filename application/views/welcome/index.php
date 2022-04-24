@@ -33,7 +33,7 @@
 
 <section class="visit-tailor-area2 fix">
 
-<div class="tailor-offers"> </div>
+<div class="tailor-offers" style="border:10px solid black;box-shadow:6px -16px 13px -1px;"> </div>
 
 <div class="tailor-details">
 <div class="sinlge-wrapper">

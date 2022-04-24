@@ -50,9 +50,9 @@
 
 <div class="footer-social pt-30">
 <a href="https://www.facebook.com/CBSUAOFFICIALPAGE"><i class="fab fa-facebook"></i></a>
-<a href="#"><i class="fab fa-instagram"></i></a>
+<!-- <a href="#"><i class="fab fa-instagram"></i></a> -->
 <!-- <a href="#"><i class="fab fa-linkedin-in"></i></a> -->
-<a href="#"><i class="fab fa-youtube"></i></a>
+<!-- <a href="#"><i class="fab fa-youtube"></i></a> -->
 </div>
 </div>
 </div>
@@ -545,7 +545,7 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
-                        <label>Gender <code>*</code></label>
+                        <label>Sex <code>*</code></label>
                         <select class="form-control validate"
                             name="gender"
                             required>

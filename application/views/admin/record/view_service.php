@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label>Gender</label>
+                                        <label>Sex</label>
                                         <input type="text"
                                             class="form-control"
                                             value="<?= $data['gender'] ?>"
