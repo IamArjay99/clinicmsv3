@@ -41,7 +41,7 @@
 <h3>Best <br> clinic specialist</h3>
 <p>All Students and faculty of cbsua- sipocot can have a free check-up and free medicine.</p>
 <p>Nurse conduct seminar related to health to make all students and faculty aware of their physical health how they can take care of it and avoid any harm to their body.</p>
-<a href="#" class="btn_01 mt-15 make-appointment">Make anss Appointment</a>
+<a href="#" class="btn_01 mt-15 make-appointment">Make an Appointment</a>
 </div>
 <div class="single-details wow fadeInUp mb-20 ml-90" data-wow-duration="2s" data-wow-delay=".3s">
 <div class="address">

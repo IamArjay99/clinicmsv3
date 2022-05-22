@@ -1,7 +1,7 @@
                 <!-- ----- FOOTER ----- -->
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <?= date('Y') ?> <a href="#" target="_blank" class="text-muted">Clinic Management System</a>. All rights reserved.</span>
+                        <h4 class="font-weight-bold text-muted text-center text-sm-left d-block d-sm-inline-block" style="font-family: cursive;">Copyright © <?= date('Y') ?> <a href="javascript: void(0)" class="text-muted">Clinic Management System</a>. All rights reserved.</h4>
                     </div>
                 </footer>
                 <!-- ----- END FOOTER ----- -->
@@ -86,11 +86,13 @@
                 `check_ups AS cu
                     LEFT JOIN patients AS p USING(patient_id)
                     LEFT JOIN monitoring_forms AS mf ON cu.check_up_id = mf.check_up_id
-                WHERE CONVERT(cu.temperature, DECIMAL) > 37.2
-                    AND DATE(cu.created_at) = DATE(NOW())`,
+                WHERE DATE(cu.created_at) = DATE(NOW())
+                    AND (CONVERT(cu.temperature, DECIMAL) > 37.2
+                        OR CONVERT(respiratory_rate, DECIMAL) < 12 OR CONVERT(respiratory_rate, DECIMAL) > 20
+                        OR CONVERT(pulse_rate, DECIMAL) < 60 OR CONVERT(pulse_rate, DECIMAL) > 100
+                        OR CONVERT(random_blood_sugar, DECIMAL) > 140)`,
                 `cu.check_up_id,
                 cu.patient_id,
-                IF(temperature > 37.2, true, false) AS temperature,
                 temperature,
                 CONCAT(firstname, ' ', middlename, ' ', lastname, ' ', suffix) AS fullname,
                 mf.status`
@@ -103,7 +105,7 @@
                         <div class="px-3 py-0 mb-0">
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                 <div>
-                                    <strong>Warning!</strong> ${notif.fullname} has high temperature. (${notif.temperature} °C)
+                                    <strong>Warning!</strong> ${notif.fullname} is <b>NOT</b> in good condition.
                                     <a href="#" patientID="${notif.patient_id}"
                                         patientName="${notif.fullname}"
                                         checkUpID="${notif.check_up_id}"

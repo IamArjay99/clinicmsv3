@@ -6,8 +6,8 @@
                 <div class="card-header bg-dark text-white py-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">View Purchase Request (<?= $data['code'] ?>)</h4>
-                        <a href="<?= base_url('admin/purchase_request') ?>"
-                            class="btn btn-primary">Back</a>
+                        <!-- <a href="<?= base_url('admin/purchase_request') ?>"
+                            class="btn btn-primary">Back</a> -->
                     </div>
                 </div>
                 <div class="card-body" id="pageContent">     
