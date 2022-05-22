@@ -30,11 +30,11 @@
 
 
         // CHARLITO
-        $(document).on("keyup","[name=temperature]",function(){
-            let thisValue = parseFloat($(this).val());
-            if(thisValue >= 38){
-                alert(`Recommendation
- • Take your temperature and assess your symptoms. If your temperature runs 100.4 ˚F (38˚c) or higher, you have a fever 
+        $(document).on("focusout", "[name=temperature]", function() { // 37.2
+            let temperature = parseFloat($(this).val());
+            if(temperature > 37.2){
+let alertMsg = `Recommendation
+• Take your temperature and assess your symptoms. If your temperature runs 100.4 ˚F (38˚c) or higher, you have a fever 
 Suggestion
 • Stay in bed and rest.
 • Eat more vegetable.
@@ -42,15 +42,15 @@ Suggestion
 • Take over-the-counter medications like acetaminophen and ibuprofen to reduce fever. Note the proper dosage, and don’t them use alongside other fever-reducing medications. You shouldn’t give aspirin to your baby or child without consulting your doctor. Infants under 6 months of age shouldn’t be given ibuprofen.
 • Stay cool. Remove extra layers of clothing and blankets, unless you have the chills.
 • Take tepid baths or using cold compresses to make you more comfortable. Cold baths, ice cube baths, or alcohol baths or rubs can be dangerous and should be avoided.
-• But no matter what the number on the thermometer reads, if you have any concerns consult your doctor.`);
+• But no matter what the number on the thermometer reads, if you have any concerns consult your doctor.`
+                alert(alertMsg);
             }
         });
     
-$(document).on("keyup","[name=pulse_rate]",function(){
-            let thisValue  = parseFloat($(this).val());
-            let thisLength = $(this).val().length;
-            if((thisValue <= 61 || thisValue >= 101) && thisLength > 2 ){
-                alert(`Recommendation
+        $(document).on("focusout", "[name=pulse_rate]",function() { // 60-100
+            let pulseRate  = parseFloat($(this).val());
+            if ((pulseRate <= 61 || pulseRate >= 101)) {
+let alertMsg = `Recommendation
 • Exercise more. When you take a brisk walk, swim, or bicycle, your heart beats faster during the activity and for a short time afterward. But exercising every day gradually slows the resting heart rate.
 Suggestion
 • Reduce stress. Performing the relaxation response, meditation, tai chi, and other stress-busting techniques lowers the resting heart rate over time.
@@ -58,38 +58,60 @@ Suggestion
 • Lose weight if necessary. The larger the body, the more the heart must work to supply it with blood. Losing weight can help slow an elevated resting heart rate
 • Respiratory Rate 
 • Breathe through pursed lips.
-• Breathe slowly into a paper bag or cupped hands.
-`);
+• Breathe slowly into a paper bag or cupped hands.`;
+                alert(alertMsg);
             }
         });
 
-        $(document).on("click","[name=blood_pressure]",function(){
-                alert(`Suggestion
+        $(document).on("focusout", "[name=blood_pressure]", function() { // 120/20 - 120/90
+            let bloodPressure = $(this).val();
+            let arr = bloodPressure.split('/');
+            let basis = arr[1];
+
+            if (basis < 20 || basis > 90) {
+let alertMsg = `Suggestion
 • Drink lemonade to reduce high blood pressure
-•  Eating diet that is rich in whole grains, fruits, vegetables and low-fat dairy products and skimps on saturated fat and cholesterol can lower your blood pressure.
+• Eating diet that is rich in whole grains, fruits, vegetables and low-fat dairy products and skimps on saturated fat and cholesterol can lower your blood pressure.
 Recommendation
 • Lose extra pounds and watch your waistline
 • Exercise regularly
-•  Eat a healthy diet
-•  Reduce sodium in your diet
-•  Limit the amount of alcohol you drink
+• Eat a healthy diet
+• Reduce sodium in your diet
+• Limit the amount of alcohol you drink
 • Quit smoking
-•  Reduce your stress
-•  Monitor your blood pressure at home and see your doctor regularly
-•  Get support
-`);
+• Reduce your stress
+• Monitor your blood pressure at home and see your doctor regularly
+• Get support`;
+                alert(alertMsg);
+            }
         });
 
+        $(document).on("focusout", "[name=respiratory_rate]", function() { // 12-20
+            let respiratoryRate = parseFloat($(this).val());
+            if ((respiratoryRate < 12 || respiratoryRate > 20)) {
+
+            }
+        });
+
+        $(document).on("focusout", "[name=random_blood_sugar]", function() { // < 140
+            let randomBloodSugar = parseFloat($(this).val());
+            if (randomBloodSugar > 140) {
+                let alertMsg = `Suggestion
+• Monitor blood sugar levels closely
+• Reduce carbohydrate intake
+• Eat the right carbohydrates
+• Choose low glycemic index foods
+• Increase dietary fiber intake
+• Maintain a healthy weight
+• Control portion size
+• Exercise regularly
+• Hydrate
+• Try herbal extracts
+• Manage stress`;
+                alert(alertMsg);
+            }
+        });
         // CHARLITO
-
-
-
-
-
-
-
-
-
 
 
         // ----- GLOBAL VARIABLES -----
@@ -1245,7 +1267,9 @@ Recommendation
                                     <div class="row">
                                         <div class="col-md-2 col-sm-12">
                                             <div class="form-group">
-                                                <label>Temperature</label>
+                                                <label>Temperature 
+                                                    <br><small class="text-danger">Normal: less than 37.2</small>
+                                                </label>
                                                 <input type="text"
                                                     class="form-control validate"
                                                     name="temperature"
@@ -1254,7 +1278,9 @@ Recommendation
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <div class="form-group">
-                                                <label>Pulse rate</label>
+                                                <label>Pulse rate
+                                                    <br><small class="text-danger">Normal: 60-100</small>
+                                                </label>
                                                 <input type="text"
                                                     class="form-control validate"
                                                     name="pulse_rate"
@@ -1263,7 +1289,9 @@ Recommendation
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <div class="form-group">
-                                                <label>Respiratory Rate</label>
+                                                <label>Respiratory Rate
+                                                    <br><small class="text-danger">Normal: 12-20</small>
+                                                </label>
                                                 <input type="text"
                                                     class="form-control validate"
                                                     name="respiratory_rate"
@@ -1272,7 +1300,9 @@ Recommendation
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <div class="form-group">
-                                                <label>Blood Pressure</label>
+                                                <label>Blood Pressure
+                                                    <br><small class="text-danger">Normal: 120/20 - 120/90</small>
+                                                </label>
                                                 <input type="text"
                                                     class="form-control validate"
                                                     name="blood_pressure"
@@ -1281,7 +1311,9 @@ Recommendation
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <div class="form-group">
-                                                <label>Random Blood Sugar</label>
+                                                <label>Random Blood Sugar
+                                                    <br><small class="text-danger">Normal: less than 140</small>
+                                                </label>
                                                 <input type="text"
                                                     class="form-control validate"
                                                     name="random_blood_sugar"
@@ -1290,7 +1322,9 @@ Recommendation
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <div class="form-group">
-                                                <label>Others</label>
+                                                <label>Others
+                                                    <br><small class="text-danger">Normal: N/A</small>
+                                                </label>
                                                 <input type="text"
                                                     class="form-control validate"
                                                     name="others"
@@ -1407,9 +1441,30 @@ Recommendation
                 $("#pageContent").html(html);
                 initDataTables();
                 generateInputsID();
+
                 $(`[name="temperature"]`).inputmask({
                     mask:        "99.99",
                     placeholder: "00.00"
+                })
+
+                $(`[name="pulse_rate"]`).inputmask({
+                    mask:        ["9", "99", "999"],
+                    placeholder: "0"
+                })
+
+                $(`[name="respiratory_rate"]`).inputmask({
+                    mask:        ["9", "99", "999"],
+                    placeholder: "0"
+                })
+
+                $(`[name="blood_pressure"]`).inputmask({
+                    mask:        ["999/99", "999/999"],
+                    placeholder: "00/00"
+                })
+
+                $(`[name="random_blood_sugar"]`).inputmask({
+                    mask:        ["9", "99", "999"],
+                    placeholder: "0"
                 })
             }, 100);
         }

@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="preview-item-content">
-                <h6 class="preview-subject font-weight-normal" '.$readStyle.'>'.$ap['fullname'].'</h6>
-                <p class="font-weight-light small-text mb-0 text-muted" '.$readStyle.'> 
+                <h6 class="preview-subject font-weight-normal" '.$readStyle.' style="font-size: 1.5rem;">'.$ap['fullname'].'</h6>
+                <p class="font-weight-light small-text mb-0 text-muted" '.$readStyle.' style="font-size: 1.2rem;"> 
                     Set an appointment at '. date('F d, Y', strtotime($ap['date_appointment'])) .'
                 </p>
             </div>
@@ -120,8 +120,8 @@
                             <?= $hasAppointment ?>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                            <?= $notifications ?>
+                            <p class="mb-0 font-weight-normal float-left dropdown-header" style="font-size: 1.3rem;">Notifications</p>
+                            <?= $notifications ?> 
                         </div>
                     </li>
                     <li class="nav-item nav-profile dropdown">
