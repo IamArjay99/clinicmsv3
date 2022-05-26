@@ -28,7 +28,7 @@ class Welcome extends CI_Controller {
             )
         );
         $this->encryption->initialize(array('driver' => 'mcrypt'));
-        $patientEmail = $this->encryption->decrypt(str_replace("slash","/",$code));
+        $patientEmail   = $this->encryption->decrypt($code);
         $this->db->update("patients", ["is_verified"=> "1"], ["email" => $patientEmail]);
         redirect('', 'refresh');
     }
