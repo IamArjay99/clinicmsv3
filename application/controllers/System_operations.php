@@ -221,7 +221,8 @@ class System_operations extends CI_Controller {
 
             $this->encryption->initialize(array('driver' => 'mcrypt'));
 
-            $code    =  str_replace('/','slash',$this->encryption->encrypt($email_to));
+            // $code    =  str_replace('/','slash',$this->encryption->encrypt($email_to));
+            $code    =  $email_to;
             $subject = "Activate Your Account";
             $message = '<b><h2>Confirm Your Registration</h2></b>
                         <br>

@@ -20,15 +20,16 @@ class Welcome extends CI_Controller {
 
 
     public function verify_account($code){
-        $this->encryption->initialize(
-            array(
-                    'cipher' => 'aes-256',
-                    'mode'   => 'ctr',
-                    'key'    => '<a 32-character random string>'
-            )
-        );
-        $this->encryption->initialize(array('driver' => 'mcrypt'));
-        $patientEmail   = $this->encryption->decrypt($code);
+        // $this->encryption->initialize(
+        //     array(
+        //             'cipher' => 'aes-256',
+        //             'mode'   => 'ctr',
+        //             'key'    => '<a 32-character random string>'
+        //     )
+        // );
+        // $this->encryption->initialize(array('driver' => 'mcrypt'));
+        // $patientEmail   = $this->encryption->decrypt($code);
+        $patientEmail       = $code;
         $this->db->update("patients", ["is_verified"=> "1"], ["email" => $patientEmail]);
         redirect('', 'refresh');
     }
